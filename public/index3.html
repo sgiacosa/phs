@@ -1,0 +1,98 @@
+﻿<!doctype html>
+<html ng-app="sien" class="no-js" lang="">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title></title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
+    <!-- Place favicon.ico in the root directory -->
+
+    <link rel="stylesheet" href="css/normalize.css">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/custom.css">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/fontawesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/fontello/css/fontello.css">
+    <link rel="stylesheet" href="css/ui-grid.min.css">
+
+    <script src="js/vendor/modernizr-2.8.3.min.js"></script>
+    <script src="js/vendor/Momentjs.js"></script>
+    <script src="js/vendor/momentjs-duration.js"></script>
+    
+    <script src="js/vendor/Angular.js"></script>
+    <script src="js/vendor/Angular-animate-min.js"></script>
+    <script src="js/vendor/Angular-route.js"></script>
+    <!--Angular Google Map -->
+    <script src='https://maps.googleapis.com/maps/api/js?libraries=places&sensor=false'></script>
+    <script src="js/vendor/lodash.js"></script>
+    <script src="js/vendor/Angular-Simple-Logger.js"></script>
+    <script src="js/vendor/Angular-google-maps.js"></script>    
+    <!--Fin Angular Google Map -->
+
+    <!--Angular ng-grid -->    
+    <!--<script src="http://ui-grid.info/release/ui-grid.js"></script>-->
+    <!--Fin Angular ng-grid -->
+    
+    <script type="text/javascript" src="http://c2fo.github.io/nools/nools.js"></script>
+
+    <!-- Firebase -->
+    <script src="https://cdn.firebase.com/js/client/2.2.4/firebase.js"></script>
+    <!-- AngularFire -->
+    <script src="https://cdn.firebase.com/libs/angularfire/1.1.3/angularfire.min.js"></script>
+
+    <script src="js/App.js"></script>
+
+    <!--  Directives -->
+    <script src="directives/flujo.js"></script>
+    <!-- FIN Directives -->
+</head>
+<body ng-controller="FirstController">
+    <!--[if lt IE 8]>
+        <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+    <![endif]-->
+    <!-- Add your site or application content here -->
+
+    <nav class="navbar navbar-inverse">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#"><i class="fa fa-newspaper-o"></i> <strong>S.I.E.N.</strong></a>
+            </div>
+
+            <!--<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul ng-repeat="m in ssoMenu" class="nav navbar-nav navbar-right">
+                    <li><a href="{{m.url.replace('/','')}}">{{m.nombre}} <span class="sr-only">(current)</span></a></li>
+                </ul>
+            </div>-->
+
+        </div>
+        <div class="btn-group btn-group-justified">
+            <a href="#/alta" class="btn btn-default">Alta</a>
+            <a href="#/" class="btn btn-default">Ambulancias</a>            
+        </div>
+    </nav>
+
+
+    <div class="col-md-1">
+    </div>
+
+    <div class="col-md-10">
+        <div ng-view></div>
+    </div>
+
+    <div class="col-md-1">
+    </div>
+
+
+    <!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.11.3.min.js"><\/script>')</script>-->
+
+</body>
+</html>
