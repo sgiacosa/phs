@@ -1,0 +1,23 @@
+{
+  "name": "raph",
+  "description": "",
+  "main": "index.js",
+  "license": "ISC",
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "^1.5.5",
+    "angular-moment": "^0.10.3",
+    "angular-jwt": "^0.0.9",
+    "angular-socket-io": "^0.7.0",
+    "socket.io-client": "^1.4.6",
+    "ngSweetAlert": "angular-sweetalert#^1.1.0",
+    "sweetalert": "^1.1.3"
+  }
+}
