@@ -1,0 +1,33 @@
+﻿<div class="row">
+    <div class="col-md-3">
+        <h1><i class="fa fa-ambulance"></i> </h1>
+        <div class="margin-top-20"></div>
+
+        <div ng-show="loading" class="text-center cssFade">
+            <i class="fa fa-cog fa-spin fa-4x"></i>
+        </div>
+
+        <div ng-show="!loading" class="cssFade">
+            <!--<input type="text" class="form-control" placeholder="Buscar" ng-model="searchText" />-->
+            <table class="table margin-top-10">
+                <tr><th>Móvil</th><th></th></tr>
+                <tr ng-repeat="(key,value) in moviles  track by $index" class="{{personalSelected}}">
+                    <td><i class="fa fa-circle dot" ng-class="{greenDot: value.estado}"></i>{{value.nombre}}</td>
+
+                    <td><!--<button ng-click="SeleccionarAgente(p.legajo, p.documento)"><i class="fa fa-arrow-circle-right"></i></button>--></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+
+    <div class="col-md-9">
+
+        <ui-gmap-google-map center='map.center' zoom='map.zoom'>
+            <ui-gmap-marker coords="marker.coords" events="marker.events" idkey="marker.id" options="marker.options">
+            </ui-gmap-marker>
+        </ui-gmap-google-map>
+
+    </div>
+
+</div>

@@ -1,0 +1,177 @@
+
+
+
+
+
+
+<div class="row">
+  <div class="col-md-3">
+    <div class="portlet box">
+      <div class="portlet-header">
+        <div class="caption">Búsquedas de eventos</div>
+      </div>
+      <div class="portlet-body">
+        <form action="#">
+          <div class="form-body pal">
+            <div class="form-group">
+              <label class="control-label" for="inputEmail">
+                Desde
+              </label>
+              <div class="input-icon right">
+                <i class="fa fa-phone"></i>
+                <input type="text" class="form-control" uib-datepicker-popup="dd/MM/yyyy" ng-model="searchOptions.fechaInicio" />
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="control-label" for="inputEmail">
+                Hasta
+              </label>
+              <div class="input-icon right">
+                <i class="fa fa-phone"></i>
+                <input type="text" class="form-control" uib-datepicker-popup="dd/MM/yyyy" ng-model="searchOptions.fechaFin" />
+              </div>
+            </div>
+            <div class="form-group">
+              <button class="btn btn-green" type="button" ng-click="actualizarRegistros()">
+                <i class="fa fa-search"></i> Buscar
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="col-md-9">
+
+    <div ng-show="loading" class="text-center cssFade">
+      <i class="fa fa-cog fa-spin fa-4x"></i>
+    </div>
+
+    <div ng-show="!loading && resultados.length == 0"><i class="fa fa-meh-o fa-4x"></i>La búsqueda no arrojó resultados.</div>
+
+    <div ng-if="!loading && resultados.length != 0" class="cssFade">
+      <!--   INDICADORES DE CANTIDAD   -->
+      <div id="sum_box" class="row">
+
+        <div class="col-sm-6 col-md-3">
+          <div class="panel profit db mbm">
+            <div class="panel-body">
+              <p class="icon">
+                <i class="icon fa fa-phone"></i>
+              </p>
+              <h4 class="value"><span>{{resultados.length}}</span></h4>
+              <p class="description">Eventos registrados</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-sm-6 col-md-3">
+          <div class="panel profit db mbm">
+            <div class="panel-body">
+              <p class="icon">
+                <i class="icon fa fa-ambulance"></i>
+              </p>
+              <h4 class="value"><span>{{indicadores.salidas}}</span></h4>
+              <p class="description">Despachos</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-sm-4 col-md-2">
+          <div class="panel profit db mbm">
+            <div class="panel-body">
+              <p class="icon">
+                <i class="fa fa-square animated infinite pulse icon green" ></i>
+              </p>
+              <h4 class="value"><span>{{ (resultados | filter : {clasificacion : 1}).length }}</span></h4>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-sm-4 col-md-2">
+          <div class="panel profit db mbm">
+            <div class="panel-body">
+              <p class="icon">
+                <i class="fa fa-square animated infinite pulse icon yellow" ></i>
+              </p>
+              <h4 class="value"><span>{{ (resultados | filter : {clasificacion : 2}).length }}</span></h4>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-sm-4 col-md-2">
+          <div class="panel profit db mbm">
+            <div class="panel-body">
+              <p class="icon">
+                <i class="fa fa-square animated infinite pulse icon red" ></i>
+              </p>
+              <h4 class="value"><span>{{ (resultados | filter : {clasificacion : 3}).length }}</span></h4>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="row">
+        <div class="col-md-11">
+          <!-- GOOGLE MAP-->
+          <div class="portlet box">
+            <div class="portlet-header">
+              <div class="caption">Ubicación</div>
+            </div>
+            <div class="portlet-body">
+              <div class="form-body pal">
+                <ui-gmap-google-map center='map_alta.center' zoom='map_alta.zoom' control="map_alta.control">
+                  <ui-gmap-markers
+                  models='resultados'
+                  idKey="'_id'"
+                  coords="'coordenadas'">
+                </ui-gmap-markers>
+              </ui-gmap-google-map>
+            </div>
+          </div>
+        </div>
+        <!-- FIN GOOGLE MAP-->
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-11">
+        <div class="panel panel-yellow">
+          <div class="panel-heading">Eventos</div>
+          <div class="panel-body">
+            <table class="table table-hover">
+              <thead>
+                <tr>
+                  <th>Inicio</th>
+                  <th>Dirección</th>
+                  <th>clasificación</th>
+                  <th>Observaciones</th>
+                  <th>Reporte</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr ng-repeat="e in resultados">
+                  <td>{{e.fechaRegistro | date : 'dd/MM/yyyy HH:mm'}}</td>
+                  <td>{{e.direccion}}</td>
+                  <td><span ng-class="{ 'label-success' : e.clasificacion == 1, 'label-warning' : e.clasificacion == 2, 'label-danger' : e.clasificacion == 3 }" class="label label-sm "> </span></td>
+                  <td>{{e.observaciones}}</td>
+                  <td>{{e.reporte}}</td>
+                  <td><a href="/evento/{{e._id}}"><i class="fa fa-eye" aria-hidden="true"></i></a></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+
+</div>

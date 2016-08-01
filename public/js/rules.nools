@@ -1,0 +1,1018 @@
+﻿//color {rojo:3, amarillo:2, verde:1}
+
+
+define Regla {
+    id_regla : null,
+	nombre:null,
+	descripcion:null,
+    tipo: null,
+	valor: null,
+	color:null,
+	icon:null
+}
+
+//CIE10
+rule CIE10 {
+    when {
+        p : Regla p.id_regla == 0;
+    }
+    then {
+        var d = new Regla({id_regla : 1000, nombre:'Otro', descripcion:'', tipo : 1, valor : null, color : 1, icon: 'demo-icon icon-noun_punch fa-8x'});
+        emit("acierto", d);
+    }
+}
+
+//PSIQUIATRICO
+
+rule Psiquiatrico {
+    when {
+        p : Regla p.id_regla == 0;
+    }
+    then {
+        var d = new Regla({id_regla : 1, nombre:'Psiquiátrico', descripcion:'psiquiátrico', tipo : 1, valor : null, color : 1, icon: 'demo-icon icon-noun_punch fa-8x'});
+        emit("acierto", d);
+    }
+}
+
+rule Agresivo {
+    when {
+        p : Regla p.id_regla == 1 && p.valor == null;
+    }
+    then {
+        var d = new Regla({id_regla : 2, nombre:'¿Agresivo?', descripcion:'', tipo : 2, valor : null, color : 1, icon: 'demo-icon icon-noun_punch  fa-8x'});
+        emit("acierto", d);
+    }
+}
+
+rule Agresivo_LLamarPolicia {
+    when {
+        p : Regla p.id_regla == 2 && p.valor == true;
+    }
+    then {
+        var d = new Regla({id_regla : 3, nombre:'LLamar a la policia', descripcion:'agresivo', tipo : 1, valor : null, color : 3, icon: 'fa fa-phone fa-8x'});
+        emit("acierto", d);
+    }
+}
+
+rule Agresivo_IntentoSuicidio {
+    when {
+        p : Regla p.id_regla == 2 && p.valor == false;
+    }
+    then {
+        var d = new Regla({id_regla : 4, nombre:'¿Intento de suicidio?', descripcion:'no agresivo',tipo : 2, valor : null, color : 1, icon: 'demo-icon icon-noun_edificio fa-8x'});
+        emit("acierto", d);
+    }
+}
+
+rule IntentoSuicidio_Verdadero {
+    when {
+        p : Regla p.id_regla == 4 && p.valor == true;
+    }
+    then {
+        var d = new Regla({id_regla : 5, nombre:'Paciente con intento de suicidio', descripcion:'con intento de suicidio', tipo : 1, valor : null, color : 3, icon: ''});
+        emit("acierto", d);
+    }
+}
+
+rule IntentoSuicidio_Falso {
+    when {
+        p : Regla p.id_regla == 4 && p.valor == false;
+    }
+    then {
+        var d = new Regla({id_regla : 6, nombre:'Paciente psiquiatrico sin intento de suicidio', descripcion:'', tipo : 1, valor : null, color : 1, icon: ''});
+        emit("acierto", d);
+    }
+}
+
+
+
+rule Alcoholizado {
+    when {
+        p : Regla p.id_regla == 3 || p.id_regla == 5 || p.id_regla == 6;
+    }
+    then {
+        var d = new Regla({id_regla : 7, nombre:'¿Alcoholizado?', descripcion:'', tipo : 2, valor : null, color : 1, icon: 'fa fa-glass fa-4x'});
+        emit("acierto", d);
+    }
+}
+
+rule Alcoholizado_Falso {
+    when {
+        p : Regla p.id_regla == 7 && p.valor == false;
+    }
+    then {
+        var d = new Regla({id_regla : 8, nombre:'', descripcion:'no alcoholizado', tipo : 3, valor : null, color : 1, icon: ''});
+        emit("acierto", d);
+    }
+}
+
+rule Alcoholizado_Verdadero {
+    when {
+        p : Regla p.id_regla == 7 && p.valor == true;
+    }
+    then {
+        var d = new Regla({id_regla : 9, nombre:'¿Crónico?', descripcion:'alcoholizado', tipo : 2, valor : null, color : 1, icon: ''});
+        emit("acierto", d);
+    }
+}
+
+rule Alcoholizado_Cronico_Falso {
+    when {
+        p : Regla p.id_regla == 9 && p.valor == false;
+    }
+    then {
+        var d = new Regla({id_regla : 10, nombre:'', descripcion:'', tipo : 3, valor : null, color : 2, icon: ''});
+        emit("acierto", d);
+    }
+}
+
+rule Alcoholizado_Cronico_Verdadero {
+    when {
+        p : Regla p.id_regla == 9 && p.valor == true;
+    }
+    then {
+        var d = new Regla({id_regla : 11, nombre:'', descripcion:'crónico', tipo : 3, valor : null, color : 1, icon: ''});
+        emit("acierto", d);
+    }
+}
+
+
+//ELECTROCUTADO
+
+rule Electrocutado {
+    when {
+        p : Regla p.id_regla == 0 && p.valor == null;
+    }
+    then {
+        var d = new Regla({id_regla : 20, nombre:'Electrocutado', descripcion:'Electrocutado', tipo : 1, valor : null, color : 3, icon: 'demo-icon icon-noun_punch fa-8x'});
+        emit("acierto", d);
+    }
+}
+
+rule IndicacionesElectrocutado{
+    when {
+        p : Regla p.id_regla == 20 && p.valor == null;
+    }
+    then {
+        var d = new Regla({id_regla : 25, nombre:'No tocar y desconectar la electricidad.', descripcion:'', tipo : 1, valor : null, color : 3, icon: 'fa fa-plug fa-8x'});
+        emit("acierto", d);
+    }
+}
+
+rule Conciente {
+    when {
+        p : Regla p.id_regla == 25 && p.valor == null;
+    }
+    then {
+        var d = new Regla({id_regla : 21, nombre:'¿Está conciente?', descripcion:'', tipo : 2, valor : null, color : 1, icon: ''});
+        emit("acierto", d);
+    }
+}
+
+rule Conciente_Falso {
+    when {
+        p : Regla p.id_regla == 21 && p.valor == false;
+    }
+    then {
+        var d = new Regla({id_regla : 22, nombre:'Indicar R.C.P.', descripcion:'inconciente', tipo : 3, valor : null, color : 3, icon: 'fa fa-hand-paper-o fa-8x'});
+        emit("acierto", d);
+    }
+}
+
+rule Conciente_Verdadero {
+    when {
+        p : Regla p.id_regla == 21 && p.valor == true;
+    }
+    then {
+        var d = new Regla({id_regla : 23, nombre:'', descripcion:'conciente', tipo : 3, valor : null, color : 3, icon: ''});
+        emit("acierto", d);
+    }
+}
+
+
+
+// HEMORRAGIAS
+
+rule Hemorragias {
+    when {
+        p : Regla p.id_regla == 0 && p.valor == null;
+    }
+    then {
+        var d = new Regla({id_regla : 30, nombre:'Hemorragias', descripcion:'Hemorragias', tipo : 1, valor : null, color : 1, icon: 'demo-icon icon-noun_punch fa-8x'});
+        emit("acierto", d);
+    }
+}
+
+rule PalidezSudoracion {
+    when {
+        p : Regla p.id_regla == 30 && p.valor == null;
+    }
+    then {
+        var d = new Regla({id_regla : 31, nombre:'¿Palidez y sudoración?', descripcion:'', tipo : 2, valor : null, color : 1, icon: 'fa fa-tint fa-4x'});
+        emit("acierto", d);
+    }
+}
+
+rule PalidezSudoracion_Falso {
+    when {
+        p : Regla p.id_regla == 31 && p.valor == false;
+    }
+    then {
+        var d = new Regla({id_regla : 32, nombre:'¿Hemorragia digestiva alta o baja?', descripcion:'Hemorragia digestiva alta o baja', tipo : 2, valor : null, color : 1, icon: 'fa fa-tint fa-4x'});
+        emit("acierto", d);
+    }
+}
+
+rule PalidezSudoracion_Verdadero {
+    when {
+        p : Regla p.id_regla == 31 && p.valor == true;
+    }
+    then {
+        var d = new Regla({id_regla : 33, nombre:'Hemorragia con palidez y sudoración', descripcion:'Hemorragia con palidez y sudoración', tipo : 3, valor : null, color : 3, icon: 'fa fa-tint fa-4x'});
+        emit("acierto", d);
+    }
+}
+
+rule HemorragiaAltaBaja_Falso {
+    when {
+        p : Regla p.id_regla == 32 && p.valor == false;
+    }
+    then {
+        var d = new Regla({id_regla : 34, nombre:'¿Sangrado sin sudoración?', descripcion:'¿Sangrado sin sudoración?', tipo : 2, valor : null, color : 1, icon: 'fa fa-tint fa-4x'});
+        emit("acierto", d);
+    }
+}
+
+rule HemorragiaAltaBaja_Verdadero {
+    when {
+        p : Regla p.id_regla == 32 && p.valor == true;
+    }
+    then {
+        var d = new Regla({id_regla : 35, nombre:'Hemorragia digestiva alta o baja', descripcion:'Hemorragia digestiva alta o baja', tipo : 3, valor : null, color : 3, icon: ''});
+        emit("acierto", d);
+    }
+}
+
+rule SangradoSinSudor_Falso {
+    when {
+        p : Regla p.id_regla == 34 && p.valor == false;
+    }
+    then {
+        var d = new Regla({id_regla : 36, nombre:'Hemorragia', descripcion:'Hemorragia', tipo : 3, valor : null, color : 1, icon: ''});
+        emit("acierto", d);
+    }
+}
+
+rule SangradoSinSudor_Verdadero {
+    when {
+        p : Regla p.id_regla == 34 && p.valor == true;
+    }
+    then {
+        var d = new Regla({id_regla : 37, nombre:'Sangrado sin sudoración', descripcion:'Sangrado sin sudoración', tipo : 3, valor : null, color : 2, icon: ''});
+        emit("acierto", d);
+    }
+}
+
+
+//DISNEA
+
+
+rule Disnea {
+    when {
+        p : Regla p.id_regla == 0 && p.valor == null;
+    }
+    then {
+        var d = new Regla({id_regla : 40, nombre:'Disnea', descripcion:'', tipo : 1, valor : null, color : 1, icon: ''});
+        emit("acierto", d);
+    }
+}
+
+rule Resfrio {
+    when {
+        p : Regla p.id_regla == 40 && p.valor == null;
+    }
+    then {
+        var d = new Regla({id_regla : 41, nombre:'¿Resfriado con nariz tapada?', descripcion:'', tipo : 2, valor : null, color : 1, icon: ''});
+        emit("acierto", d);
+    }
+}
+
+rule Resfrio_Falso {
+    when {
+        p : Regla p.id_regla == 41 && p.valor == false;
+    }
+    then {
+        var d = new Regla({id_regla : 42, nombre:'¿Falta de aire?', descripcion:'', tipo : 2, valor : null, color : 1, icon: ''});
+        emit("acierto", d);
+    }
+}
+
+rule Resfrio_Verdadero {
+    when {
+        p : Regla p.id_regla == 41 && p.valor == true;
+    }
+    then {
+        var d = new Regla({id_regla : 43, nombre:'Resfriado con nariz tapada', descripcion:'Resfriado con nariz tapada', tipo : 3, valor : null, color : 1, icon: ''});
+        emit("acierto", d);
+    }
+}
+
+rule FaltaAire_Falso {
+    when {
+        p : Regla p.id_regla == 42 && p.valor == false;
+    }
+    then {
+        var d = new Regla({id_regla : 44, nombre:'¿Cianosis? (está azul)', descripcion:'', tipo : 2, valor : null, color : 1, icon: ''});
+        emit("acierto", d);
+    }
+}
+
+rule FaltaAire_Verdadero {
+    when {
+        p : Regla p.id_regla == 42 && p.valor == true;
+    }
+    then {
+        var d = new Regla({id_regla : 45, nombre:'Falta aire', descripcion:'Falta aire', tipo : 3, valor : null, color : 3, icon: ''});
+        emit("acierto", d);
+    }
+}
+
+rule Cianosis_Falso {
+    when {
+        p : Regla p.id_regla == 44 && p.valor == false;
+    }
+    then {
+        var d = new Regla({id_regla : 46, nombre:'¿Antecedentes de pánico o palpitaciones?', descripcion:'', tipo : 2, valor : null, color : 1, icon: 'fa fa-heartbeat fa-4x'});
+        emit("acierto", d);
+    }
+}
+
+rule Cianosis_Verdadero {
+    when {
+        p : Regla p.id_regla == 44 && p.valor == true;
+    }
+    then {
+        var d = new Regla({id_regla : 47, nombre:'Cianosis', descripcion:'Cianosis', tipo : 3, valor : null, color : 3, icon: ''});
+        emit("acierto", d);
+    }
+}
+
+rule Panico_Falso {
+    when {
+        p : Regla p.id_regla == 46 && p.valor == false;
+    }
+    then {
+        var d = new Regla({id_regla : 48, nombre:'Disnea', descripcion:'', tipo : 3, valor : null, color : 1, icon: ''});
+        emit("acierto", d);
+    }
+}
+
+rule Panico_Verdadero {
+    when {
+        p : Regla p.id_regla == 46 && p.valor == true;
+    }
+    then {
+        var d = new Regla({id_regla : 49, nombre:'Antecedentes de pánico o palpitaciones', descripcion:'Antecedentes de pánico o palpitaciones', tipo : 3, valor : null, color : 2, icon: ''});
+        emit("acierto", d);
+    }
+}
+
+
+
+//DIABETES
+
+
+rule Diabetes {
+    when {
+        p : Regla p.id_regla == 0 && p.valor == null;
+    }
+    then {
+        var d = new Regla({id_regla : 50, nombre:'Diabetes', descripcion:'', tipo : 1, valor : null, color : 1, icon: ''});
+        emit("acierto", d);
+    }
+}
+
+rule Diabetes_Conciente {
+    when {
+        p : Regla p.id_regla == 50 && p.valor == null;
+    }
+    then {
+        var d = new Regla({id_regla : 51, nombre:'¿Está conciente?', descripcion:'', tipo : 2, valor : null, color : 1, icon: ''});
+        emit("acierto", d);
+    }
+}
+
+rule Diabetes_Conciente_Falso {
+    when {
+        p : Regla p.id_regla == 51 && p.valor == false;
+    }
+    then {
+        var d = new Regla({id_regla : 52, nombre:'Preguntar si utiliza insulina / Pálido / Sudoroso', descripcion:'', tipo : 1, valor : null, color : 3, icon: ''});
+        emit("acierto", d);
+    }
+}
+
+rule Diabetes_Conciente_Verdadero {
+    when {
+        p : Regla p.id_regla == 51 && p.valor == true;
+    }
+    then {
+        var d = new Regla({id_regla : 53, nombre:'¿Tiene medidor azucar?', descripcion:'', tipo : 2, valor : null, color : 2, icon: ''});
+        emit("acierto", d);
+    }
+}
+
+rule Diabetes_Inconciente {
+    when {
+        p : Regla p.id_regla == 52 && p.valor == null;
+    }
+    then {
+        var d = new Regla({id_regla : 54, nombre:'Paciente inconciente', descripcion:'Paciente inconciente', tipo : 3, valor : null, color : 3, icon: ''});
+        emit("acierto", d);
+    }
+}
+
+
+rule Medidor_Falso {
+    when {
+        p : Regla p.id_regla == 53 && p.valor == false;
+    }
+    then {
+        var d = new Regla({id_regla : 55, nombre:'Preguntar si utiliza insulina / Pálido / Sudoroso', descripcion:'', tipo : 1, valor : null, color : 2, icon: ''});
+        emit("acierto", d);
+    }
+}
+
+rule Medidor_Verdadero {
+    when {
+        p : Regla p.id_regla == 53 && p.valor == true;
+    }
+    then {
+        var d = new Regla({id_regla :56, nombre:'¿ Glucosa > 60 ?', descripcion:'', tipo : 2, valor : null, color : 2, icon: ''});
+        emit("acierto", d);
+    }
+}
+
+rule Diabetes_Conciente_Fin {
+    when {
+        p : Regla p.id_regla == 55 && p.valor == null;
+    }
+    then {
+        var d = new Regla({id_regla : 57, nombre:'Paciente diabético conciente', descripcion:'Paciente diabético conciente', tipo : 3, valor : null, color : 2, icon: ''});
+        emit("acierto", d);
+    }
+}
+
+rule GlucosaMayor_Falso {
+    when {
+        p : Regla p.id_regla == 56 && p.valor == false;
+    }
+    then {
+        var d = new Regla({id_regla : 58, nombre:'Preguntar si utiliza insulina / Pálido / Sudoroso', descripcion:'', tipo : 1, valor : null, color : 2, icon: ''});
+        emit("acierto", d);
+    }
+}
+
+rule GlucosaMayor_Verdadero {
+    when {
+        p : Regla p.id_regla == 56 && p.valor == true;
+    }
+    then {
+        var d = new Regla({id_regla : 59, nombre:'Beber bebida dulce, gaseosa.', descripcion:'Beber bebida dulce, gaseosa.', tipo : 1, valor : null, color : 2, icon: ''});
+        emit("acierto", d);
+    }
+}
+
+rule GlucosaMayorFalso_Fin {
+    when {
+        p : Regla p.id_regla == 58 && p.valor == null;
+    }
+    then {
+        var d = new Regla({id_regla : 60, nombre:'Paciente diabético con glucosa < 60', descripcion:'Paciente diabético con glucosa < 60', tipo : 3, valor : null, color : 2, icon: ''});
+        emit("acierto", d);
+    }
+}
+
+rule GlucosaMayorVerdadero_Fin {
+    when {
+        p : Regla p.id_regla == 59 && p.valor == null;
+    }
+    then {
+        var d = new Regla({id_regla : 61, nombre:'Paciente diabético con glucosa > 60', descripcion:'Paciente diabético con glucosa > 60', tipo : 3, valor : null, color : 2, icon: ''});
+        emit("acierto", d);
+    }
+}
+
+
+//PERDIDA DE CONCIENCIA
+
+
+rule PerdidaConciencia {
+    when {
+        p : Regla p.id_regla == 0 && p.valor == null;
+    }
+    then {
+        var d = new Regla({id_regla : 70, nombre:'Perdida de conciencia', descripcion:'', tipo : 1, valor : null, color : 1, icon: ''});
+        emit("acierto", d);
+    }
+}
+
+rule PerdidaConciencia {
+    when {
+        p : Regla p.id_regla == 70 && p.valor == null;
+    }
+    then {
+        var d = new Regla({id_regla : 71, nombre:'¿Recuperado? (Habla, respira, se mueve bien)', descripcion:'', tipo : 2, valor : null, color : 1, icon: ''});
+        emit("acierto", d);
+    }
+}
+
+rule PerdidaConciencia_Falso {
+    when {
+        p : Regla p.id_regla == 71 && p.valor == false;
+    }
+    then {
+        var d = new Regla({id_regla : 72, nombre:'Pérdida de conciencia', descripcion:'Pérdida de conciencia', tipo : 3, valor : null, color : 3, icon: ''});
+        emit("acierto", d);
+    }
+}
+
+rule PerdidaConciencia_Verdadero {
+    when {
+        p : Regla p.id_regla == 71 && p.valor == true;
+    }
+    then {
+        var d = new Regla({id_regla : 73, nombre:'Indicar que el paciente espere recostado', descripcion:'Indicar que el paciente espere recostado', tipo : 1, valor : null, color : 2, icon: ''});
+        emit("acierto", d);
+    }
+}
+
+rule PerdidaConcienciaVerdadero_Fin {
+    when {
+        p : Regla p.id_regla == 73 && p.valor == null;
+    }
+    then {
+        var d = new Regla({id_regla : 73, nombre:'Paciente recuperado de la perdida de conciencia.', descripcion:'Paciente recuperado de la perdida de conciencia.', tipo : 3, valor : null, color : 2, icon: ''});
+        emit("acierto", d);
+    }
+}
+
+
+//CONVULCIONES
+
+
+rule Convulciones {
+    when {
+        p : Regla p.id_regla == 0 && p.valor == null;
+    }
+    then {
+        var d = new Regla({id_regla : 80, nombre:'Convulciones', descripcion:'', tipo : 1, valor : null, color : 1, icon: ''});
+        emit("acierto", d);
+    }
+}
+
+rule Convulciones_Preg {
+    when {
+        p : Regla p.id_regla == 80 && p.valor == null;
+    }
+    then {
+        var d = new Regla({id_regla : 81, nombre:'Preguntar: Edad - Fiebre - Epiléptico - Alcohólico - Medicación', descripcion:'', tipo : 1, valor : null, color : 3, icon: ''});
+        emit("acierto", d);
+    }
+}
+
+rule Convulciones_Fin {
+    when {
+        p : Regla p.id_regla == 81 && p.valor == null;
+    }
+    then {
+        var d = new Regla({id_regla : 81, nombre:'Paciente con convulciones', descripcion:'Paciente con convulciones', tipo : 3, valor : null, color : 3, icon: ''});
+        emit("acierto", d);
+    }
+}
+
+
+//POLITRAUMA
+
+
+rule Politrauma {
+    when {
+        p : Regla p.id_regla == 0 && p.valor == null;
+    }
+    then {
+        var d = new Regla({id_regla : 90, nombre:'Politrauma', descripcion:'', tipo : 1, valor : null, color : 1, icon: ''});
+        emit("acierto", d);
+    }
+}
+
+rule CaidaAltura {
+    when {
+        p : Regla p.id_regla == 90 && p.valor == null;
+    }
+    then {
+        var d = new Regla({id_regla : 91, nombre:'¿Caída de altura? (mas de su altura)', descripcion:'', tipo : 2, valor : null, color : 1, icon: ''});
+        emit("acierto", d);
+    }
+}
+
+rule CaidaAltura_Falso {
+    when {
+        p : Regla p.id_regla == 91 && p.valor == false;
+    }
+    then {
+        var d = new Regla({id_regla : 92, nombre:'¿Incidente vehicular?', descripcion:'', tipo : 2, valor : null, color : 1, icon: 'fa fa-car fa-4x'});
+        emit("acierto", d);
+    }
+}
+
+rule CaidaAltura_Verdadero {
+    when {
+        p : Regla p.id_regla == 91 && p.valor == true;
+    }
+    then {
+        var d = new Regla({id_regla : 93, nombre:'Politrauma: Caída de altura.', descripcion:'Politrauma: Caída de altura.', tipo : 3, valor : null, color : 3, icon: ''});
+        emit("acierto", d);
+    }
+}
+
+rule IncidenteVehicular_Falso {
+    when {
+        p : Regla p.id_regla == 92 && p.valor == false;
+    }
+    then {
+        var d = new Regla({id_regla : 94, nombre:'Politraumatismo', descripcion:'Politraumatismo.', tipo : 3, valor : null, color : 1, icon: ''});
+        emit("acierto", d);
+    }
+}
+
+rule IncidenteVehicular_Verdadero {
+    when {
+        p : Regla p.id_regla == 92 && p.valor == true;
+    }
+    then {
+        var d = new Regla({id_regla : 95, nombre:'Politrauma: Incidente vehicular.', descripcion:'Politrauma: Incidente vehicular.', tipo : 3, valor : null, color : 3, icon: ''});
+        emit("acierto", d);
+    }
+}
+
+//TRAUMATISMO
+
+
+rule Traumatismo {
+    when {
+        p : Regla p.id_regla == 0 && p.valor == null;
+    }
+    then {
+        var d = new Regla({id_regla : 100, nombre:'Traumatismo', descripcion:'', tipo : 1, valor : null, color : 1, icon: ''});
+        emit("acierto", d);
+    }
+}
+
+rule Traumatismo_Miembros {
+    when {
+        p : Regla p.id_regla == 100 && p.valor == null;
+    }
+    then {
+        var d = new Regla({id_regla : 101, nombre:'¿Presenta acortamiento, rotación, deformidad, palidez, frialdad o hemorragia en miembros?', descripcion:'', tipo : 2, valor : null, color : 1, icon: ''});
+        emit("acierto", d);
+    }
+}
+
+rule Traumatismo_Miembros_False {
+    when {
+        p : Regla p.id_regla == 101 && p.valor == false;
+    }
+    then {
+        var d = new Regla({id_regla : 102, nombre:'TORAX: ¿Dificultad para respirar/disnea?', descripcion:'', tipo : 2, valor : null, color : 1, icon: ''});
+        emit("acierto", d);
+    }
+}
+
+rule Traumatismo_Miembros_Verdadero {
+    when {
+        p : Regla p.id_regla == 101 && p.valor == true;
+    }
+    then {
+        var d = new Regla({id_regla : 103, nombre:'Traumatismo: Miembros afectados', descripcion:'Traumatismo: Miembros afectados', tipo : 3, valor : null, color : 3, icon: ''});
+        emit("acierto", d);
+    }
+}
+
+rule Torax_Falso {
+    when {
+        p : Regla p.id_regla == 102 && p.valor == false;
+    }
+    then {
+        var d = new Regla({id_regla : 104, nombre:'¿Dolor de abdomen?', descripcion:'', tipo : 2, valor : null, color : 1, icon: ''});
+        emit("acierto", d);
+    }
+}
+
+rule Torax_Verdadero {
+    when {
+        p : Regla p.id_regla == 102 && p.valor == true;
+    }
+    then {
+        var d = new Regla({id_regla : 105, nombre:'Traumatismo de torax', descripcion:'Traumatismo de torax', tipo : 3, valor : null, color : 3, icon: ''});
+        emit("acierto", d);
+    }
+}
+
+rule Dolor_Abdomen_Falso {
+    when {
+        p : Regla p.id_regla == 104 && p.valor == false;
+    }
+    then {
+        var d = new Regla({id_regla : 104, nombre:'Traumatismo', descripcion:'Traumatismo', tipo : 3, valor : null, color : 1, icon: ''});
+        emit("acierto", d);
+    }
+}
+
+rule Dolor_Abdomen_Verdadero {
+    when {
+        p : Regla p.id_regla == 104 && p.valor == true;
+    }
+    then {
+        var d = new Regla({id_regla : 106, nombre:'Traumatismo de abdomen', descripcion:'Traumatismo de abdomen', tipo : 3, valor : null, color : 3, icon: ''});
+        emit("acierto", d);
+    }
+}
+
+//DOLOR
+
+
+rule Dolor {
+    when {
+        p : Regla p.id_regla == 0 && p.valor == null;
+    }
+    then {
+        var d = new Regla({id_regla : 110, nombre:'Dolor', descripcion:'', tipo : 1, valor : null, color : 1, icon: ''});
+        emit("acierto", d);
+    }
+}
+
+rule Dolor_Toracico {
+    when {
+        p : Regla p.id_regla == 110 && p.valor == null;
+    }
+    then {
+        var d = new Regla({id_regla : 111, nombre:'¿Dolor toracico?', descripcion:'', tipo : 2, valor : null, color : 1, icon: ''});
+        emit("acierto", d);
+    }
+}
+
+rule Dolor_Toracico_False {
+    when {
+        p : Regla p.id_regla == 111 && p.valor == false;
+    }
+    then {
+        var d = new Regla({id_regla : 112, nombre:'¿Dolor abdominal?', descripcion:'', tipo : 2, valor : null, color : 1, icon: ''});
+        emit("acierto", d);
+    }
+}
+
+rule Dolor_Toracico_Verdadero {
+    when {
+        p : Regla p.id_regla == 111 && p.valor == true;
+    }
+    then {
+        var d = new Regla({id_regla : 113, nombre:'¿Dolor de Pecho, disnea o puntada de costado?', descripcion:'', tipo : 2, valor : null, color : 1, icon: ''});
+        emit("acierto", d);
+    }
+}
+
+rule Dolor_Toracico_pecho_Falso {
+    when {
+        p : Regla p.id_regla == 113 && p.valor == false;
+    }
+    then {
+        var d = new Regla({id_regla : 114, nombre:'¿Dolor Post-traumático?', descripcion:'', tipo : 2, valor : null, color : 1, icon: ''});
+        emit("acierto", d);
+    }
+}
+
+rule Dolor_Toracico_pecho_Verdadero {
+    when {
+        p : Regla p.id_regla == 113 && p.valor == true;
+    }
+    then {
+        var d = new Regla({id_regla : 115, nombre:'Dolor torácico', descripcion:'Dolor torácico', tipo : 3, valor : null, color : 3, icon: ''});
+        emit("acierto", d);
+    }
+}
+
+rule Dolor_PostTraumatico_Falso {
+    when {
+        p : Regla p.id_regla == 114 && p.valor == false;
+    }
+    then {
+        var d = new Regla({id_regla : 116, nombre:'¿Cuadro gripal?', descripcion:'', tipo : 2, valor : null, color : 1, icon: ''});
+        emit("acierto", d);
+    }
+}
+
+rule Dolor_PostTraumatico_Verdadero {
+    when {
+        p : Regla p.id_regla == 114 && p.valor == true;
+    }
+    then {
+        var d = new Regla({id_regla : 117, nombre:'Dolor torácico post traumático', descripcion:'Dolor torácico post traumático', tipo : 3, valor : null, color : 2, icon: ''});
+        emit("acierto", d);
+    }
+}
+
+rule Dolor_CuadroGripal_Falso {
+    when {
+        p : Regla p.id_regla == 116 && p.valor == false;
+    }
+    then {
+        var d = new Regla({id_regla : 118, nombre:'Dolor torácico', descripcion:'Dolor torácico', tipo : 3, valor : null, color : 1, icon: ''});
+        emit("acierto", d);
+    }
+}
+
+rule Dolor_CuadroGripal_Verdadero {
+    when {
+        p : Regla p.id_regla == 116 && p.valor == true;
+    }
+    then {
+        var d = new Regla({id_regla : 119, nombre:'Dolor torácico - Cuadro gripal', descripcion:'Dolor torácico - Cuadro gripal', tipo : 3, valor : null, color : 1, icon: ''});
+        emit("acierto", d);
+    }
+}
+
+rule Dolor_Abdominal_Verdadero {
+    when {
+        p : Regla p.id_regla == 112 && p.valor == true;
+    }
+    then {
+        var d = new Regla({id_regla : 120, nombre:'¿Dolor crónico?', descripcion:'', tipo : 2, valor : null, color : 1, icon: ''});
+        emit("acierto", d);
+    }
+}
+
+rule Dolor_Abdominal_Falso {
+    when {
+        p : Regla p.id_regla == 112 && p.valor == false;
+    }
+    then {
+        var d = new Regla({id_regla : 121, nombre:'Dolor sin especificar', descripcion:'Dolor sin especificar', tipo : 3, valor : null, color : 1, icon: ''});
+        emit("acierto", d);
+    }
+}
+
+rule Dolor_Cronico_Verdadero {
+    when {
+        p : Regla p.id_regla == 120 && p.valor == true;
+    }
+    then {
+        var d = new Regla({id_regla : 127, nombre:'Dolor abdominal crónico', descripcion:'Dolor abdominal crónico', tipo : 3, valor : null, color : 1, icon: ''});
+        emit("acierto", d);
+    }
+}
+
+rule Dolor_Cronico_Falso {
+    when {
+        p : Regla p.id_regla == 120 && p.valor == false;
+    }
+    then {
+        var d = new Regla({id_regla : 128, nombre:'¿Dolor agudo con mareos, presión baja, pálido o antecedentes de TX?', descripcion:'', tipo : 2, valor : null, color : 1, icon: ''});
+        emit("acierto", d);
+    }
+}
+
+rule Dolor_Agudo_Mareos_Verdadero {
+    when {
+        p : Regla p.id_regla == 128 && p.valor == true;
+    }
+    then {
+        var d = new Regla({id_regla : 122, nombre:'Dolor abdominal agudo con mareos, presión baja, pálido o con antecedentes de TX', descripcion:'Dolor abdominal agudo con mareos, presión baja, pálido o con antecedentes de TX', tipo : 3, valor : null, color : 3, icon: ''});
+        emit("acierto", d);
+    }
+}
+
+rule Dolor_Agudo_Mareos_Falso {
+    when {
+        p : Regla p.id_regla == 128 && p.valor == false;
+    }
+    then {
+        var d = new Regla({id_regla : 123, nombre:'¿Dolor abdominal agudo?', descripcion:'', tipo : 2, valor : null, color : 1, icon: ''});
+        emit("acierto", d);
+    }
+}
+
+rule Dolor_Agudo_Sin_Mareos_Verdadero {
+    when {
+        p : Regla p.id_regla == 123 && p.valor == true;
+    }
+    then {
+        var d = new Regla({id_regla : 124, nombre:'Dolor abdominal agudo', descripcion:'Dolor abdominal agudo', tipo : 3, valor : null, color : 2, icon: ''});
+        emit("acierto", d);
+    }
+}
+
+rule Dolor_Agudo_Sin_Mareos_Falso {
+    when {
+        p : Regla p.id_regla == 123 && p.valor == false;
+    }
+    then {
+        var d = new Regla({id_regla : 125, nombre:'Dolor abdominal', descripcion:'Dolor abdominal', tipo : 3, valor : null, color : 1, icon: ''});
+        emit("acierto", d);
+    }
+}
+
+//PCR
+
+
+rule PCR {
+    when {
+        p : Regla p.id_regla == 0 && p.valor == null;
+    }
+    then {
+        var d = new Regla({id_regla : 130, nombre:'PCR', descripcion:'', tipo : 1, valor : null, color : 1, icon: ''});
+        emit("acierto", d);
+    }
+}
+
+rule PCR_reanimacion {
+    when {
+        p : Regla p.id_regla == 130 && p.valor == null;
+    }
+    then {
+        var d = new Regla({id_regla : 131, nombre:'Indicar reanimación.', descripcion:'', tipo : 1, valor : null, color : 3, icon: 'fa fa-hand-paper-o fa-8x'});
+        emit("acierto", d);
+    }
+}
+
+rule PCR_fin {
+    when {
+        p : Regla p.id_regla == 131 && p.valor == null;
+    }
+    then {
+        var d = new Regla({id_regla : 132, nombre:'PCR', descripcion:'PCR', tipo : 3, valor : null, color : 3, icon: 'fa fa-hand-paper-o fa-8x'});
+        emit("acierto", d);
+    }
+}
+
+//EMBARAZO / TRABAJO DE PARTO
+
+
+rule Embarazo {
+    when {
+        p : Regla p.id_regla == 0 && p.valor == null;
+    }
+    then {
+        var d = new Regla({id_regla : 140, nombre:'Embarazo/trabajo de parto', descripcion:'', tipo : 1, valor : null, color : 1, icon: ''});
+        emit("acierto", d);
+    }
+}
+
+rule Embarazo_Perdida {
+    when {
+        p : Regla p.id_regla == 140 && p.valor == null;
+    }
+    then {
+        var d = new Regla({id_regla : 141, nombre:'¿Perdida Sangre por genitales, HTA o Contracciones 3er trimestre?', descripcion:'', tipo : 2, valor : null, color : 1, icon: ''});
+        emit("acierto", d);
+    }
+}
+
+rule Embarazo_Perdida_Verdadero {
+    when {
+        p : Regla p.id_regla == 141 && p.valor == true;
+    }
+    then {
+        var d = new Regla({id_regla : 142, nombre:'Embarazo/trabajo de parto', descripcion:'Embarazo/trabajo de parto', tipo : 3, valor : null, color : 3, icon: ''});
+        emit("acierto", d);
+    }
+}
+
+rule Embarazo_Perdida_Falso {
+    when {
+        p : Regla p.id_regla == 141 && p.valor == false;
+    }
+    then {
+        var d = new Regla({id_regla : 143, nombre:'¿Contracciones 1 y 2 trimestre, perdida de líquido o dolor abdominal?', descripcion:'', tipo : 2, valor : null, color : 1, icon: ''});
+        emit("acierto", d);
+    }
+}
+
+rule Embarazo_DolorAbdominal_Verdadero {
+    when {
+        p : Regla p.id_regla == 143 && p.valor == true;
+    }
+    then {
+        var d = new Regla({id_regla : 144, nombre:'Embarazo/trabajo de parto', descripcion:'Embarazo/trabajo de parto', tipo : 3, valor : null, color : 2, icon: ''});
+        emit("acierto", d);
+    }
+}
+
+rule Embarazo_DolorAbdominal_Falso {
+    when {
+        p : Regla p.id_regla == 143 && p.valor == false;
+    }
+    then {
+        var d = new Regla({id_regla : 145, nombre:'Embarazo/trabajo de parto', descripcion:'Embarazo/trabajo de parto', tipo : 3, valor : null, color : 1, icon: ''});
+        emit("acierto", d);
+    }
+}

@@ -1,0 +1,65 @@
+
+
+<!--BEGIN THEME SETTING-->
+<div id="theme-setting" class="filterList" ng-class="{'open':filterList}" ng-mouseenter="filterList=true" ng-mouseleave="filterList=false">
+  <a href="#" data-toggle="dropdown" data-step="1" data-intro="&lt;b&gt;Many styles&lt;/b&gt; and &lt;b&gt;colors&lt;/b&gt; be created for you. Let choose one and enjoy it!"
+  data-position="left" class="btn-theme-setting"><i class="fa fa-cog"></i></a>
+  <div class="content-theme-setting">
+    <div class="form-group">
+      <div class="checkboxx">
+        <label>
+          <input type="checkbox" checked="false" ng-model="searchOptions.mostrarEventosFinalizados" ng-change="actualizarRegistros()"/>&nbsp; Mostrar eventos finalizados en la últimas 12hs.
+        </label>
+      </div>
+    </div>
+  </div>
+</div>
+<!--END THEME SETTING-->
+<div class="row mbl" ng-show="alertaCambios">
+  <div class="col-lg-4 col-lg-offset-4">
+    <i class="fa fa-2x fa-exclamation-triangle" aria-hidden="true"></i>
+    <strong>Atención:</strong>Se registraron cambios y se actualizará automáticamente.
+    <div class="loader"></div>
+  </div>
+</div>
+
+<div class="row mbl" id="sum_box">
+  <div class="col-sm-2 col-md-1" ng-click="mostrarEvento(0)">
+    <div class="panel profit db mbm">
+      <div class="panel-body text-center"><i class="fa fa-plus fa-4x"></i></div>
+    </div>
+  </div>
+  <div class="col-sm-6 col-md-3" ng-repeat="r in registros | orderBy:'-fechaRegistro'" ng-click="mostrarEvento(r._id)">
+    <div class="panel profit db mbm">
+      <div class="panel-body">
+        <h4 class="value">{{r.direccion}}<i ng-show="r.fechaCierre != null" class="fa fa-lock pull-right"></i></h4>
+        <p class="description"><span am-time-ago="r.fechaRegistro"></span></p>
+        <div ng-switch="r.clasificacion">
+          <div ng-switch-when="3" class="note note-danger">
+            <h4 class="box-heading">
+              {{r.observacionesClasificacion}}
+            </h4>
+          </div>
+          <div ng-switch-when="2" class="note note-warning">
+            <h4 class="box-heading">
+              {{r.observacionesClasificacion}}
+            </h4>
+          </div>
+          <div ng-switch-when="1" class="note note-success">
+            <h4 class="box-heading">
+              {{r.observacionesClasificacion}}
+            </h4>
+          </div>
+        </div>
+        <div class="col-sm-6 col-md-3" ng-repeat="s in (r.salidas | filter : {fechaQRU : null})">
+          <i class="icon fa fa-ambulance"></i>
+          <span>{{s.NombreMovil}}</span>
+          <span ng-if="!s.fechaArribo">En camino.</span>
+          <span ng-if="!s.fechaDestino && s.fechaArribo">Trabajando en el lugar.</span>
+          <span ng-if="!s.fechaQRU && s.fechaDestino">En camino a destino.</span>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
