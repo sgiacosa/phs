@@ -2,7 +2,7 @@ module.exports= function (io) {
 
   var app = require("express");
   var router = app.Router();
-  var moviles = require("../models/Moviles");
+  var moviles = require("../models/moviles");
 
   //Busco moviles
   router.post("/moviles", function(req, res){

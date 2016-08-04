@@ -7,4 +7,4 @@ var MovilesSchema = new mongoose.Schema({
 });
 MovilesSchema.index({posicion: '2dsphere'});
 
-module.exports = mongoose.model("Moviles", MovilesSchema);
+module.exports = mongoose.model("moviles", MovilesSchema);

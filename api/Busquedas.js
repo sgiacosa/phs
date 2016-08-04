@@ -3,7 +3,7 @@ module.exports= function (io) {
 var app = require("express");
 var router = app.Router();
 var elasticsearch = require('elasticsearch');
-var Registros = require("../models/Registros");
+var Registros = require("../models/registros");
 
 //Inicializo el cliente de elasticsearch
 var client = new elasticsearch.Client({

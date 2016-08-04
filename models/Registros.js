@@ -52,7 +52,7 @@ RegistrosSchema.pre('save', function(next){
 // Indexes this schema in 2dsphere format (critical for running proximity searches)
 RegistrosSchema.index({coordenadas: '2dsphere'});
 
-module.exports = mongoose.model("Registros", RegistrosSchema);
+module.exports = mongoose.model("registros", RegistrosSchema);
 
 
 /*var constantes = [{

@@ -2,8 +2,8 @@ module.exports = function (io) {
 
   var app = require("express");
   var router = app.Router();
-  var Registro = require("../models/Registros");
-  var Moviles = require("../models/Moviles");
+  var Registro = require("../models/registros");
+  var Moviles = require("../models/moviles");
   var pushbullet = require("../modules/pushbullet");
   var fb = require("../modules/firebase");
   var config = require("../modules/config");
