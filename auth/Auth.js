@@ -1,6 +1,6 @@
 var app = require("express");
 var router = app.Router();
-var usuarios = require("../models/Usuarios");
+var usuarios = require("../models/usuarios");
 var jwt = require('jsonwebtoken');
 var bcrypt = require('bcrypt-nodejs');
 var fb = require("../modules/firebase");
