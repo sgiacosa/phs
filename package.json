@@ -17,6 +17,7 @@
     "firebase": "^3.2.0",
     "jsonwebtoken": "^7.0.0",
     "mongoose": "^4.4.14",
+    "pushbullet": "^1.4.3",
     "require-dir": "^0.3.0",
     "socket.io": "^1.4.6"
   }

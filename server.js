@@ -17,7 +17,7 @@ var app = express();
 var secret = 'hfy6*fre34#frtu!';
 
 console.log("1. Preparar conexión a la base de datos ...");
-mongoose.connect('mongodb://localhost/raph');
+//mongoose.connect('mongodb://localhost/raph');
 
 console.log("2. Configurando middleware ...")
 app.use(bodyParser.json());
