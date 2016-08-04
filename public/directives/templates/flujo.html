@@ -1,0 +1,77 @@
+
+<div>
+  <div ng-if="color==3" class="note note-danger">
+    <h4 class="box-heading">
+      EMERGENCIA
+      <i class="fa fa-square fa-2x animated infinite pulse box-heading pull-right"></i>
+    </h4>
+  </div>
+  <div ng-if="color==2" class="note note-warning">
+    <h4 class="box-heading">
+      URGENCIA
+      <i class="fa fa-square fa-2x animated infinite pulse box-heading pull-right"></i>
+    </h4>
+  </div>
+  <div ng-if="color==1" class="note note-success">
+    <h4 class="box-heading">
+      AMBULATORIO BAJO RIESGO
+      <i class="fa fa-square fa-2x box-heading pull-right"></i>
+    </h4>
+  </div>
+  <h3 ng-if="!actualizar ">{{descripcion}}</h3>
+</div>
+
+<a ng-click="initFlujo()" ng-show="!actualizar" class="btn pull-right"><i class="fa fa-pencil"></i></a>
+
+<div ng-if="actualizar && modoEdicion">
+
+  <div ng-repeat="fact in facts" ng-if="facts.length < 2">
+    <div class="row">
+      <div ng-if="fact.tipo == 1">
+        <button class="btn btn-link pull-right" ng-click="next(fact.id_regla)"><i class="fa fa-2x fa-arrow-right "></i></button>
+      </div>
+      <div ng-if="Pila.length > 1">
+        <button class="btn btn-link pull-left" ng-click="prev()"><i class="fa fa-2x  fa-arrow-left"></i></button>
+      </div>
+    </div>
+    <h3 class="text-center">{{ fact.nombre == '' ? descripcion : fact.nombre }}</h3>
+    <div class="text-center"><i class="{{fact.icon}}"></i> </div>
+
+    <div class="text-center margin-top-05" ng-if="fact.tipo == 2">
+      <button ng-click="next(fact.id_regla, true)" class="btn btn-primary">Si</i></button>
+      <button ng-click="next(fact.id_regla, false)" class="btn btn-primary">No</i></button>
+    </div>
+    <p></p>
+  </div>
+
+  <div ng-if="facts.length >= 2">
+    <div class="col-md-10">
+      <select ng-model="data.selectedRule" class="form-control">
+        <option ng-repeat="fact in facts" value="{{fact.id_regla}}">{{fact.nombre}}</option>
+      </select>
+    </div>
+    <div class="col-md-2">
+      <button class="btn btn-warning" ng-click="next(data.selectedRule)"> <i class="fa fa-plus"></i></button>
+    </div>
+  </div>
+
+  <div ng-if="facts.length == 0">
+    <button class="btn btn-link pull-left" ng-click="prev()"><i class="fa fa-2x  fa-arrow-left"></i></button>
+    <div class="portlet-body">
+      <div class="form-group">
+        <label class="control-label" for="inputEmail">
+          Clasificación
+        </label>
+
+        <select name="cmbCie" ng-model="color" class="form-control" ng-change="cie10_SelectChange()">
+          <option value="1" selected>No prioritario</option>
+          <option value="2">Urgencia</option>
+          <option value="3">Emergencia</option>
+        </select>
+      </div>
+      <div class="input-icon right">
+        <autocomplete ng-model="cie10" attr-placeholder="Escriba el código o diagnóstico" click-activation="true" data="CIE10SearchResult" on-type="BuscarCie10" on-blur="Cie10Seleccionado()"></autocomplete>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,219 @@
+﻿/***********************   MARGIN  *****************************/
+.margin-top-05 {
+    margin-top: 0.5em;
+}
+
+.margin-top-10 {
+    margin-top: 1.0em;
+}
+
+.margin-top-15 {
+    margin-top: 1.5em;
+}
+
+.margin-top-20 {
+    margin-top: 2.0em;
+}
+
+.margin-top-25 {
+    margin-top: 2.5em;
+}
+
+.margin-top-30 {
+    margin-top: 3.0em;
+}
+
+
+/************************ FIN MARGIN  *****************************/
+
+/************************ TRANSICIONES  ***************************/
+
+.ng-hide-add, .ng-hide-remove {
+    /* ensure visibility during the transition */
+    display: block !important; /* yes, important */
+}
+
+.cssFade {
+    transition: 0.5s linear all;
+    opacity: 1;
+    height:100%;
+}
+
+    .cssFade.ng-hide {
+        opacity: 0;
+    }
+
+/************************ FIN TRANSICIONES  ***************************/
+
+
+
+.dot{
+    margin:5px;
+    color:lightgray;
+    font-size: 75% !important;
+}
+.greenDot{
+    color:lightgreen !important;
+
+}
+
+
+
+.square{transform: scale(1.5,1);}
+
+/*******************   COLORS   ************************/
+.white{color:white !important;}
+.red{color:red !important;}
+.yellow{color:yellow !important;}
+.green{color:green !important;}
+/*******************   FIN COLORS   ************************/
+
+/********************* BOOTSTRAP   ************************/
+.fa-6x { font-size: 6em !important; }
+.fa-8x { font-size: 8em !important; }
+.fa-10x { font-size: 10em !important; }
+
+
+/********************* FIN BOOTSTRAP  ************************/
+
+/*********  TEMPLATE  *************************/
+
+.nav > li > a.selected {
+    font-weight:bold;
+    background: #303030 none repeat scroll 0 0;
+    color: #fff;
+    outline: medium none;
+    transition: all 0.2s ease-in-out 0s;
+}
+
+/*********  FIN TEMPLATE  *********************/
+
+
+/***********   LOADERS   *********/
+/*Loading bar*/
+.loader {
+  height: 4px;
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+  background-color: #ddd;
+}
+.loader:before{
+  display: block;
+  position: absolute;
+  content: "";
+  /*left: -200px;*/
+  width: 100%;
+  height: 4px;
+  background-color: #2980b9;
+  animation: loading 10s linear infinite;
+}
+@keyframes loading {
+    from { width: 0%;}
+    50% {width: 50%;}
+    70% {width: 70%;}
+    80% { width: 80%;}
+    95% {width: 95%;}
+    to {width: 100%;}
+}
+/*@keyframes loading {
+    from {left: -200px; width: 30%;}
+    50% {width: 30%;}
+    70% {width: 70%;}
+    80% { left: 50%;}
+    95% {left: 120%;}
+    to {left: 100%;}
+}*/
+
+/*Floating points*/
+body {
+  /*overflow: hidden;*/
+}
+.spinner div {
+  width: 10px;
+  height: 10px;
+  position: absolute;
+  left: -20px;
+  top: 40px;
+  background-color: #808080;
+  border-radius: 50%;
+  animation: move 4s infinite cubic-bezier(.2,.64,.81,.23);
+}
+.spinner div:nth-child(2) {
+  animation-delay: 150ms;
+}
+.spinner div:nth-child(3) {
+  animation-delay: 300ms;
+}
+.spinner div:nth-child(4) {
+  animation-delay: 450ms;
+}
+@keyframes move {
+  0% {left: 0%;}
+  75% {left:100%;}
+  100% {left:100%;}
+}
+
+/************  FIN LOADERS   ***********/
+
+
+/**************** GOOGLE MAPS *************/
+/*.angular-google-map { height: 100%; }*/
+.angular-google-map-container { height: 400px; }
+/**************** FIN GOOGLE MAPS  ********/
+
+
+/*********** AUTOCOMPLETE ***********/
+/* AUTOCOMPLETE */
+
+.autocomplete{
+  width: 100%;
+  position: relative;
+}
+
+.autocomplete input{
+  font-size: 1.2em;
+  width: 100%;
+  padding:0.4em;
+}
+
+.autocomplete ul{
+  position: absolute;
+  left: 0;
+  width: 100%;
+  border-left: 1px solid #888;
+  border-right: 1px solid #888;
+  border-bottom: 1px solid #888;
+  z-index: 1;
+  padding: 0;
+}
+
+.autocomplete li{
+  text-align: left;
+  list-style:none;
+  width: 100%;
+  padding:0.4em;
+  background-color: #fff;
+}
+
+.autocomplete li.active{
+  width: 100%;
+  background-color: #D8E8ED;
+}
+
+.autocomplete .highlight {
+  /*background-color: #E2E2E2;*/
+  font-weight:bold;
+}
+
+.autocomplete li.active .highlight {
+  /*background: #666;*/
+  /*color: #fff;*/
+  font-weight:bold;
+}
+
+
+/***********FIN AUTOCOMPLETE  *******/
+
+.filterList{ right: -340px !important;}
+.filterList.open{ right: 0px !important;}
