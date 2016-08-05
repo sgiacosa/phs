@@ -30,7 +30,8 @@ app.use(bodyParser.urlencoded({
 console.log("3. Configurando rutas estáticas ...")
 //app.use('/', expressJwt({secret: secret}));
 //app.use('/', express.static('public'));
-app.use('/', express.static(path.join(__dirname, '', 'public')));
+//app.use('/', express.static(path.join(__dirname, '', 'public')));
+app.use(express.static(__dirname + '/public'));
 
 console.log("5. Configurando socket.io ...")
 /*var server = https.createServer({
