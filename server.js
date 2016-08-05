@@ -17,12 +17,10 @@ var app = express();
 
 console.log("3. Configurando rutas estáticas ...")
 app.use('/', express.static(path.join(__dirname, '', 'public')));
-app.listen(http_port, http_ip);
+//app.listen(http_port, http_ip);
+http.createServer(app).listen(http_port, http_ip);
 console.log('Server running on http://%s:%s', http_ip, http_port);
 
-app.get('/', function (req, res) {  
-    res.send('{ pageCount: -1 }');
-});
 
 
 
