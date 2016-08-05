@@ -64,6 +64,10 @@ app.use(function (err, req, res, next) {
   }
 });
 
+app.get('/', function (req, res) {
+    res.status('200').send('Service is up');
+});
+
 // Para cualquier otra ruta, devuelve el archivo principal de la aplicación de Angular
 app.get('*', function (req, res) {
   res.sendFile(path.join(__dirname, '', 'public/index.html'));
