@@ -39,12 +39,12 @@ app.use(bodyParser.urlencoded({
 //Redirecciono todo a HTTPS
 //TODO -> cuando tenga un certificado que no sea autofirmado quitar req.url.indexOf("loginMobileApp") == -1 y redireccionar absolutamente todo por https - 
 //Esto lo hago temporal para poder autenticar desde android debido al error avax.net.ssl.SSLException: Not trusted server certificate exception
-app.use(function(req, res, next) {
-  if(!req.secure & req.url.indexOf("loginMobileApp") == -1) {
+/*app.use(function(req, res, next) {
+  if(!req.secure || req.url.indexOf("loginMobileApp") == -1) {
     return res.redirect(['https://', req.get('Host'), req.url].join(''));
   }
   next();
-});
+});*/
 
 console.log("3. Configurando rutas estáticas ...")
 //app.use('/', expressJwt({secret: secret}));
