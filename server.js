@@ -9,8 +9,8 @@ var requireDir = require('require-dir');
 var jwt = require('jsonwebtoken');
 var expressJwt = require('express-jwt');
 var socket = require('./modules/socket.js');
-var http_port = process.env.OPENSHIFT_NODEJS_PORT || 8080;
-var http_ip = process.env.OPENSHIFT_NODEJS_IP || "127.0.0.1";
+var http_port = process.env.PORT || process.env.OPENSHIFT_NODEJS_PORT || 8080;
+var http_ip = process.env.IP   || process.env.OPENSHIFT_NODEJS_IP || '0.0.0.0';
 
 
 var app = express();
