@@ -13,17 +13,6 @@ var http_port = process.env.PORT || process.env.OPENSHIFT_NODEJS_PORT || 8080;
 var http_ip = process.env.IP   || process.env.OPENSHIFT_NODEJS_IP || '0.0.0.0';
 
 
-/*var app = express();
-
-console.log("3. Configurando rutas estáticas ...")
-app.use('/', express.static(path.join(__dirname, '', 'public')));
-//app.listen(http_port, http_ip);
-http.createServer(app).listen(http_port, http_ip);
-console.log('Server running on http://%s:%s', http_ip, http_port);
-
-module.exports = app ;
-*/
-
 var app = express();
 
 var secret = 'hfy6*fre34#frtu!';
@@ -36,15 +25,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
   extended: false
 }));
-//Redirecciono todo a HTTPS
-//TODO -> cuando tenga un certificado que no sea autofirmado quitar req.url.indexOf("loginMobileApp") == -1 y redireccionar absolutamente todo por https - 
-//Esto lo hago temporal para poder autenticar desde android debido al error avax.net.ssl.SSLException: Not trusted server certificate exception
-/*app.use(function(req, res, next) {
-  if(!req.secure || req.url.indexOf("loginMobileApp") == -1) {
-    return res.redirect(['https://', req.get('Host'), req.url].join(''));
-  }
-  next();
-});*/
+
 
 console.log("3. Configurando rutas estáticas ...")
 //app.use('/', expressJwt({secret: secret}));
@@ -92,4 +73,4 @@ app.get('*', function(req, res) {
 
 
 console.log("Todo Listo!")
-console.log('Server running on http://%s:%s', http_ip, http_port);
+console.log('Server running on openshift at http://%s:%s', http_ip, http_port);
