@@ -18,7 +18,17 @@ var app = express();
 var secret = 'hfy6*fre34#frtu!';
 
 console.log("1. Preparar conexión a la base de datos ...");
-//mongoose.connect('mongodb://localhost/raph');
+var mongoPort = process.env['MONGODB_SERVICE_PORT'];
+var mongoHost = process.env['MONGODB_SERVICE_HOST'];
+var mongouser = process.env['MONGODB_USER'];
+var mongopass = process.env['MONGODB_PASSWORD'];
+
+console.log("mongo port "+ mongoPort);
+console.log("mongo host "+ mongoHost);
+console.log("mongo user "+ mongouser);
+console.log("mongo pass "+ mongopass);
+
+mongoose.connect('mongodb://userWA8:jAmkQlM0dgewsf0T@'+mongoHost+':'+mongoPort+'/sampledb');
 
 console.log("2. Configurando middleware ...")
 app.use(bodyParser.json());
