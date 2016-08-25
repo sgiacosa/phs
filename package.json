@@ -16,9 +16,17 @@
     "express-jwt": "^3.4.0",
     "firebase": "^3.2.0",
     "jsonwebtoken": "^7.0.0",
+    "moment": "^2.14.1",
     "mongoose": "^4.4.14",
     "pushbullet": "^1.4.3",
     "require-dir": "^0.3.0",
-    "socket.io": "^1.4.6"
+    "socket.io": "^1.4.6",
+    "telegram-bot-api": "^1.2.0"
+  },
+  "devDependencies": {
+    "grunt": "^1.0.1",
+    "grunt-contrib-concat": "^1.0.1",
+    "grunt-contrib-uglify": "^2.0.0",
+    "grunt-contrib-watch": "^1.0.0"
   }
 }

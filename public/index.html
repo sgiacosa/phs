@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html class="no-js" lang="es-ar">
+
 <head>
   <title>Central 107</title>
   <base href="/">
@@ -27,6 +28,7 @@
   <link type="text/css" rel="stylesheet" href="css/fontawesome/css/font-awesome.min.css">
   <link type="text/css" rel="stylesheet" href="css/sweetalert.css">
 </head>
+
 <body ng-app="sien" ng-controller="MainController">
   <div ng-show="loadingPrincipal" class="text-center cssFade">
     <!--<i class="fa fa-cog fa-spin fa-4x"></i>-->
@@ -37,8 +39,8 @@
 
 
     <!--BEGIN TOPBAR-->
-    <div id="header-topbar-option-demo" class="page-header-topbar" >
-      <nav id="topbar" role="navigation" style="margin-bottom: 0;" data-step="3" class="navbar navbar-default navbar-static-top">
+    <div id="header-topbar-option-demo" class="page-header-topbar">
+      <nav id="topbar" role="navigation" style="margin-bottom: 0;" data-step="3" class="navbar navbar-default navbar-fixed-top">
         <div class="navbar-header">
           <button type="button" data-toggle="collapse" data-target=".sidebar-collapse" class="navbar-toggle"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button>
           <a id="logo" href="/" class="navbar-brand"><span class="fa fa-rocket"></span><span class="logo-text">Central 107</span><span style="display: none" class="logo-text-icon">µ</span></a>
@@ -53,37 +55,88 @@
           <li class="dropdown"><a data-hover="dropdown" href="#" class="dropdown-toggle"><i class="fa fa-tasks fa-fw"></i><span class="badge badge-yellow">8</span></a>
 
         </li>-->
-        <li class="dropdown topbar-user"  ng-class="{open: userOptions}" ng-mouseenter="userOptions = true"  ng-mouseleave="userOptions = false"><a data-hover="dropdown" href="#" class="dropdown-toggle"><i class="fa fa-user"></i>&nbsp;<span class="hidden-xs">{{ userData.nombre +" "+ userData.apellido }}</span>&nbsp;<span class="caret"></span></a>
-          <ul class="dropdown-menu dropdown-user pull-right">
-            <!--<li><a href="#"><i class="fa fa-user"></i>My Profile</a></li>
+            <li class="dropdown topbar-user" ng-class="{open: userOptions}" ng-mouseenter="userOptions = true" ng-mouseleave="userOptions = false"><a data-hover="dropdown" href="#" class="dropdown-toggle"><i class="fa fa-user"></i>&nbsp;<span class="hidden-xs">{{ userData.nombre +" "+ userData.apellido }}</span>&nbsp;<span class="caret"></span></a>
+              <ul class="dropdown-menu dropdown-user pull-right">
+                <!--<li><a href="#"><i class="fa fa-user"></i>My Profile</a></li>
             <li><a href="#"><i class="fa fa-calendar"></i>My Calendar</a></li>
             <li><a href="#"><i class="fa fa-envelope"></i>My Inbox<span class="badge badge-danger">3</span></a></li>
             <li><a href="#"><i class="fa fa-tasks"></i>My Tasks<span class="badge badge-success">7</span></a></li>
             <li class="divider"></li>-->
-            <li><a href="/changepassword"><i class="fa fa-key"></i>Cambiar contraseña</a></li>
-            <li><a href="/logout"><i class="fa fa-lock"></i>Cerrar sesión</a></li>
+                <li><a href="/changepassword"><i class="fa fa-key"></i>Cambiar contraseña</a></li>
+                <li><a href="/logout"><i class="fa fa-lock"></i>Cerrar sesión</a></li>
+              </ul>
+            </li>
+            <li id="topbar-chat" class="hidden-xs" ng-click="toggleChat()">
+              <a href="javascript:void(0)" data-step="4" data-position="left" class="btn-chat">
+                <i class="fa fa-comments"></i>
+                <span ng-if="unreadChatCount > 0" class="badge badge-info blink_me">{{unreadChatCount}}</span>
+              </a>
+            </li>
           </ul>
-        </li>
-      </ul>
 
 
+        </div>
+      </nav>
     </div>
-  </nav>
-</div>
-<!--END TOPBAR-->
-
-<div id="wrapper">
-
-  <div ng-view></div>
-</div>
-</div>
+    <!--END TOPBAR-->
 
 
-<!--Angular Google Map -->
-<script src='https://maps.googleapis.com/maps/api/js?libraries=places&key=AIzaSyBeuihfLrTLC9Y_K_iQUKMRmHEvibpp0Y4'></script>
-<script src="js/dist/lib.js"></script>
-<script src="js/dist/app.js"></script>
+
+
+    <div id="wrapper">
+
+      <!--BEGIN CHAT FORM-->
+      <div id="chat-box" class="opennnn" ng-class="{'openchat':openchat}">
+        <div class="chat-box-header">
+          <a href="#" class="chat-box-close pull-right" ng-click="toggleChat()"><i class="glyphicon glyphicon-remove"></i></a>
+
+          </a><span class="user-status is-online"></span><span class="display-name">Mensajes a celular</span> <small></small>
+        </div>
+        <div class="chat-content">
+          <ul class="chat-box-body" scroll-glue>
+            <li ng-repeat="sms in smsList | orderBy:'fecha' ">
+              <p>
+                <span class="user">{{sms.usuario}}</span><span class="time">{{sms.fecha * 1000 | date:'HH:mm' }}</span>
+              </p>
+              <p>{{sms.mensaje}}</p>
+            </li>
+          </ul>
+        </div>
+        <div ng-if="!socketConnected" class="alert alert-danger text-center">
+          <i class="fa fa-plug fa-4x" aria-hidden="true"></i>
+          <h4>Sin conexión...</h4>
+        </div>
+        <div ng-show="socketConnected" class="chat-textarea text-center">
+          <div ng-show="sendingChat" class="chat-textarea">
+            <i class="fa fa-spinner fa-spin fa-4x"></i>
+          </div>
+          <div ng-show="!sendingChat">
+            <textarea placeholder="" class="form-control" ng-model="txtSms" rows="4"></textarea>
+            <button ng-click="enviarSMS()" class="btn btn-green">Enviar</button>            
+          </div>
+        </div>
+      </div>
+
+
+
+
+
+      <!--END CHAT FORM-->
+
+
+
+
+      <div ng-view></div>
+    </div>
+  </div>
+
+
+  <!--Angular Google Map -->
+  <script src='https://maps.googleapis.com/maps/api/js?libraries=places&key=AIzaSyBeuihfLrTLC9Y_K_iQUKMRmHEvibpp0Y4'></script>
+  <script src="js/dist/lib.js"></script>
+  <script src="js/dist/app.js"></script>
 
 
 </body>
+
 </html>

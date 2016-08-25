@@ -9,6 +9,7 @@ var requireDir = require('require-dir');
 var jwt = require('jsonwebtoken');
 var expressJwt = require('express-jwt');
 var socket = require('./modules/socket.js');
+var global = require('./modules/global');
 var http_port=80;
 var https_port=443;
 
@@ -49,6 +50,7 @@ http.createServer(app).listen(http_port)
 
 var io = require('socket.io').listen(server);
 socket(io);
+global.io = io;
 
 console.log("4. Configurando API ...")
 

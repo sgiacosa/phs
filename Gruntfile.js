@@ -47,22 +47,34 @@ module.exports = function(grunt) {
           'bower_components/angular-socket-io/socket.min.js',
           'bower_components/socket.io-client/socket.io.js',
           'bower_components/sweetalert/dist/sweetalert.min.js',
-          'bower_components/ngSweetAlert/SweetAlert.min.js'
+          'bower_components/ngSweetAlert/SweetAlert.min.js',
+          'bower_components/angular-scroll-glue/src/scrollglue.js'
         ]
       },
       app: { // Archivos .js
         dest: './public/js/dist/app.js',
         src: [
           'public/js/App.js',
+          
           'public/directives/flujo.js',
           'public/directives/autocomplete.js',
           'public/directives/kml.js',
+
           'public/controllers/list.js',
           'public/controllers/event.js',
           'public/controllers/login.js',
           'public/controllers/search.js',
           'public/controllers/main.js',
-          'public/controllers/monitor.js'
+          'public/controllers/monitor.js',
+
+          'public/services/authInterceptor.js',
+          'public/services/login.js',
+          'public/services/mensajes.js',
+          'public/services/registros.js',
+          'public/services/salidas.js',
+          'public/services/search.js',
+          'public/services/socket.js',
+          'public/services/util.js'
         ]
       }
     },

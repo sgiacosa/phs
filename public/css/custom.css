@@ -156,6 +156,16 @@ body {
 
 /************  FIN LOADERS   ***********/
 
+/******************  EFECTOS **************/
+.blink_me {
+  animation: blinker 1s linear infinite;
+}
+
+@keyframes blinker {  
+  50% { opacity: 0.0; }
+}
+/***************** FIN EFECTOS ************/
+
 
 /**************** GOOGLE MAPS *************/
 /*.angular-google-map { height: 100%; }*/
@@ -217,3 +227,4 @@ body {
 
 .filterList{ right: -340px !important;}
 .filterList.open{ right: 0px !important;}
+.openchat{display: block !important;}

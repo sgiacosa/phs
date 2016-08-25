@@ -1,35 +1,4 @@
 
-<!--BEGIN THEME SETTING-->
-<div id="theme-setting" class="filterList" ng-show="registroSeleccionado._id" ng-class="{'open':filterList}" ng-mouseenter="filterList=true" ng-mouseleave="filterList=false">
-  <a href="#" data-toggle="dropdown" data-step="1" data-intro="&lt;b&gt;Many styles&lt;/b&gt; and &lt;b&gt;colors&lt;/b&gt; be created for you. Let choose one and enjoy it!"
-  data-position="left" class="btn-theme-setting"><i class="fa fa-comment"></i></a>
-  <div class="content-theme-setting">
-    <div id="chat-box" style="top: 0px" class="open">
-      <div class="chat-box-header">
-        </a><span class="user-status is-online"></span><span class="display-name">Mensajes a celular</span> <small></small>
-      </div>
-      <div class="chat-content">
-        <ul class="chat-box-body">
-          <li ng-repeat="sms in registroSeleccionado.sms">
-            <p>
-              <span class="user">{{sms.usuario}}</span><span
-              class="time">{{sms.fecha | date : 'HH:mm' }}</span>
-            </p>
-            <p>{{sms.mensaje}}</p>
-          </li>
-        </ul>
-      </div>
-      <div class="chat-textarea">
-        <textarea placeholder="" class="form-control" ng-model="txtSms" rows="4"></textarea>
-        <button ng-click="enviarSMS()" class="btn btn-green">Enviar</button>
-        <button ng-click="generarTextoSMS()" class="btn btn-blue"><i class="fa fa-magic" aria-hidden="true"></i></button>
-      </div>
-    </div>
-  </div>
-</div>
-<!--END THEME SETTING-->
-
-
 
 <!--END CHAT FORM-->
 
@@ -337,7 +306,7 @@
   <div class="col-md-3"></div>
   <div class="well col-md-6">
     <div class="timeline-centered timeline-sm">
-      <article class="timeline-entry" ng-class="{'left-aligned':$even,'odd':$odd}" ng-repeat="t in timeLine  | orderBy:'fecha'">
+      <article class="timeline-entry" ng-class="{'left-aligned':$even,'odd':$odd}" ng-repeat="t in timeLine  | orderBy:'-fecha'">
         <div class="timeline-entry-inner">
           <time class="timeline-time"><span>{{t.fecha | date :'H:mm' }}</span><span>{{t.fecha | date :'dd/MM/yyyy' }}</span></time>
           <div class="timeline-icon bg-violet"><i ng-class="{'fa fa-phone' : t.tipo == 1, 'fa fa-ambulance' : t.tipo == 2, 'fa fa-flag-checkered' : t.tipo == 3, 'fa fa-comment' : t.tipo == 4 }"></i></div>

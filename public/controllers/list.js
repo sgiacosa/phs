@@ -1,4 +1,4 @@
-appModule.controller('ListController', ['$scope', '$location', '$window','RegistrosService', '$filter', 'SalidasService', 'MensajesService', 'SearchService', 'UtilService', '$http','LoginService','mySocket', '$timeout', function ($scope, $location, $window, RegistrosService, $filter, SalidasService, MensajesService, SearchService, UtilService, $http, LoginService, mySocket, $timeout) {
+appModule.controller('ListController', ['$rootScope','$scope', '$location', '$window','RegistrosService', '$filter', 'SalidasService', 'MensajesService', 'SearchService', 'UtilService', '$http','LoginService','mySocket', '$timeout', function ($rootScope,$scope, $location, $window, RegistrosService, $filter, SalidasService, MensajesService, SearchService, UtilService, $http, LoginService, mySocket, $timeout) {
   angular.extend($scope, {
     loading: false,
     loadingPrincipal: true,
@@ -17,9 +17,7 @@ appModule.controller('ListController', ['$scope', '$location', '$window','Regist
         console.log("connected "+data);
       });
       mySocket.on('dbChange', function (data) {
-        $scope.alertaCambios = true;
-        $timeout(function() {
-         $scope.actualizarRegistros()}, 10 * 1000);
+        $scope.actualizarRegistros();        
       });
     },
 
@@ -36,6 +34,26 @@ appModule.controller('ListController', ['$scope', '$location', '$window','Regist
         $scope.registros = data;
         $scope.loading = false;
       });
+    },
+
+    generarTextoSMS: function (_id) {
+      var registroSeleccionado = $filter('filter')($scope.registros ,{'_id': _id})[0];
+      var mensaje = "";
+      mensaje += " Recibe pedido: " + $filter('date')(registroSeleccionado.fechaRegistro, 'HH:mm');
+      if (registroSeleccionado.direccion)
+        mensaje += " Direccion: " + registroSeleccionado.direccion;
+      if (registroSeleccionado.observaciones)
+        mensaje += " Anotación: " + registroSeleccionado.observaciones;
+      if (registroSeleccionado.reporte)
+        mensaje += "Reporte: " + registroSeleccionado.reporte;
+      for (var i = 0; i < registroSeleccionado.mensajes.length; i++)
+        mensaje += " Mensaje: " + registroSeleccionado.mensajes[i].mensaje;
+      for (var i = 0; i < registroSeleccionado.salidas.length; i++)
+        mensaje += " Asiste: " + registroSeleccionado.salidas[i].nombreMovil;
+      if (registroSeleccionado.fechaCierre)
+        mensaje += " Finaliza: " + $filter('date')(registroSeleccionado.fechaCierre, 'HH:mm');
+
+      $rootScope.$emit('eventDetailGenerated', mensaje);
     },
 
     init: function () {

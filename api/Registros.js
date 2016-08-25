@@ -3,8 +3,7 @@ module.exports = function (io) {
   var app = require("express");
   var router = app.Router();
   var Registro = require("../models/registros");
-  var Moviles = require("../models/moviles");
-  var pushbullet = require("../modules/pushbullet");
+  var Moviles = require("../models/moviles");   
   var fb = require("../modules/firebase");
   var config = require("../modules/config");
 
@@ -166,7 +165,7 @@ module.exports = function (io) {
         movil.save(function (err, movilModificado) {
           if (err) throw (err);
           //Actualizo el estado en firebase
-          var movilRef = fb.database().ref(config.FB_moviles+'/'+movil._id);          
+          /*var movilRef = fb.database().ref(config.FB_moviles+'/'+movil._id.toString());          
           movilRef.update({
             estado: 2,
             direccion: data.direccion,
@@ -174,7 +173,7 @@ module.exports = function (io) {
             observaciones: data.observaciones,
             clasificacion: data.clasificacion,
             observacionesClasificacion: data.observacionesClasificacion
-          });
+          });*/
 
         });
       });
@@ -250,7 +249,7 @@ module.exports = function (io) {
   });
 
 
-  router.post("/registros/sendsms", function (req, res) {
+  /*router.post("/registros/sendsms", function (req, res) {
     Registro.findOne({ _id: req.body._id }, function (err, data) {
       if (err) throw (err);
       var sms = { fecha: new Date(), mensaje: req.body.mensaje, usuario: req.user.username };
@@ -259,11 +258,12 @@ module.exports = function (io) {
       data.save(function (err, dataModificado) {
         res.json(dataModificado);
         //Envio mensaje pushbullet
-        pushbullet(sms);
+        //pushbullet(sms); 
+        telegram.enviarSms(req.body.mensaje);
         io.sockets.emit('dbChange');
       });
     });
-  });
+  });*/
 
   return router;
 }

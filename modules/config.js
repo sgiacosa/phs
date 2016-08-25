@@ -1,4 +1,12 @@
 module.exports = {
+  telegram: {
+    groupId : '-157916358',
+    token: '228682953:AAH9lw3WsmKUhCbFCi4BEKU3bYV_-aN36Vw'
+  },
+  proxy:{
+    host:'http://10.3.72.12',
+    port:'3128'
+  },
   pushbulletEmail: [
     { email: 'sgiacosa@gmail.com' },
     { email: 'ruvensry@gmail.com' }

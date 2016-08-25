@@ -119,6 +119,7 @@ hr {
   color: #ff0000;
 }
 #wrapper {
+  padding-top: 50px;
   width: 100%;
   min-height: 100%;
   background-color: #3C3C3C;
@@ -836,7 +837,7 @@ hr {
   margin: 0;
   padding: 0;
   overflow: auto;
-  height: 250px;
+  height: 450px;
 }
 #chat-box ul.chat-box-body > li {
   padding: 20px 24px;
