@@ -93,6 +93,9 @@
           </a><span class="user-status is-online"></span><span class="display-name">Mensajes a celular</span> <small></small>
         </div>
         <div class="chat-content">
+          <div  ng-show="smsList.length == 0" class="text-center">
+            <button ng-click="getChatlist()"><i class="fa fa-2x fa-refresh"></i></button>
+          </div>
           <ul class="chat-box-body" scroll-glue>
             <li ng-repeat="sms in smsList | orderBy:'fecha' ">
               <p>
@@ -112,7 +115,7 @@
           </div>
           <div ng-show="!sendingChat">
             <textarea placeholder="" class="form-control" ng-model="txtSms" rows="4"></textarea>
-            <button ng-click="enviarSMS()" class="btn btn-green">Enviar</button>            
+            <button ng-click="enviarSMS()" class="btn btn-green">Enviar</button>
           </div>
         </div>
       </div>

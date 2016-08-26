@@ -1,16 +1,17 @@
-appModule.controller('MainController', ['$rootScope', '$scope', '$window', 'LoginService', 'MensajesService', 'mySocket','SweetAlert', function ($rootScope, $scope, $window, LoginService, MensajesService, mySocket, SweetAlert) {
+appModule.controller('MainController', ['$rootScope', '$scope', '$window', 'LoginService', 'MensajesService', 'mySocket', 'SweetAlert','$interval', function ($rootScope, $scope, $window, LoginService, MensajesService, mySocket, SweetAlert, $interval) {
   angular.extend($scope, {
     appName: "Raph - Central 107",
     userData: LoginService.getUserData(),
-    socketConnected:false,
+    socketConnected: false,
     smsList: [],
     openchat: false,
     unreadChatCount: 0,
-    txtSms:'',
+    txtSms: '',
+    chatTimer: null,
 
     toggleChat: function () {
       if (!$scope.openchat)
-        $scope.unreadChatCount=0;
+        $scope.unreadChatCount = 0;
       $scope.openchat = !$scope.openchat;
     },
 
@@ -19,16 +20,30 @@ appModule.controller('MainController', ['$rootScope', '$scope', '$window', 'Logi
         $scope.userData = LoginService.getUserData(); //Rely on localStorage for "storage" only, not for communication.
       });
 
-      $rootScope.$on('eventDetailGenerated', function (event, msg) {        
+      $rootScope.$on('eventDetailGenerated', function (event, msg) {
         $scope.txtSms = msg;
       });
 
       //Listo los últimos Chats SMS
-      MensajesService.listarSms().then(function (data) {
-        $scope.smsList = data;
-      })
+      $scope.getChatlist();
       //inicializo socket
       $scope.initSocket();
+
+    },
+
+
+    getChatlist: function () {
+
+      $scope.chatTimer = $interval(function () {
+        MensajesService.listarSms().then(function (data) {
+          $scope.smsList = data;
+          //cancelo el interval
+          if (angular.isDefined($scope.chatTimer)) {
+            $interval.cancel($scope.chatTimer);
+            $scope.chatTimerop = undefined;
+          }
+        });
+      }, 5000);
 
     },
 
@@ -49,23 +64,23 @@ appModule.controller('MainController', ['$rootScope', '$scope', '$window', 'Logi
 
     enviarSMS: function () {
       if ($scope.txtSms.length > 0) {
-        $scope.sendingChat=true;
+        $scope.sendingChat = true;
         var mensaje = { mensaje: $scope.txtSms };
         MensajesService.nuevoSMS(mensaje).then(function (response) {
-          $scope.sendingChat =false;
+          $scope.sendingChat = false;
           if (response.status == 200) {
             $scope.txtSms = "";
             //Actualizo los datos
             $scope.registroSeleccionado = response.data;
             $scope.initData();
-            
+
           }
           else
             SweetAlert.swal("Atención", "Su mensaje no pudo ser enviado. Verifique su conexión a internet.", "error");
         });
 
       }
-    },   
+    },
 
 
 

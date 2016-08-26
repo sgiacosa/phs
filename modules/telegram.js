@@ -16,6 +16,10 @@ var moviles = require("../models/moviles");
 
 var api = new telegram({
     token: config.telegram.token,
+    http_proxy: {
+        host: config.proxy.host,
+        port: config.proxy.port
+    },
     updates: {
         enabled: true,
         get_interval: 500
