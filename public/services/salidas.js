@@ -6,11 +6,11 @@ appModule.factory('SalidasService', ['$http', function ($http) {
           });
         },
 
-        indicarArribo: function (idRegistro, idSalida) {
+        indicarMovimiento: function (idRegistro, idSalida) {
           var data = {idRegistro :idRegistro, idSalida:idSalida}
           return $http({
             method: 'post',
-            url: 'api/registros/salidas/indicarArribo',
+            url: 'api/registros/salidas/indicarMovimiento',
             data: data
 
           }).then(function (response) {
@@ -19,6 +19,21 @@ appModule.factory('SalidasService', ['$http', function ($http) {
           function (error) {
             return error;
           });
+        },
+
+        indicarArribo: function(idRegistro, idSalida) {
+          var data = { idRegistro: idRegistro, idSalida: idSalida }
+          return $http({
+            method: 'post',
+            url: 'api/registros/salidas/indicarArribo',
+            data: data
+
+          }).then(function (response) {
+            return response;
+          },
+            function (error) {
+              return error;
+            });
         },
         indicarDestino: function (idRegistro, salida) {
           var data={idRegistro:idRegistro,

@@ -20,34 +20,50 @@
       <div class="panel-body text-center"><i class="fa fa-plus fa-4x"></i></div>
     </div>
   </div>
-  <div class="col-sm-6 col-md-3" ng-repeat="r in registros | orderBy:'-fechaRegistro'" ng-mouseover="mostrarBotonesAuxiliares = r._id" ng-mouseleave="mostrarBotonesAuxiliares = 0">
+  <div class="col-sm-6 col-md-3" ng-repeat="r in registros | orderBy:'-fechaRegistro'" ng-mouseover="mostrarBotonesAuxiliares = r._id"
+    ng-mouseleave="mostrarBotonesAuxiliares = 0">
     <div class="panel profit db mbm">
-      <div class="panel-body" ng-click="mostrarEvento(r._id)">
-        <h4 class="value">{{r.direccion}}<i ng-show="r.fechaCierre != null" class="fa fa-lock pull-right"></i></h4>
-        <p class="description"><span am-time-ago="r.fechaRegistro"></span></p>
-        <div ng-switch="r.clasificacion">
-          <div ng-switch-when="3" class="note note-danger">
-            <h4 class="box-heading">
-              {{r.observacionesClasificacion}}
-            </h4>
-          </div>
-          <div ng-switch-when="2" class="note note-warning">
-            <h4 class="box-heading">
-              {{r.observacionesClasificacion}}
-            </h4>
-          </div>
-          <div ng-switch-when="1" class="note note-success">
-            <h4 class="box-heading">
-              {{r.observacionesClasificacion}}
-            </h4>
+      <div class="panel-body">
+        <div ng-click="mostrarEvento(r._id)" style="cursor:pointer;">
+          <h4 class="value">{{r.direccion}}<i ng-show="r.fechaCierre != null" class="fa fa-lock pull-right"></i></h4>
+          <p class="description"><span am-time-ago="r.fechaRegistro"></span></p>
+          <div ng-switch="r.clasificacion">
+            <div ng-switch-when="3" class="note note-danger">
+              <h4 class="box-heading">
+                {{r.observacionesClasificacion}}
+              </h4>
+            </div>
+            <div ng-switch-when="2" class="note note-warning">
+              <h4 class="box-heading">
+                {{r.observacionesClasificacion}}
+              </h4>
+            </div>
+            <div ng-switch-when="1" class="note note-success">
+              <h4 class="box-heading">
+                {{r.observacionesClasificacion}}
+              </h4>
+            </div>
           </div>
         </div>
-        <div class="col-sm-6 col-md-3" ng-repeat="s in (r.salidas | filter : {fechaQRU : null})">
+
+        <!-- SALIDAS -->
+
+        <div class="col-sm-6 col-md-3" ng-repeat="s in (r.salidas | filter : {fechaQRU : null})" ng-mouseover="mostrarBotonesSalida = s._id"
+          ng-mouseleave="mostrarBotonesSalida = 0">
+
           <i class="icon fa fa-ambulance"></i>
           <span><b>{{s.nombreMovil}}</b></span>
-          <span ng-if="!s.fechaArribo">En camino.</span>
+          <span ng-if="!s.fechaEnMovimiento">Preparando para salir.</span>
+          <span ng-if="!s.fechaArribo && s.fechaEnMovimiento">En camino.</span>
           <span ng-if="!s.fechaDestino && s.fechaArribo">Trabajando en el lugar.</span>
-          <span ng-if="!s.fechaQRU && s.fechaDestino">En camino a destino.</span>
+          <span ng-if="!s.fechaQRU && s.fechaDestino">{{s.tipoSalida.nombre +" "+ s.tipoSalida.destino}}</span>
+          <!-- Botones de acción de cada salida -->
+          <div ng-show="mostrarBotonesSalida == s._id">
+            <button ng-if="s.fechaEnMovimiento == null" class="btn btn-warning" ng-click="indicarMovimiento(r._id, s._id)" title="Indicar movimiento"><i class="fa fa-bell"></i> Mov.</button>
+            <button ng-if="s.fechaEnMovimiento != null && s.fechaArribo == null" class="btn btn-warning" ng-click="indicarArribo(r._id, s._id)" title="Indicar Arribo"><i class="fa fa-bell"></i> Arr.</button>
+            <button ng-if="s.fechaDestino != null && s.fechaQRU == null" class="btn btn-warning" ng-click="indicarQRU(r._id, s._id)" title="Indicar QRU"><i class="fa fa-bell"></i> QRU</button>            
+          </div>
+
         </div>
 
       </div>

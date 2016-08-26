@@ -60,9 +60,9 @@ appModule.controller('EventoController', ['$scope', '$location', '$routeParams',
     },
 
     //Cuando el equipo se sube al movil y se pone en  movimiento
-    indicarEquipoPreparado: function (_idSalida) {
+    indicarMovimiento: function (_idSalida) {
       $scope.loading = true;
-      SalidasService.indicarArribo($scope.registroSeleccionado._id, _idSalida).then(function (data) {
+      SalidasService.indicarMovimiento($scope.registroSeleccionado._id, _idSalida).then(function (data) {
         if (data.status == 200) {
           //Actualizo los datos
           $scope.registroSeleccionado = data.data;

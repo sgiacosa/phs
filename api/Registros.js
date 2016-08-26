@@ -180,6 +180,23 @@ module.exports = function (io) {
     });
   });
 
+  router.post("/registros/salidas/indicarMovimiento", function (req, res) {
+    Registro.findOne({ _id: req.body.idRegistro }, function (err, registro) {
+      if (err) throw (err);
+      //filtrar la salida correspondiente
+      var idSalida = req.body.idSalida;
+      for (var i = 0; i < registro.salidas.length; i++) {
+        if (registro.salidas[i]._id == idSalida)
+          registro.salidas[i].fechaEnMovimiento = new Date();
+      }
+      registro.save(function (err, data) {
+        if (err) throw (err);
+        res.json(data);
+        io.sockets.emit('dbChange');
+      });
+    });
+  });
+
   router.post("/registros/salidas/indicarArribo", function (req, res) {
     Registro.findOne({ _id: req.body.idRegistro }, function (err, registro) {
       if (err) throw (err);
@@ -249,21 +266,7 @@ module.exports = function (io) {
   });
 
 
-  /*router.post("/registros/sendsms", function (req, res) {
-    Registro.findOne({ _id: req.body._id }, function (err, data) {
-      if (err) throw (err);
-      var sms = { fecha: new Date(), mensaje: req.body.mensaje, usuario: req.user.username };
-      data.sms.push(sms);
-
-      data.save(function (err, dataModificado) {
-        res.json(dataModificado);
-        //Envio mensaje pushbullet
-        //pushbullet(sms); 
-        telegram.enviarSms(req.body.mensaje);
-        io.sockets.emit('dbChange');
-      });
-    });
-  });*/
+  
 
   return router;
 }

@@ -15,42 +15,48 @@ var RegistrosSchema = new mongoose.Schema({
   mensajes: [{
     mensaje: String,
     fecha: Date,
-    usuario:String
+    usuario: String
   }],
-  pacientes:[{
-    nombre:String,
+  pacientes: [{
+    nombre: String,
     edad: Number,
     sexo: Number,
     observacion: String
   }],
-  salidas:[{
+  salidas: [{
     idMovil: String,
-    nombreMovil:String,
-    fechaDespacho:Date,
-    fechaArribo:Date,
-    fechaDestino:Date,
-    fechaQRU:Date,
-    tipoSalida:{nombre: String, destino: String},
-    idTipoFinalizacion:Number,
-    idDestino:Number
+    nombreMovil: String,
+    fechaDespacho: Date,
+    fechaEnMovimiento: Date,
+    fechaArribo: Date,
+    fechaDestino: Date,
+    fechaQRU: Date,
+    tipoSalida: { nombre: String, destino: String },
+    idTipoFinalizacion: Number,
+    idDestino: Number
   }],
-  sms:[{
-    fecha:Date,
-    mensaje:String,
+  sms: [{
+    fecha: Date,
+    mensaje: String,
     usuario: String
   }]
 });
 
 // Validaciones pre
-RegistrosSchema.pre('save', function(next){
+RegistrosSchema.pre('save', function (next) {
 
+  //Controlo que todas las salidas cuyo tipo de salida sea != de Traslado no contenga destino
+  for (var i = 0; i < this.salidas.length; i++) {
+    if (this.salidas[i].tipoSalida.nombre != "Traslado")
+      this.salidas[i].tipoSalida.destino="";
+  }
   //this.mensajes=[];
-    next();
+  next();
 });
 
 
 // Indexes this schema in 2dsphere format (critical for running proximity searches)
-RegistrosSchema.index({coordenadas: '2dsphere'});
+RegistrosSchema.index({ coordenadas: '2dsphere' });
 
 module.exports = mongoose.model("registros", RegistrosSchema);
 
