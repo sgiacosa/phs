@@ -28,10 +28,12 @@ var api = new telegram({
 
 
 api.on('message', function (msg) {
-    if (!msg.text)
+    var chatId = msg.chat.id;
+
+    if (!msg.text || chatId != config.telegram.groupId)
         return;
 
-    var chatId = msg.chat.id;
+
     switch (true) {
         //comando /ZONA
         case /^\/estadoactual/.test(msg.text):
@@ -68,6 +70,9 @@ api.on('message', function (msg) {
                 for (i = 0; i < data.length; i++) {
                     texto += data[i].nombre + " - ";
                 }
+                if (texto.length == 0)
+                    texto = "No hay móviles disponibles.";
+
                 api.sendMessage({
                     chat_id: chatId,
                     text: texto,
@@ -87,6 +92,9 @@ api.on('message', function (msg) {
                 for (i = 0; i < data.length; i++) {
                     texto += data[i].nombre + " - ";
                 }
+                if (texto.length == 0)
+                    texto = "No hay móviles ocupados.";
+
                 api.sendMessage({
                     chat_id: chatId,
                     text: texto,
@@ -97,7 +105,7 @@ api.on('message', function (msg) {
 
         default:
             //Si el mensaje es en el grupo lo guardo en la bd.
-            if (chatId == config.telegram.groupId) {
+            if (chatId == config.telegram.groupId && msg.text.length > 0) {
                 var mensaje = {
                     mensaje: msg.text,
                     fecha: msg.date,
@@ -141,16 +149,13 @@ function generarTextoSms(evento) {
 
 var exportar = {
     enviarSms: function (msg) {
+        //TODO -- crear una promise y devolver error de texto vacio.
+        if (msg.length <= 0)
+            msg = " ";
         return api.sendMessage({
             chat_id: config.telegram.groupId,
             text: msg
-        });
-        /*.then(function (message) {
-            console.log("enviado");
-        })
-        .catch(function (err) {
-            console.log(err);
-        });*/
+        });        
     }
 }
 

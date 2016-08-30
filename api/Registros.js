@@ -58,7 +58,7 @@ module.exports = function (io) {
           if (err)
             res.send(err);
           res.json(registroModificado);
-          io.sockets.emit('dbChange');
+          io.sockets.emit('dbChange',registroModificado);
         });
       }
       else {
@@ -97,7 +97,7 @@ module.exports = function (io) {
           if (err)
             res.send(err);
           res.json(registroModificado);
-          io.sockets.emit('dbChange');
+          io.sockets.emit('dbChange', registroModificado);
         });
 
       }
@@ -119,7 +119,7 @@ module.exports = function (io) {
 
       data.save(function (err, dataModificado) {
         res.json(dataModificado);
-        io.sockets.emit('dbChange');
+        io.sockets.emit('dbChange', dataModificado);
       });
     });
   });
@@ -158,7 +158,7 @@ module.exports = function (io) {
           if (err) throw (err);
           res.json(dataModificado);
           //Actualizo en socket.io
-          io.sockets.emit('dbChange');
+          io.sockets.emit('dbChange', dataModificado);
         });
         //Actualizo el estado del movil
         movil.estado = 2;
@@ -192,7 +192,7 @@ module.exports = function (io) {
       registro.save(function (err, data) {
         if (err) throw (err);
         res.json(data);
-        io.sockets.emit('dbChange');
+        io.sockets.emit('dbChange', data);
       });
     });
   });
@@ -209,7 +209,7 @@ module.exports = function (io) {
       registro.save(function (err, data) {
         if (err) throw (err);
         res.json(data);
-        io.sockets.emit('dbChange');
+        io.sockets.emit('dbChange', data);
       });
     });
   });
@@ -231,7 +231,7 @@ module.exports = function (io) {
       registro.save(function (err, data) {
         if (err) throw (err);
         res.json(data);
-        io.sockets.emit('dbChange');
+        io.sockets.emit('dbChange', data);
       });
     });
   });
@@ -260,7 +260,7 @@ module.exports = function (io) {
       registro.save(function (err, data) {
         if (err) throw (err);
         res.json(data);
-        io.sockets.emit('dbChange');
+        io.sockets.emit('dbChange', data);
       });
     });
   });

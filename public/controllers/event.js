@@ -1,4 +1,4 @@
-appModule.controller('EventoController', ['$scope', '$location', '$routeParams', 'RegistrosService', '$filter', 'SalidasService', 'MensajesService', 'SearchService', 'UtilService', '$http', 'SweetAlert', '$timeout', 'uiGmapPropMap', function ($scope, $location, $routeParams, RegistrosService, $filter, SalidasService, MensajesService, SearchService, UtilService, $http, SweetAlert, $timeout, uiGmapPropMap) {
+appModule.controller('EventoController', ['$scope', '$location', '$routeParams', 'RegistrosService', '$filter', 'SalidasService', 'MensajesService', 'SearchService', 'UtilService', '$http', 'SweetAlert', '$timeout', 'uiGmapPropMap', 'mySocket', function ($scope, $location, $routeParams, RegistrosService, $filter, SalidasService, MensajesService, SearchService, UtilService, $http, SweetAlert, $timeout, uiGmapPropMap, mySocket) {
   angular.extend($scope, {
     evento: {},
     loading: false,
@@ -44,7 +44,19 @@ appModule.controller('EventoController', ['$scope', '$location', '$routeParams',
       },
     ],
 
+    initSocket: function () {
+      mySocket.on('dbChange', function (data) {
+        //Verifico si el registro que cambió es sobre el que estoy trabajando
+        if (data._id == $scope.registroSeleccionado._id) {
+          $scope.registroSeleccionado = data;
+          $scope.initData();
+        }
+      });
+    },
+
     enviarMovil: function (idMovil) {
+      if ($scope.cambiosSinGuardar()) return;
+
       $scope.loading = true;
       SalidasService.nuevaSalida(idMovil, $scope.registroSeleccionado._id).then(function (data) {
         if (data.status == 200) {
@@ -61,6 +73,7 @@ appModule.controller('EventoController', ['$scope', '$location', '$routeParams',
 
     //Cuando el equipo se sube al movil y se pone en  movimiento
     indicarMovimiento: function (_idSalida) {
+      if ($scope.cambiosSinGuardar()) return;
       $scope.loading = true;
       SalidasService.indicarMovimiento($scope.registroSeleccionado._id, _idSalida).then(function (data) {
         if (data.status == 200) {
@@ -76,6 +89,8 @@ appModule.controller('EventoController', ['$scope', '$location', '$routeParams',
     },
 
     indicarArribo: function (_idSalida) {
+      if ($scope.cambiosSinGuardar()) return;
+
       $scope.loading = true;
       SalidasService.indicarArribo($scope.registroSeleccionado._id, _idSalida).then(function (data) {
         if (data.status == 200) {
@@ -91,6 +106,8 @@ appModule.controller('EventoController', ['$scope', '$location', '$routeParams',
     },
 
     indicarDestino: function (salida) {
+      if ($scope.cambiosSinGuardar()) return;
+
       $scope.loading = true;
       SalidasService.indicarDestino($scope.registroSeleccionado._id, salida).then(function (data) {
         if (data.status == 200) {
@@ -105,6 +122,8 @@ appModule.controller('EventoController', ['$scope', '$location', '$routeParams',
       });
     },
     indicarQRU: function (_idSalida) {
+      if ($scope.cambiosSinGuardar()) return;
+
       $scope.loading = true;
       SalidasService.indicarQRU($scope.registroSeleccionado._id, _idSalida).then(function (data) {
         if (data.status == 200) {
@@ -139,7 +158,7 @@ appModule.controller('EventoController', ['$scope', '$location', '$routeParams',
           }
         }
       });
-    },    
+    },
 
     generarObjetoTimeLine: function () {
       $scope.timeLine = [];
@@ -170,6 +189,8 @@ appModule.controller('EventoController', ['$scope', '$location', '$routeParams',
     },
 
     cerrarRegistro: function () {
+      if ($scope.cambiosSinGuardar()) return;
+
       SweetAlert.swal({
         title: "Está seguro que desea cerrar este evento?",
         text: "Una vez modificado no podrá ser modificado",
@@ -215,7 +236,7 @@ appModule.controller('EventoController', ['$scope', '$location', '$routeParams',
         $scope.registroSeleccionado.mensajes.push(mensaje);
         $scope.txtMensaje.value = "";
       }
-    },    
+    },
 
     /*******************************************************/
 
@@ -253,10 +274,10 @@ appModule.controller('EventoController', ['$scope', '$location', '$routeParams',
 
     initData: function (_id) {
       //Controlo que guarde los cambios
-      if ($scope.mostrarBotonGuardar && $scope.registroSeleccionado.fechaCierre == null) {
+      /*if ($scope.mostrarBotonGuardar && $scope.registroSeleccionado.fechaCierre == null) {
         SweetAlert.swal("Atención", "Por favor guarde los cambios para poder continuar. Gracias", "info");
         return;
-      }
+      }*/
 
       //Elimino el watch
       $scope.StopWatch();
@@ -297,7 +318,7 @@ appModule.controller('EventoController', ['$scope', '$location', '$routeParams',
 
     },
 
-    BuscarDomicilio: function () {      
+    BuscarDomicilio: function () {
       if (!$scope.registroSeleccionado.direccion || $scope.registroSeleccionado.direccion.length < 3)
         return;
       SearchService.searchAddress($scope.registroSeleccionado.direccion, 'neuquen').then(function (response) {
@@ -328,15 +349,6 @@ appModule.controller('EventoController', ['$scope', '$location', '$routeParams',
       });
     },
 
-    aaaactualizarRegistros: function () {
-      $scope.loading = true;
-      $scope.registros = [];
-      RegistrosService.listar().then(function (data) {
-        $scope.registros = data;
-        $scope.seleccionarRegistro($scope.registroSeleccionado._id);
-        $scope.loading = false;
-      });
-    },
 
     crearNuevoRegistro: function () {
       $scope.seleccionarRegistro(null);
@@ -381,12 +393,22 @@ appModule.controller('EventoController', ['$scope', '$location', '$routeParams',
       }, true);
     },
 
+    cambiosSinGuardar: function () {
+      if ($scope.mostrarBotonGuardar) {        
+        SweetAlert.swal("Atención", "Para continuar guarde los cambios.", "info");
+        return true
+      }
+      else
+        return false;
+    },
+
     init: function () {
       $scope.loadingPrincipal = true;
       if ($routeParams.id != "0") {
         RegistrosService.getById($routeParams.id).then(function (data) {
           $scope.registroSeleccionado = data;
           $scope.initData();
+          $scope.initSocket();
           UtilService.getConstantes().then(function (data) {
             $scope.finalizaciones = data.tipos_salida;
             //$scope.moviles = data.moviles;
