@@ -240,15 +240,18 @@
               <div class="list-group">
                 <div class="list-group-item" ng-repeat="p in registroSeleccionado.salidas" ng-mouseenter="showDetails=true" ng-mouseleave="showDetails=false">
                   <h4 class="list-group-item-heading">{{p.nombreMovil}}</h4>
+                  <button ng-show="!p.fechaCancelacion && !p.fechaQRU" class="btn pull-right" title="Cancelar despacho" ng-click="cancelarSalida(p._id)"><i class="fa fa-remove"></i></button>
+                  
                   <div ng-show="!showDetails">
 
                     <i class="fa fa-4x fa-ambulance"></i>
 
-                    <span ng-if="!p.fechaEnMovimiento" class="list-group-item-text"><i class="fa fa-2x fa-clock-o"></i>Preparando para salir.</span>
-                    <span ng-if="!p.fechaArribo && p.fechaEnMovimiento" class="list-group-item-text"><i class="fa fa-2x fa-clock-o"></i>En camino.</span>
-                    <span ng-if="!p.fechaDestino && p.fechaArribo" class="list-group-item-text"><i class="fa fa-2x fa-clock-o"></i>Trabajando en el lugar.</span>
-                    <span ng-if="!p.fechaQRU && p.fechaDestino" class="list-group-item-text"><i class="fa fa-2x fa-clock-o"></i>{{p.tipoSalida.nombre +" "+ p.tipoSalida.destino}}</span>
-                    <span ng-if="p.fechaQRU" class="list-group-item-text"><i class="fa fa-2x fa-check green"></i> Finalizado</span>
+                    <span ng-if="!p.fechaCancelacion && !p.fechaEnMovimiento" class="list-group-item-text"><i class="fa fa-2x fa-clock-o"></i>Preparando para salir.</span>
+                    <span ng-if="!p.fechaCancelacion && !p.fechaArribo && p.fechaEnMovimiento" class="list-group-item-text"><i class="fa fa-2x fa-clock-o"></i>En camino.</span>
+                    <span ng-if="!p.fechaCancelacion && !p.fechaDestino && p.fechaArribo" class="list-group-item-text"><i class="fa fa-2x fa-clock-o"></i>Trabajando en el lugar.</span>
+                    <span ng-if="!p.fechaCancelacion && !p.fechaQRU && p.fechaDestino" class="list-group-item-text"><i class="fa fa-2x fa-clock-o"></i>{{p.tipoSalida.nombre +" "+ p.tipoSalida.destino}}</span>
+                    <span ng-if="!p.fechaCancelacion && p.fechaQRU" class="list-group-item-text"><i class="fa fa-2x fa-check green"></i> Finalizado</span>
+                    <span ng-if="p.fechaCancelacion" class="list-group-item-text"><i class="fa fa-2x fa-remove red"></i> Cancelado</span>
                   </div>
 
                   <div ng-show="showDetails">
@@ -261,7 +264,7 @@
                       <div class="col-lg-4 label label-default">En movimiento</div>
                       <div class="col-lg-8">
                         {{p.fechaEnMovimiento | date : 'HH:mm'}}
-                        <div ng-if="p.fechaEnMovimiento == null">
+                        <div ng-if="!p.fechaCancelacion && p.fechaEnMovimiento == null">
                           <button class="btn btn-warning" ng-click="indicarMovimiento(p._id)"><i class="fa fa-dot-circle-o"></i> Indicar Movimiento</button>
                         </div>
                       </div>
@@ -271,7 +274,7 @@
                       <div class="col-lg-4 label label-default">Arribo</div>
                       <div class="col-lg-8">
                         {{p.fechaArribo | date : 'HH:mm'}}
-                        <div ng-if="p.fechaEnMovimiento != null && p.fechaArribo == null">
+                        <div ng-if="!p.fechaCancelacion && p.fechaEnMovimiento != null && p.fechaArribo == null">
                           <button class="btn btn-warning" ng-click="indicarArribo(p._id)"><i class="fa fa-dot-circle-o"></i> Indicar Arribo</button>
                         </div>
                       </div>
@@ -280,7 +283,7 @@
                     <div class="row">
                       <div class="col-lg-4 label label-default">Destino</div>
                       <div class="col-lg-8">
-                        <div ng-if="p.fechaQRU != null">
+                        <div ng-if="!p.fechaCancelacion && p.fechaQRU != null">
                           {{p.tipoSalida.nombre}}{{" "+p.tipoSalida.destino}}
                         </div>
                         <div ng-if="p.fechaArribo != null && p.fechaQRU == null">
@@ -296,7 +299,7 @@
                       <div class="col-lg-4 label label-default">Qru</div>
                       <div class="col-lg-8">
                         {{p.fechaQRU | date : 'HH:mm' }}
-                        <div ng-if="p.fechaDestino != null && p.fechaQRU == null">
+                        <div ng-if="!p.fechaCancelacion && p.fechaDestino != null && p.fechaQRU == null">
                           <button class="btn btn-warning" ng-click="indicarQRU(p._id)"><i class="fa fa-dot-circle-o"></i> Indicar QRU</button>
                         </div>
                       </div>

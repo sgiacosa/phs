@@ -3,7 +3,7 @@ module.exports = function (io) {
   var app = require("express");
   var router = app.Router();
   var Registro = require("../models/registros");
-  var Moviles = require("../models/moviles");   
+  var Moviles = require("../models/moviles");
   var fb = require("../modules/firebase");
   var config = require("../modules/config");
 
@@ -45,6 +45,8 @@ module.exports = function (io) {
         //Nuevo registro
         var newRegistro = new Registro(req.body);
         newRegistro.fechaRegistro = new Date();
+        newRegistro.fechaModificacion = new Date();
+        newRegistro.usuario = req.user.username;
         //chequeo si hay mensajes sin fecha
         var now = new Date();
         for (var i = 0; i < newRegistro.mensajes.length; i++) {
@@ -58,7 +60,7 @@ module.exports = function (io) {
           if (err)
             res.send(err);
           res.json(registroModificado);
-          io.sockets.emit('dbChange',registroModificado);
+          io.sockets.emit('dbChange', registroModificado);
         });
       }
       else {
@@ -77,6 +79,8 @@ module.exports = function (io) {
         data.reporte = newRegistro.reporte;
         data.coordenadas = newRegistro.coordenadas;
         data.mensajes = newRegistro.mensajes;
+        data.fechaModificacion = new Date();
+        data.usuario = req.user.username;
         //chequeo si hay mensajes sin fecha
         var now = new Date();
         for (var i = 0; i < newRegistro.mensajes.length; i++) {
@@ -109,13 +113,15 @@ module.exports = function (io) {
       if (err) throw (err);
       //Verifico que no tenga salidas sin cerrar
       for (var i = 0; i < data.salidas.length; i++) {
-        if (!data.salidas[i].fechaQRU) {
+        if (!data.salidas[i].fechaQRU && !data.salidas[i].fechaCancelacion) {
           res.status(403).send("Este evento tiene salidas sin finalizar.");
           return true;
         }
       }
 
       data.fechaCierre = new Date();
+      data.fechaModificacion = new Date();
+      data.usuario = req.user.username;
 
       data.save(function (err, dataModificado) {
         res.json(dataModificado);
@@ -150,10 +156,15 @@ module.exports = function (io) {
           fechaDespacho: new Date(),
           fechaArribo: null,
           fechaDestino: null,
+          fechaCancelacion: null,
           fechaQRU: null,
           idTipoFinalizacion: null,
           idDestino: null
         });
+        //Audit
+        data.fechaModificacion = new Date();
+        data.usuario = req.user.username;
+
         data.save(function (err, dataModificado) {
           if (err) throw (err);
           res.json(dataModificado);
@@ -189,6 +200,10 @@ module.exports = function (io) {
         if (registro.salidas[i]._id == idSalida)
           registro.salidas[i].fechaEnMovimiento = new Date();
       }
+      //Audit
+      registro.fechaModificacion = new Date();
+      registro.usuario = req.user.username;
+
       registro.save(function (err, data) {
         if (err) throw (err);
         res.json(data);
@@ -206,6 +221,10 @@ module.exports = function (io) {
         if (registro.salidas[i]._id == idSalida)
           registro.salidas[i].fechaArribo = new Date();
       }
+      //Audit
+      registro.fechaModificacion = new Date();
+      registro.usuario = req.user.username;
+
       registro.save(function (err, data) {
         if (err) throw (err);
         res.json(data);
@@ -215,7 +234,6 @@ module.exports = function (io) {
   });
 
   router.post("/registros/salidas/indicarDestino", function (req, res) {
-
     Registro.findOne({ _id: req.body.idRegistro }, function (err, registro) {
       if (err) throw (err);
       //filtrar la salida correspondiente
@@ -227,6 +245,9 @@ module.exports = function (io) {
           registro.salidas[i].tipoSalida = tipoSalida;
         }
       }
+      //Audit
+      registro.fechaModificacion = new Date();
+      registro.usuario = req.user.username;
 
       registro.save(function (err, data) {
         if (err) throw (err);
@@ -257,6 +278,43 @@ module.exports = function (io) {
         });
       });
 
+      //Audit
+      registro.fechaModificacion = new Date();
+      registro.usuario = req.user.username;
+
+      registro.save(function (err, data) {
+        if (err) throw (err);
+        res.json(data);
+        io.sockets.emit('dbChange', data);
+      });
+    });
+  });
+
+  router.post("/registros/salidas/indicarCancelacion", function (req, res) {
+    Registro.findOne({ _id: req.body.idRegistro }, function (err, registro) {
+      if (err) throw (err);
+      //filtrar la salida correspondiente
+      var idSalida = req.body.idSalida;
+      var idMovil = null;
+      for (var i = 0; i < registro.salidas.length; i++) {
+        if (registro.salidas[i]._id == idSalida) {
+          registro.salidas[i].fechaCancelacion = new Date();
+          idMovil = registro.salidas[i].idMovil;
+        }
+      }
+      //Liberar el movil
+      Moviles.findOne({ _id: idMovil }, function (err, movil) {
+        if (err) throw (err);
+        movil.estado = 1;
+        movil.save(function (err, data) {
+          if (err) throw (err);
+        });
+      });
+
+      //Audit
+      registro.fechaModificacion = new Date();
+      registro.usuario = req.user.username;
+
       registro.save(function (err, data) {
         if (err) throw (err);
         res.json(data);
@@ -266,7 +324,7 @@ module.exports = function (io) {
   });
 
 
-  
+
 
   return router;
 }

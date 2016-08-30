@@ -60,6 +60,20 @@ appModule.factory('SalidasService', ['$http', function ($http) {
             return error;
           });
         },
+
+        indicarCancelacion: function (idRegistro, idSalida) {
+          return $http({
+            method: 'post',
+            url: 'api/registros/salidas/indicarCancelacion',
+            data: {idRegistro: idRegistro, idSalida: idSalida}
+          }).then(function (response) {
+            return response;
+          },
+          function (error) {
+            return error;
+          });
+        },
+
         nuevaSalida: function (idMovil, idRegistro) {
           var data = { idMovil: idMovil, _id: idRegistro };
           return $http({ method: 'post', url: 'api/registros/salidas/nueva', data: data }).then(function (response) {

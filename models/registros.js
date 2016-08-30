@@ -1,4 +1,5 @@
 var mongoose = require("mongoose");
+var audit = require("../models/audit");
 
 var RegistrosSchema = new mongoose.Schema({
   nombreContacto: String,
@@ -11,7 +12,8 @@ var RegistrosSchema = new mongoose.Schema({
   coordenadas: [Number],
   fechaRegistro: Date,
   fechaCierre: Date,
-  idUsuario: Number,
+  fechaModificacion:Date,
+  usuario: String,
   mensajes: [{
     mensaje: String,
     fecha: Date,
@@ -31,6 +33,7 @@ var RegistrosSchema = new mongoose.Schema({
     fechaArribo: Date,
     fechaDestino: Date,
     fechaQRU: Date,
+    fechaCancelacion:Date,
     tipoSalida: { nombre: String, destino: String },
     idTipoFinalizacion: Number,
     idDestino: Number
@@ -49,9 +52,18 @@ RegistrosSchema.pre('save', function (next) {
   for (var i = 0; i < this.salidas.length; i++) {
     if (this.salidas[i].tipoSalida.nombre != "Traslado")
       this.salidas[i].tipoSalida.destino="";
-  }
-  //this.mensajes=[];
+  }  
   next();
+});
+
+RegistrosSchema.post('save', function () {
+
+  var newAudit = new audit({    
+    documento: this.toJSON()
+  });
+
+  newAudit.save();
+  
 });
 
 
@@ -61,19 +73,4 @@ RegistrosSchema.index({ coordenadas: '2dsphere' });
 module.exports = mongoose.model("registros", RegistrosSchema);
 
 
-/*var constantes = [{
-  "tipos_salida" : [
-    {"nombre":"Atención en el lugar"},
-    {"nombre":"Traslado", destinos: ["Hospital Castro Rendón", "Hospital Heller", "Hospital Bouquet Roldán"]},
-    {"nombre": "No se encontró al paciente"},
-    {"nombre":"Óbito"}
-  ],
-  "moviles": [
-    {"_id": "1", "nombre":"Móvil 1", "estado":"1"},
-    {"_id": "2", "nombre":"Móvil 2", "estado":"1"},
-    {"_id": "3", "nombre":"Móvil 3", "estado":"1"},
-    {"_id": "4", "nombre":"Móvil 4", "estado":"1"},
-    {"_id": "5", "nombre":"Móvil 5", "estado":"1"},
-    {"_id": "6", "nombre":"Móvil 6", "estado":"1"}
-  ]
-}]*/
+

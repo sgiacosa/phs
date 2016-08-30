@@ -818,6 +818,40 @@ appModule.controller('EventoController', ['$scope', '$location', '$routeParams',
       });
     },
 
+    cancelarSalida: function (_idSalida) {
+      if ($scope.cambiosSinGuardar()) return;
+
+      SweetAlert.swal({
+        title: "Está seguro que desea cancelar este despacho?",
+        text: "Una vez cancelado no podrá ser modificado",
+        type: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#DD6B55",
+        confirmButtonText: "Si, cancelar el despacho.",
+        closeOnConfirm: true,
+        closeOnCancel: true
+      },
+        function (respuesta) {
+          if (!respuesta)
+            return;
+          $scope.loading = true;
+          SalidasService.indicarCancelacion($scope.registroSeleccionado._id, _idSalida).then(function (data) {
+            if (data.status == 200) {
+              //Actualizo los datos 
+              $scope.registroSeleccionado = data.data;
+              $scope.initData();
+            }
+            else {
+              SweetAlert.swal("Atención", data.data, "error");
+              $scope.loading = false;
+            }
+          });
+        });
+
+
+    },
+
+
     prepareNuevaSalida: function () {
       $scope.nuevaSalida = true;
       //Verifico disponibilidad y posicion de los moviles
@@ -848,13 +882,13 @@ appModule.controller('EventoController', ['$scope', '$location', '$routeParams',
         $scope.timeLine.push({ fecha: s.fechaDespacho, titulo: 'Despacho ', descripcion: s.nombreMovil, usuario: '', tipo: 2 })
         if (s.fechaArribo)
           $scope.timeLine.push({ fecha: s.fechaArribo, titulo: 'Arriba ', descripcion: s.nombreMovil, usuario: '', tipo: 2 })
-        if (s.fechaDestino) {
-          //var _finalizacion = $filter('filter')($scope.finalizaciones, { id: s.idTipoFinalizacion })[0].descripcion;
-          //var _destino = s.idDestino ? (' -> ' + $filter('filter')($scope.destinos, { id: s.idDestino })[0].descripcion) : '';
+        if (s.fechaDestino) {          
           $scope.timeLine.push({ fecha: s.fechaDestino, titulo: 'Destino', usuario: '', tipo: 2, descripcion: s.nombreMovil + ': ' + s.tipoSalida.nombre + ' ' + s.tipoSalida.destino });
         }
         if (s.fechaQRU)
           $scope.timeLine.push({ fecha: s.fechaQRU, titulo: 'QRU ', descripcion: s.nombreMovil, usuario: '', tipo: 2 })
+        if (s.fechaCancelacion)
+          $scope.timeLine.push({ fecha: s.fechaCancelacion, titulo: 'Cancelado ', descripcion: s.nombreMovil, usuario: '', tipo: 2 })
       });
 
       //Cargo los mensajes
@@ -1074,7 +1108,7 @@ appModule.controller('EventoController', ['$scope', '$location', '$routeParams',
     },
 
     cambiosSinGuardar: function () {
-      if ($scope.mostrarBotonGuardar) {        
+      if ($scope.mostrarBotonGuardar) {
         SweetAlert.swal("Atención", "Para continuar guarde los cambios.", "info");
         return true
       }
@@ -1533,6 +1567,20 @@ appModule.factory('SalidasService', ['$http', function ($http) {
             return error;
           });
         },
+
+        indicarCancelacion: function (idRegistro, idSalida) {
+          return $http({
+            method: 'post',
+            url: 'api/registros/salidas/indicarCancelacion',
+            data: {idRegistro: idRegistro, idSalida: idSalida}
+          }).then(function (response) {
+            return response;
+          },
+          function (error) {
+            return error;
+          });
+        },
+
         nuevaSalida: function (idMovil, idRegistro) {
           var data = { idMovil: idMovil, _id: idRegistro };
           return $http({ method: 'post', url: 'api/registros/salidas/nueva', data: data }).then(function (response) {

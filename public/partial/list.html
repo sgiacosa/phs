@@ -48,7 +48,7 @@
 
         <!-- SALIDAS -->
 
-        <div class="col-sm-6 col-md-3" ng-repeat="s in (r.salidas | filter : {fechaQRU : null})" ng-mouseover="mostrarBotonesSalida = s._id"
+        <div class="col-sm-6 col-md-3" ng-repeat="s in (r.salidas | filter : {fechaQRU : null, fechaCancelacion : null })" ng-mouseover="mostrarBotonesSalida = s._id"
           ng-mouseleave="mostrarBotonesSalida = 0">
 
           <i class="icon fa fa-ambulance"></i>
