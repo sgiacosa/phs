@@ -1,11 +1,11 @@
 var appModule = angular.module('sien', ['ngAnimate', 'ngRoute', 'uiGmapgoogle-maps', 'firebase', 'ui.bootstrap', 'angularMoment', 'angular-jwt', 'btford.socket-io', 'oitozero.ngSweetAlert', 'luegg.directives']);
 
 appModule.constant('angularMomentConfig', {
-  timezone: 'America/Argentina/Buenos_Aires' // e.g. 'Europe/London'
+  timezone: 'America/Argentina/Buenos_Aires' 
 });
 
 appModule.config(['$httpProvider',function ($httpProvider) {
-  $httpProvider.interceptors.push('authInterceptor');
+  $httpProvider.interceptors.push('authInterceptor');  
 }]);
 
 appModule.config(['$routeProvider', '$locationProvider', '$httpProvider', function ($routeProvider, $locationProvider, $httpProvider) {
