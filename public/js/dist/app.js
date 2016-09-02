@@ -455,13 +455,14 @@ appModule.directive('autocomplete', function () {
         //ng-repeat="suggestion in suggestions | filter:searchFilter | orderBy:\'toString()\' track by $index"\
         template: '\
         <div class="autocomplete {{ attrs.class }}" id="{{ attrs.id }}">\
-          <input\
+          <textarea \
             type="text"\
+            rows="3"\
             ng-model="searchParam"\
             placeholder="{{ attrs.placeholder }}"\
             class="{{ attrs.inputclass }}"\
             id="{{ attrs.inputid }}"\
-            ng-required="{{ autocompleteRequired }}" />\
+            ng-required="{{ autocompleteRequired }}" /></textarea>\
           <ul ng-show="completing && (suggestions).length > 0">\
             <li\
               suggestion\
