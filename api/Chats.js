@@ -10,7 +10,10 @@ module.exports = function (io) {
     router.post("/chats/sendsms", function (req, res) {
 
         //envio el mensaje usando telegram
-        telegram.enviarSms(req.body.mensaje)
+        var _mensaje=req.body.mensaje;
+        if (req.user.username && req.user.username.length > 0)
+            _mensaje = req.user.username+ ": "+ req.body.mensaje;
+        telegram.enviarSms(_mensaje)
             .then(function (msg) {
                 //lo guardo en la bd
                 var mensaje = {
