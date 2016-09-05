@@ -37,8 +37,8 @@ appModule.controller('SearchController', ['$scope', 'SearchService', function ($
 
     init: function () {
       var fecha = new Date();
-      $scope.searchOptions.fechaInicio = fecha.setHours(fecha.getHours()-24);
-      $scope.searchOptions.fechaFin = fecha;
+      $scope.searchOptions.fechaInicio = moment().set({'hour': 0,'minute':0,'second' : 0}).toDate();
+      $scope.searchOptions.fechaFin = moment().set({'hour': 23,'minute':59,'second' : 59}).toDate();
     }
   });
   $scope.init();

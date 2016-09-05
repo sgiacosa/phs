@@ -605,7 +605,7 @@ appModule.controller('ListController', ['$rootScope', '$scope', '$location', '$w
       var mensaje = "";
 
       if (registroSeleccionado.clasificacion)
-        mensaje = "Código "+ (registroSeleccionado.clasificacion == 1 ? " Verde 📗." : (registroSeleccionado.clasificacion == 2 ? " Amarillo 📒." : " Rojo 📕."));
+        mensaje = "Código "+ (registroSeleccionado.clasificacion == 1 ? " Verde 📗." : (registroSeleccionado.clasificacion == 2 ? " Amarillo 📒." : (registroSeleccionado.clasificacion == 3 ? " Rojo 📕.": " No clasificado. ")));
       mensaje += " Recibe pedido: " + $filter('date')(registroSeleccionado.fechaRegistro, 'HH:mm');
       if (registroSeleccionado.direccion)
         mensaje += " Direccion: " + registroSeleccionado.direccion;
@@ -1241,8 +1241,8 @@ appModule.controller('SearchController', ['$scope', 'SearchService', function ($
 
     init: function () {
       var fecha = new Date();
-      $scope.searchOptions.fechaInicio = fecha.setHours(fecha.getHours()-24);
-      $scope.searchOptions.fechaFin = fecha;
+      $scope.searchOptions.fechaInicio = moment().set({'hour': 0,'minute':0,'second' : 0}).toDate();
+      $scope.searchOptions.fechaFin = moment().set({'hour': 23,'minute':59,'second' : 59}).toDate();
     }
   });
   $scope.init();

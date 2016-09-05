@@ -14,17 +14,30 @@ var moviles = require("../models/moviles");
             estadoactual - Lista los eventos abiertos
 */
 
-var api = new telegram({
-    token: config.telegram.token,
-    http_proxy: {
-        host: config.proxy.host,
-        port: config.proxy.port
-    },
-    updates: {
-        enabled: true,
-        get_interval: 500
-    }
-});
+var api = null;
+
+if (config.useProxy) {
+    api = new telegram({
+        token: config.telegram.token,
+        http_proxy: {
+            host: config.proxy.host,
+            port: config.proxy.port
+        },
+        updates: {
+            enabled: true,
+            get_interval: 500
+        }
+    });
+}
+else {
+    api = new telegram({
+        token: config.telegram.token,
+        updates: {
+            enabled: true,
+            get_interval: 500
+        }
+    });
+}
 
 
 api.on('message', function (msg) {
@@ -128,7 +141,9 @@ api.on('message', function (msg) {
 
 function generarTextoSms(evento) {
     var mensaje = "";
-    mensaje = " <b>Recibe pedido:</b> " + moment(evento.fechaRegistro).format('HH:mm');
+    if (evento.clasificacion)
+        mensaje = "Código " + (evento.clasificacion == 1 ? " Verde 📗." : (evento.clasificacion == 2 ? " Amarillo 📒." : (evento.clasificacion == 3 ? " Rojo 📕." : " No clasificado. ")));
+    mensaje += " <b> Recibe pedido:</b> " + moment(evento.fechaRegistro).format('HH:mm');
     if (evento.direccion)
         mensaje += " <b>Direccion:</b> " + evento.direccion;
     if (evento.observaciones)
@@ -137,8 +152,16 @@ function generarTextoSms(evento) {
         mensaje += " <b>Reporte:</b> " + evento.reporte;
     for (var i = 0; i < evento.mensajes.length; i++)
         mensaje += " <b>Mensaje:</b> " + evento.mensajes[i].mensaje;
-    for (var i = 0; i < evento.salidas.length; i++)
-        mensaje += " <b>Asiste:</b> " + evento.salidas[i].nombreMovil;
+    for (var i = 0; i < evento.salidas.length; i++){        
+        mensaje += " 🚑 <b>Asiste:</b> " + evento.salidas[i].nombreMovil;
+        mensaje += " Se despacha: " + moment(evento.salidas[i].fechaDespacho).format('HH:mm');
+        
+        if (evento.salidas[i].fechaEnMovimiento) mensaje += " -> Desplazamiento: " + moment(evento.salidas[i].fechaDespacho).format('HH:mm');
+        if (evento.salidas[i].fechaArribo) mensaje += " -> Arriba: " + moment(evento.salidas[i].fechaArribo).format('HH:mm');
+        if (evento.salidas[i].fechaDestino) mensaje += " -> "+evento.salidas[i].tipoSalida.nombre +" "+ evento.salidas[i].tipoSalida.destino +" : " + moment(evento.salidas[i].fechaDestino).format('HH:mm');
+        if (evento.salidas[i].fechaQRU) mensaje += " -> QRU: " + moment(evento.salidas[i].fechaQRU).format('HH:mm');
+        if (evento.salidas[i].fechaCancelacion) mensaje += " -> Cancelado: " + moment(evento.salidas[i].fechaCancelacion).format('HH:mm');
+    }
     if (evento.fechaCierre)
         mensaje += " <b>Finaliza:</b> " + moment(evento.fechaCierre).format('HH:mm');
 
@@ -155,7 +178,7 @@ var exportar = {
         return api.sendMessage({
             chat_id: config.telegram.groupId,
             text: msg
-        });        
+        });
     }
 }
 

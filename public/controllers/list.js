@@ -41,7 +41,7 @@ appModule.controller('ListController', ['$rootScope', '$scope', '$location', '$w
       var mensaje = "";
 
       if (registroSeleccionado.clasificacion)
-        mensaje = "Código "+ (registroSeleccionado.clasificacion == 1 ? " Verde 📗." : (registroSeleccionado.clasificacion == 2 ? " Amarillo 📒." : " Rojo 📕."));
+        mensaje = "Código "+ (registroSeleccionado.clasificacion == 1 ? " Verde 📗." : (registroSeleccionado.clasificacion == 2 ? " Amarillo 📒." : (registroSeleccionado.clasificacion == 3 ? " Rojo 📕.": " No clasificado. ")));
       mensaje += " Recibe pedido: " + $filter('date')(registroSeleccionado.fechaRegistro, 'HH:mm');
       if (registroSeleccionado.direccion)
         mensaje += " Direccion: " + registroSeleccionado.direccion;
