@@ -17,6 +17,14 @@ appModule.config(['$routeProvider', '$locationProvider', '$httpProvider', functi
     templateUrl: 'partial/list.html',
     controller: 'ListController'
   })
+  .when('/nuevo', {
+    templateUrl: 'partial/nuevoLlamado.html',
+    controller: 'NuevoController'
+  })
+  .when('/llamados', {
+    templateUrl: 'partial/buscarLlamados.html',
+    controller: 'BuscarLlamadosController'
+  })
   .when('/evento/:id', {
     templateUrl: 'partial/evento.html',
     controller: 'EventoController'

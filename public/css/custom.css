@@ -169,7 +169,8 @@ body {
 
 /**************** GOOGLE MAPS *************/
 /*.angular-google-map { height: 100%; }*/
-.angular-google-map-container { height: 400px; }
+#EventoMap .angular-google-map-container { height: 400px; } 
+#MonitorMap .angular-google-map-container { height: 600px; } 
 /**************** FIN GOOGLE MAPS  ********/
 
 
@@ -234,3 +235,23 @@ body {
 .filterList{ right: -340px !important;}
 .filterList.open{ right: 0px !important;}
 .openchat{display: block !important;}
+
+/*************  LOGIN BACKGROUND ***************/
+.fondo{
+  /*background-image: url(/images/fondosien.jpg);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: auto 100%;*/
+}
+
+/***** MONITOR.html ********/
+.marker-labels {
+    font-weight: bold;
+    color: black;
+    border: black 1px solid;
+    background: white;
+    padding: 0 5px 0 5px;
+    border-radius: 5px;
+}
+
+

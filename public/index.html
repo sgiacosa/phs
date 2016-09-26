@@ -48,7 +48,8 @@
         <div class="topbar-main">
           <ul class="nav navbar navbar-top-links navbar-right mbn" ng-show="userData">
             <li class="dropdown"><a href="/" class="dropdown-toggle"><i class="fa fa-home fa-fw"></i></a></li>
-            <li class="dropdown"><a href="/search" class="dropdown-toggle"><i class="fa fa-search fa-fw"></i><span class="badge badge-green">nuevo!</span></a></li>
+            <li class="dropdown"><a href="/llamados" class="dropdown-toggle"><i class="fa fa-phone fa-fw"></i><span class="badge badge-green">nuevo!</span></a></li>
+            <li class="dropdown"><a href="/search" class="dropdown-toggle"><i class="fa fa-search fa-fw"></i></a></li>
             <!--<li class="dropdown"><a data-hover="dropdown" href="#" class="dropdown-toggle"><i class="fa fa-envelope fa-fw"></i><span class="badge badge-orange">7</span></a>
 
           </li>
@@ -93,7 +94,7 @@
           </a><span class="user-status is-online"></span><span class="display-name">Mensajes a celular</span> <small></small>
         </div>
         <div class="chat-content">
-          <div  ng-show="smsList.length == 0" class="text-center">
+          <div ng-show="smsList.length == 0" class="text-center">
             <button ng-click="getChatlist()"><i class="fa fa-2x fa-refresh"></i></button>
           </div>
           <ul class="chat-box-body" scroll-glue>
@@ -134,10 +135,25 @@
   </div>
 
 
+
+  <!--<script src="https://www.gstatic.com/firebasejs/3.4.0/firebase.js"></script>-->
+
   <!--Angular Google Map -->
   <!--<script src='https://maps.googleapis.com/maps/api/js?libraries=places&key=AIzaSyBeuihfLrTLC9Y_K_iQUKMRmHEvibpp0Y4'></script>-->
   <script src='https://maps.googleapis.com/maps/api/js?libraries=places&key=AIzaSyBeuihfLrTLC9Y_K_iQUKMRmHEvibpp0Y4&sensor=true'></script>
   <script src="js/dist/lib.js"></script>
+  <script>
+  // Initialize Firebase
+  var config = {
+    apiKey: "AIzaSyDvTl5Ygxu3CLMFTr42utf34fKGk7-HOT8",
+    authDomain: "sien.firebaseapp.com",
+    databaseURL: "https://sien.firebaseio.com",
+    storageBucket: "firebase-sien.appspot.com",
+    messagingSenderId: "769605389992"
+  };
+  
+  firebase.initializeApp(config);
+</script>
   <script src="js/dist/app.js"></script>
 
 

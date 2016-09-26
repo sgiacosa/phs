@@ -17,6 +17,14 @@ appModule.config(['$routeProvider', '$locationProvider', '$httpProvider', functi
     templateUrl: 'partial/list.html',
     controller: 'ListController'
   })
+  .when('/nuevo', {
+    templateUrl: 'partial/nuevoLlamado.html',
+    controller: 'NuevoController'
+  })
+  .when('/llamados', {
+    templateUrl: 'partial/buscarLlamados.html',
+    controller: 'BuscarLlamadosController'
+  })
   .when('/evento/:id', {
     templateUrl: 'partial/evento.html',
     controller: 'EventoController'
@@ -590,6 +598,11 @@ appModule.controller('ListController', ['$rootScope', '$scope', '$location', '$w
       $location.path('/evento/' + _id);
     },
 
+    nuevoLLamado: function () {
+      // Cambia la vista usando el servicio $location
+      $location.path('/nuevo');
+    },
+
     actualizarRegistros: function () {
       $scope.loading = true;
       $scope.alertaCambios = false;
@@ -713,7 +726,7 @@ appModule.controller('EventoController', ['$scope', '$location', '$routeParams',
     destinos: [],
     moviles: [],
     showmap: false,
-    map_alta: { center: { latitude: -38.94, longitude: -67.91 }, zoom: 14, control: {} },
+    map_alta: { center: { latitude: -38.9513715362757, longitude: -68.0589395877441 }, zoom: 14, control: {} },
     marker_alta: {
       id: 0,
       coords: {
@@ -1339,72 +1352,203 @@ appModule.controller('MainController', ['$rootScope', '$scope', '$window', 'Logi
   $scope.init();
 }]);
 
-appModule.controller('monitorController', ['$scope','$firebaseObject', function ($scope, $firebaseObject) {
-  angular.extend($scope, {
-          loading: true,
-          txtNombre: '',
-          moviles: 'lalala',
-          map: { center: { latitude: -38.94, longitude: -67.91 }, zoom: 14 },
-          marker: {
-              id: 0,
-              options: {
-                  opacity: 1,
-                  icon: 'images/ambulance.png'
-              },
-              coords: {
-                  latitude: 40.1451,
-                  longitude: -99.6680
-              }
-          },
-          SeleccionarAgente: function (legajo, tarjeta) {
-              //Selecciono el row en la table agentes
+appModule.controller('monitorController', ['$scope', '$firebaseObject', '$firebaseAuth', '$firebaseArray', '$http', 'LoginService', function ($scope, $firebaseObject, $firebaseAuth, $firebaseArray, $http, LoginService) {
+    angular.extend($scope, {
+        loading: true,
+        txtNombre: '',
+        moviles: [],
+        puntos: [],
+        puntos2: [],
+        map: { control: {}, center: { latitude: -38.94, longitude: -67.91 }, zoom: 14 },
+        marker: {
+            id: 0,
+            options: {
+                opacity: 1,
+                //icon: 'images/ambulance.png',
+                labelContent: 'Móvil 1',
+                labelAnchor: "10 60",
+                labelClass: "marker-labels"
+            },
+            coords: {
+                latitude: 40.1451,
+                longitude: -99.6680
+            }
+        },
+        Dibujar100Puntos: function () {
+            var pathValues = [];
+            var map = $scope.map.control.getGMap();
+            $scope.puntos = Object.keys($scope.moviles[2].historial).map(function (x) { return $scope.moviles[2].historial[x]; });
+            var contador = 0
+            for (var i = 400; i < $scope.puntos.length; i++) {
+                contador++;
+                if (contador > 5) {
+                    contador = 0;
+                    if ($scope.puntos2.length < 95) {
+                        $scope.puntos2.push($scope.puntos[i].latitud + "," + $scope.puntos[i].longitud);
+                    }
+                }
+            }
+            var lala = $scope.puntos2.join("|");
 
-              if ($scope.personalSelected_last) {
-                  $scope.personalSelected_last.personalSelected = '';
-              }
-              this.personalSelected = 'active';
-              $scope.personalSelected_last = this;
+            $http.get('https://roads.googleapis.com/v1/snapToRoads?interpolate=true&key=AIzaSyBeuihfLrTLC9Y_K_iQUKMRmHEvibpp0Y4&path=' + lala).then(function (resp) {
 
-              //Obtengo las Fichadas
-              $scope.GetFichada(tarjeta);
+                var data = resp.data;
+                var snappedCoordinates = [];
+                var placeIdArray = [];
+                for (var i = 0; i < data.snappedPoints.length; i++) {
+                    var latlng = new google.maps.LatLng(
+                        data.snappedPoints[i].location.latitude,
+                        data.snappedPoints[i].location.longitude);
+                    snappedCoordinates.push(latlng);
+                    placeIdArray.push(data.snappedPoints[i].placeId);
+                }
 
-              //Obtengo los articulos
-              $scope.GetArticulos(legajo);
+                var snappedPolyline = new window.google.maps.Polyline({
+                    path: snappedCoordinates,
+                    strokeColor: 'black',
+                    strokeWeight: 3
+                });
 
-          },
-
-          Init: function () {
-              //Descargo los moviles "activos" TODO
-              var ref = new Firebase("https://sien.firebaseio.com/Moviles");
-              // download the data into a local object
+                snappedPolyline.setMap(map);
+                //polylines.push(snappedPolyline);
+            })
 
 
+        },
+        CentrarMapa: function (posicion) {
+            $scope.map.center = { latitude: posicion.latitude, longitude: posicion.longitude };
+        },
 
-              ref.on('value', function (data) {
-                  $scope.moviles = data.val();
+        Init: function () {
+            var auth = $firebaseAuth();
 
-                  $scope.loading = false;
-                  $scope.MostrarAmbulanciasMapa();
-                  $scope.$apply();
-              });
-          },
+            var user = LoginService.getUserData();
 
-          MostrarAmbulanciasMapa: function () {
-              //Muestro solo el movil 0 //TODO
-              if ($scope.moviles[0].estado == true) {
-                  $scope.marker.options.opacity = 1;
-                  $scope.marker.coords.latitude = $scope.moviles[0].posicion.latitud;
-                  $scope.marker.coords.longitude = $scope.moviles[0].posicion.longitud;
-              }
-              else {
-                  $scope.marker.options.opacity = 0;
-              }
-          }
+            auth.$signInWithCustomToken(user.firebase).then(function (firebaseUser) {
+                console.log("Signed in as:", firebaseUser.uid);
+            }).catch(function (error) {
+                console.log("Authentication failed:", error);
+            });
 
-      });
 
-      $scope.Init();
+            //Descargo los moviles "activos" TODO            
+            var ref = firebase.database().ref().child("Moviles");
+            $scope.moviles = $firebaseArray(ref);
+
+            $scope.$watch('moviles', function (newVal, oldVal) {
+                $scope.loading = false;
+                for (var i = 0; i < $scope.moviles.length; i++) {
+                    var options = {
+                        //icon: {path:'images/ambulance.png'}, 
+                        /*path: 'images/ambulance.png',*/
+
+                        labelContent: $scope.moviles[i].nombre,
+                        labelAnchor: "20 50",
+                        labelClass: $scope.moviles[i].online ? "marker-labels" : "blink_me marker-labels",
+                        icon: {
+                            path: 'M 0 0 L 5 20 L -5 20 z',
+                            fillColor: '#3884ff',
+                            fillOpacity: 0.7,
+                            scale: 1,
+                            strokeColor: '#356cde',
+                            rotation: $scope.moviles[i].posicion.course,
+                            strokeWeight: 1
+                        }
+                    }
+                    $scope.moviles[i].options = options;
+                    //$scope.$apply()
+                }
+
+            }, true);
+        }
+
+    });
+
+    $scope.Init();
 }]);
+
+appModule.controller('NuevoController', ['$rootScope', '$scope', '$location', '$window', 'RegistrosService', '$filter', 'SalidasService', 'MensajesService', 'SearchService', 'UtilService', '$http', 'LoginService', 'mySocket', '$timeout', 'LlamadosService', 'SweetAlert',
+    function ($rootScope, $scope, $location, $window, RegistrosService, $filter, SalidasService, MensajesService, SearchService, UtilService, $http, LoginService, mySocket, $timeout, LlamadosService, SweetAlert) {
+        angular.extend($scope, {
+            loading: false,
+            registros: [],
+            motivoSeleccionado: 0,
+            idRegistro: 0,
+
+            mostrarEvento: function (_id) {
+                // Cambia la vista usando el servicio $location
+                $location.path('/evento/' + _id);
+            },
+
+            seleccionarRegistro: function(_id){
+                $scope.idRegistro = _id;
+            },
+
+            loadLlamadoDuplicado: function () {
+                $scope.motivoSeleccionado = 2;
+                RegistrosService.listar(true).then(function (data) {
+                    $scope.registros = data;
+                });
+            },
+
+            loadLlamadoNoRelacionado: function(){
+                $scope.motivoSeleccionado = 3;
+            },
+
+            saveLlamadoDuplicado: function () {
+                $scope.llamadoDuplicadoLoading = true;
+                LlamadosService.nuevoLlamado($scope.idRegistro, 2, $scope.telefono, $scope.mensaje).then(function () {
+                    $scope.llamadoDuplicadoLoading = false;
+                    SweetAlert.swal("", "El llamado telefónico se registró correctamente.", "success");
+                    $location.path('/');
+                })
+            },
+            
+            saveLlamadoNoRelacionado: function () {
+                $scope.llamadoDuplicadoLoading = true;
+                LlamadosService.nuevoLlamado(null, 3, $scope.telefono, $scope.mensaje).then(function () {
+                    $scope.llamadoDuplicadoLoading = false;
+                    SweetAlert.swal("", "El llamado telefónico se registró correctamente.", "success");
+                    $location.path('/');
+                })
+            },
+
+            init: function () {
+
+            }
+        });
+        $scope.init();
+    }]);
+
+appModule.controller('BuscarLlamadosController', ['$scope', '$location', 'LlamadosService', 'SweetAlert',
+    function ($scope, $location, LlamadosService, SweetAlert) {
+        angular.extend($scope, {
+            loading: false,
+            resultados: [],
+            searchOptions: {
+                fechaInicio: null,
+                fechaFin: null
+            },
+
+            actualizarLlamados: function () {
+                $scope.loading = true;
+                $scope.resultados = [];
+
+                LlamadosService.search($scope.searchOptions).then(function (data) {
+                    $scope.resultados = data.data;                    
+                    $scope.loading = false;
+                });
+            },
+
+
+            init: function () {
+                var fecha = new Date();
+                $scope.searchOptions.fechaInicio = moment().set({ 'hour': 0, 'minute': 0, 'second': 0 }).toDate();
+                $scope.searchOptions.fechaFin = moment().set({ 'hour': 23, 'minute': 59, 'second': 59 }).toDate();
+            }
+        });
+        $scope.init();
+    }]);
 
 appModule.factory('authInterceptor',['$rootScope', '$q', '$window','$location', function ($rootScope, $q, $window,$location) {
   return {
@@ -1692,3 +1836,29 @@ appModule.factory('UtilService', ['$http', function ($http) {
         }
       }
     }]);
+
+//TIPOS DE LLAMADOS
+//1- Nuevo llamado
+//2- Evento duplicado
+//3- Llamado no relacionado
+
+appModule.factory('LlamadosService', ['$http', function ($http) {
+  return {
+    nuevoLlamado: function (idRegistro, tipo, telefono, mensaje) {
+      var data = { registro: idRegistro, tipo: tipo, telefono: telefono, mensaje: mensaje };
+      return $http({ method: 'post', url: 'api/llamados/nuevo', data: data }).then(function (response) {
+        return response;
+      },
+        function (error) {
+          return error;
+
+        });
+    },
+    
+    search: function(searchOptions) {
+      return $http({ method: 'post', url: 'api/search/llamados', data: searchOptions }).then(function (response) {
+        return response;
+      });
+    }
+  }
+}]);

@@ -1,0 +1,117 @@
+<button class="btn btn-link pull-left" ng-show="motivoSeleccionado != 0" ng-click="motivoSeleccionado = 0"><i class="fa fa-2x  fa-arrow-left"></i> <b>Volver</b></button>
+
+<div class="row mbl col-md-3" ng-show="motivoSeleccionado== 0">
+    <div class="row mbl" id="sum_box">
+        <div ng-click="mostrarEvento(0)">
+            <div class="panel profit db mbm">
+                <div class="panel-body text-center">
+                    <h3>Nuevo evento</h3>
+                    <i class="fa fa-plus fa-2x"></i>
+                    <p><i>Permite registrar nuevos eventos.</i></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row mbl" id="sum_box">
+        <div ng-click="loadLlamadoDuplicado()">
+            <div class="panel profit db mbm">
+                <div class="panel-body text-center">
+                    <h3>Llamado duplicado</h3>
+                    <i class="fa fa-repeat fa-2x"></i>
+                    <p><i>Permite registrar el llamado recibido a un evento cargado previamente.</i></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row mbl" id="sum_box">
+        <div ng-click="loadLlamadoNoRelacionado()">
+            <div class="panel profit db mbm">
+                <div class="panel-body text-center">
+                    <h3>Llamado no relacionado</h3>
+                    <i class="fa fa-question-circle fa-2x"></i>
+                    <p><i>Permite registrar los llamados no relacionados a eventos.</i></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--  SECCION DERECHA  - LLAMADOS DUPLICADOS  -->
+<div class="row" ng-show="motivoSeleccionado == 2 || motivoSeleccionado == 3">
+    <div class="col-lg-3">
+        <div class="portlet box ">
+            <div class="portlet-header">
+                <div class="caption">Llamado</div>
+            </div>
+            <div class="portlet-body">
+                <div class="form-body pal">
+                    <div class="form-group">
+                        <label class="control-label" for="inputEmail">
+                      Teléfono
+                    </label>
+                        <div class="input-icon right">
+                            <i class="fa fa-phone"></i>
+                            <input type="text" class="form-control" placeholder="" ng-model="telefono">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label" for="inputEmail">
+                      Mensaje
+                    </label>
+                        <div class="input-icon right">
+                            <i class="fa fa-phone"></i>
+                            <textarea class="form-control" ng-model="mensaje"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group" ng-show="idRegistro != 0">
+                        <div class="input-icon right">
+                            <button class="btn btn-success" ng-click="saveLlamadoDuplicado()">Guardar</button>
+                        </div>
+                    </div>
+                    <div class="form-group" ng-show="motivoSeleccionado == 3">
+                        <div class="input-icon right">
+                            <button class="btn btn-success" ng-click="saveLlamadoNoRelacionado()">Guardar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="col-lg-8" ng-show="motivoSeleccionado == 2">
+        <div class="portlet box ">
+            <div class="portlet-header">
+                <div class="caption">Seleccione el Evento relacionado al llamado</div>
+            </div>
+            <div class="portlet-body">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>Inicio</th>
+                            <th>Dirección</th>
+                            <th>clasificación</th>
+                            <th>Observaciones</th>
+                            <th>Reporte</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="e in registros | orderBy:'-fechaRegistro'" ng-class="{'success': e._id == idRegistro}">
+                            <td><button class="btn" ng-click="seleccionarRegistro(e._id)"><i class="fa fa-check"></i></button></td>
+                            <td>{{e.fechaRegistro | date : 'dd/MM/yyyy HH:mm'}}</td>
+                            <td>{{e.direccion}}</td>
+                            <td><span ng-class="{ 'label-success' : e.clasificacion == 1, 'label-warning' : e.clasificacion == 2, 'label-danger' : e.clasificacion == 3 }"
+                                    class="label label-sm "> </span></td>
+                            <td>{{e.observaciones}}</td>
+                            <td>{{e.reporte}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+
+
+</div>

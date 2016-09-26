@@ -4,6 +4,7 @@ var app = require("express");
 var router = app.Router();
 var elasticsearch = require('elasticsearch');
 var Registros = require("../models/registros");
+var llamados = require("../models/llamados");
 
 //Inicializo el cliente de elasticsearch
 var client = new elasticsearch.Client({
@@ -21,9 +22,19 @@ router.post("/search/events", function(req, res){
     if (err) throw (err);
     res.json(data);
   });
+});
 
+//Busco llamados
+router.post("/search/llamados", function(req, res){
+  var inicio =req.body.fechaInicio;
+  var fin =req.body.fechaFin;
+  var filtro="";
+  filtro = {$and: [{fecha: { $lt : fin}}, {fecha: { $gt : inicio}}] };
 
-
+  llamados.find(filtro, function(err, data){
+    if (err) throw (err);
+    res.json(data);
+  });
 });
 
 //Busco por nombre de calles

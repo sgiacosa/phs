@@ -8,13 +8,22 @@
         </div>
 
         <div ng-show="!loading" class="cssFade">
+            <button ng-click="Dibujar100Puntos()">Dibujar</button>
             <!--<input type="text" class="form-control" placeholder="Buscar" ng-model="searchText" />-->
             <table class="table margin-top-10">
-                <tr><th>Móvil</th><th></th></tr>
+                <tr>
+                    <th>Móvil</th>
+                    <th></th>
+                </tr>
                 <tr ng-repeat="(key,value) in moviles  track by $index" class="{{personalSelected}}">
-                    <td><i class="fa fa-circle dot" ng-class="{greenDot: value.estado}"></i>{{value.nombre}}</td>
+                    <td>
+                    <i class="fa fa-circle dot" ng-class="{greenDot: value.online}"></i>
+                    <i class="fa fa-map-marker red" ng-show="!value.isGpsOn" title="El gps se encuentra desactivado."></i> 
+                    <i class="fa fa-battery-quarter" ng-show="value.battery_low" title="Batería baja"></i>
+                    {{value.nombre}}</td>
 
-                    <td><!--<button ng-click="SeleccionarAgente(p.legajo, p.documento)"><i class="fa fa-arrow-circle-right"></i></button>--></td>
+                    <td>
+                        <button ng-click="CentrarMapa(value.posicion)"><i class="fa fa-arrow-circle-right"></i></button></td>
                 </tr>
             </table>
         </div>
@@ -23,9 +32,8 @@
 
     <div class="col-md-9">
 
-        <ui-gmap-google-map center='map.center' zoom='map.zoom'>
-            <ui-gmap-marker coords="marker.coords" events="marker.events" idkey="marker.id" options="marker.options">
-            </ui-gmap-marker>
+        <ui-gmap-google-map id="MonitorMap" center='map.center' zoom='map.zoom' control="map.control">
+            <ui-gmap-markers models='moviles' idKey="'$id'" coords="'posicion'" options="'options'">
         </ui-gmap-google-map>
 
     </div>

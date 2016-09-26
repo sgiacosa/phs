@@ -37,8 +37,8 @@ module.exports = function(grunt) {
           'public/js/vendor/lodash.js',
           'public/js/vendor/Angular-Simple-Logger.js',
           'public/js/vendor/Angular-google-maps.js',
-          'public/js/vendor/firebase.js',
-          'public/js/vendor/AngularFire.min.js',
+          /*'public/js/vendor/firebase.js',
+          'public/js/vendor/AngularFire.min.js',*/
           'public/js/vendor/ui-bootstrap-tpls-1.1.0.min.js',
           'bower_components/moment/moment.js',
           'bower_components/moment/locale/es.js',
@@ -48,7 +48,9 @@ module.exports = function(grunt) {
           'bower_components/socket.io-client/socket.io.js',
           'bower_components/sweetalert/dist/sweetalert.min.js',
           'bower_components/ngSweetAlert/SweetAlert.min.js',
-          'bower_components/angular-scroll-glue/src/scrollglue.js'
+          'bower_components/angular-scroll-glue/src/scrollglue.js',
+          'bower_components/firebase/firebase.js',
+          'bower_components/angularfire/dist/angularfire.min.js'
         ]
       },
       app: { // Archivos .js
@@ -66,7 +68,9 @@ module.exports = function(grunt) {
           'public/controllers/search.js',
           'public/controllers/main.js',
           'public/controllers/monitor.js',
-
+          'public/controllers/nuevoLlamado.js',
+          'public/controllers/buscarLlamado.js',
+          
           'public/services/authInterceptor.js',
           'public/services/login.js',
           'public/services/mensajes.js',
@@ -74,7 +78,8 @@ module.exports = function(grunt) {
           'public/services/salidas.js',
           'public/services/search.js',
           'public/services/socket.js',
-          'public/services/util.js'
+          'public/services/util.js',
+          'public/services/llamados.js'
         ]
       }
     },

@@ -2,10 +2,14 @@ module.exports = function (io) {
 
   var app = require("express");
   var router = app.Router();
+
   var Registro = require("../models/registros");
   var Moviles = require("../models/moviles");
+  var llamado = require("../models/llamados");
+
   var fb = require("../modules/firebase");
   var config = require("../modules/config");
+
 
 
   // Devolver un solo evento por Id
@@ -61,7 +65,21 @@ module.exports = function (io) {
             res.send(err);
           res.json(registroModificado);
           io.sockets.emit('dbChange', registroModificado);
+
+          //Registro el llamado telefónico
+          var nuevoLlamado = new llamado();
+          nuevoLlamado.fecha = new Date();
+          nuevoLlamado.tipo = 1;
+          nuevoLlamado.usuario = req.user.username;
+          nuevoLlamado.registro = registroModificado._id;
+          nuevoLlamado.telefono = registroModificado.telefonoContacto;
+          nuevoLlamado.save(function (err, data) {
+            if (err)
+              console.log(err);
+          });
         });
+
+
       }
       else {
         //Actualizo el registro

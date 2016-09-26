@@ -1,33 +1,54 @@
+<style>
+  #wrapper{
+        padding-top: 50px;
+    width: 100%;
+    min-height: 100%;
+    background-color: #3C3C3C;
+    background-image: url(/images/fondosien.jpg);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 100% 100%;
+  }
 
+.fondo-recuadro{
+  background-color: rgba(0, 0, 0, 0.6);
+}
 
+  </style>
 
-<div class="col-lg-3">
-  <span class="label label-danger">{{mensaje}}</span>
-  <div class="portlet-body">
-    <form>
-      <div class="form-body pal">
-        <div class="form-group">
-          <label class="control-label" for="inputName">
+<div class="fondo">
+  <div class="col-lg-3 fondo-recuadro">
+    <span class="label label-danger">{{mensaje}}</span>
+    <div class="portlet-body">
+      <form>
+        <div class="form-body pal">
+          <div class="form-group">
+            <label class="control-label" for="inputName">
             Usuario
           </label>
-          <div class="input-icon right">
-            <i class="fa fa-user"></i>
-            <input type="text" class="form-control" placeholder="Usuario" ng-model="username">
+            <div class="input-icon right">
+              <i class="fa fa-user"></i>
+              <input type="text" class="form-control" placeholder="Usuario" ng-model="username">
+            </div>
           </div>
-        </div>
-        <div class="form-group">
-          <label class="control-label" for="inputName">
+          <div class="form-group">
+            <label class="control-label" for="inputName">
             Contraseña
           </label>
-          <div class="input-icon right">
-            <input type="password" class="form-control" placeholder="Contraseña" ng-model="password">
+            <div class="input-icon right">
+              <input type="password" class="form-control" placeholder="Contraseña" ng-model="password">
+            </div>
+          </div>
+          <div class="form-group">
+            <button class="btn btn-success" ng-click="login()">Iniciar sesión</button>
           </div>
         </div>
-        <div class="form-group">
-          <button class="btn btn-success" ng-click="login()">Iniciar sesión</button>
-        </div>
-      </div>
     </div>
-  </form>
+    </form>
+  </div>
 </div>
-</div>
+
+<!--<div class="col-lg-" style="overflow:hidden;">
+  
+  <img src="/images/fondoSien.jpg" style="width:100%"/>
+</div>-->

@@ -26,6 +26,11 @@ appModule.controller('ListController', ['$rootScope', '$scope', '$location', '$w
       $location.path('/evento/' + _id);
     },
 
+    nuevoLLamado: function () {
+      // Cambia la vista usando el servicio $location
+      $location.path('/nuevo');
+    },
+
     actualizarRegistros: function () {
       $scope.loading = true;
       $scope.alertaCambios = false;

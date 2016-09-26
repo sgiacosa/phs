@@ -21,7 +21,7 @@ appModule.controller('EventoController', ['$scope', '$location', '$routeParams',
     destinos: [],
     moviles: [],
     showmap: false,
-    map_alta: { center: { latitude: -38.94, longitude: -67.91 }, zoom: 14, control: {} },
+    map_alta: { center: { latitude: -38.9513715362757, longitude: -68.0589395877441 }, zoom: 14, control: {} },
     marker_alta: {
       id: 0,
       coords: {
