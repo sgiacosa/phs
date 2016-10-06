@@ -5,25 +5,31 @@
 
         <div ng-show="loading" class="text-center cssFade">
             <i class="fa fa-cog fa-spin fa-4x"></i>
+            <h2>Intentando conectar...</h2>
         </div>
 
         <div ng-show="!loading" class="cssFade">
-            <button ng-click="Dibujar100Puntos()">Dibujar</button>
-            <!--<input type="text" class="form-control" placeholder="Buscar" ng-model="searchText" />-->
+            <!--<button ng-click="Dibujar100Puntos()">Dibujar</button>
+            <input type="text" class="form-control" placeholder="Buscar" ng-model="searchText" />-->
             <table class="table margin-top-10">
                 <tr>
                     <th>Móvil</th>
                     <th></th>
+                    <th></th>
                 </tr>
                 <tr ng-repeat="(key,value) in moviles  track by $index" class="{{personalSelected}}">
                     <td>
-                    <i class="fa fa-circle dot" ng-class="{greenDot: value.online}"></i>
+                    <i class="fa fa-circle dot" ng-class="{greenDot: value.online}" title="Ultima posición reportada {{value.posicion.fecha | date : 'dd/MM HH:mm'}}"></i>
                     <i class="fa fa-map-marker red" ng-show="!value.isGpsOn" title="El gps se encuentra desactivado."></i> 
                     <i class="fa fa-battery-quarter" ng-show="value.battery_low" title="Batería baja"></i>
-                    {{value.nombre}}</td>
+                    <i class="fa fa-exclamation-triangle" ng-show="value.posicion.provider == 'network'" title="Gps sin señal - Se utiliza la red de telefonía celular."></i>
+                    {{value.nombre}} {{value.posicion.speed > 15 ?  value.posicion.speed + " Km/h": ""}}</td>
 
                     <td>
-                        <button ng-click="CentrarMapa(value.posicion)"><i class="fa fa-arrow-circle-right"></i></button></td>
+                        <button ng-click="CentrarMapa(value.posicion)" title="Centra el mapa en la posición del móvil." class="btn pull-right"><i class="fa fa-map-marker"></i></button></td>
+                    <td>
+                        <button ng-click="ImprimirHistorialEnPantalla(value.$id, value.nombre)" title="Mostrar los últimos 20 eventos." class="btn pull-right"><i class="fa fa-history"></i></button>
+                    </td>
                 </tr>
             </table>
         </div>
