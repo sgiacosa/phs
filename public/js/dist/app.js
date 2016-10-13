@@ -1377,44 +1377,46 @@ appModule.controller('monitorController', ['$scope', '$firebaseObject', '$fireba
                 }
             },
             ImprimirHistorialEnPantalla: function (id, nombre) {
-                var ref = firebase.database().ref().child("Historial/" + id + "/device")
-                    .limitToLast(20);
+                var ref = firebase.database().ref("Historial/" + id + "/device")
+                    //.limitToLast(20)
+                    ;
+
                 var onvaluechange = ref
                     .on("value", function (snapshot) {
                         var eventos = Object.keys(snapshot.val()).map(function (x) { return snapshot.val()[x]; });
                         var texto = "";
+                        var fecha="";
                         for (i = 0; i < eventos.length; i++) {
-                            texto += "<small><i>" + $filter('date')(new Date(eventos[i].fecha), "dd/MM/yyyy HH:mm") + "</i></small> - ";
+                            fecha= "<small><i>" + $filter('date')(new Date(eventos[i].fecha), "dd/MM/yyyy HH:mm") + "</i></small> - ";
                             switch (eventos[i].tipo) {
                                 case "battery_low":
                                     if (eventos[i].value)
-                                        texto += "Batería baja.";
+                                        texto += fecha + "Batería baja. <br/>";
                                     else
-                                        texto += "Batería normal.";
+                                        texto += fecha + "Batería normal.<br/>";
                                     break;
                                 case "isGpsOn":
                                     if (eventos[i].value)
-                                        texto += "GPS activado.";
+                                        texto += fecha + "GPS activado.<br/>";
                                     else
-                                        texto += "GPS desactivado.";
+                                        texto += fecha + "GPS desactivado.<br/>";
                                     break;
                                 case "reboot":
                                     if (eventos[i].value)
-                                        texto += "Reinicio del teléfono registrado.";
+                                        texto += fecha + "Reinicio del teléfono registrado.<br/>";
                                     else
-                                        texto += "Error en el registro de reboot - Avisa a Sebastián!";
+                                        texto += fecha + "Error en el registro de reboot - Avisar a Sebastián!<br/>";
                                     break;
                                 case "remote_config":
-                                    texto += "Configuración remota activada.";
+                                    //texto += fecha + "Configuración remota activada.";
                                     break;
                                 case "isAirplaneModeOn":
                                     if (eventos[i].value)
-                                        texto += "Modo avión activado.";
+                                        texto += fecha + "Modo avión activado.<br/>";
                                     else
-                                        texto += "Modo avión desactivado.";
+                                        texto += fecha + "Modo avión desactivado.<br/>";
                                     break;
-                            }
-                            texto += "<br/>";
+                            }                            
                         }
                         ref.off('value', onvaluechange);
                         SweetAlert.swal({ html: true, title: "<i>Historial " + nombre + "</i>", text: texto, type: "info" });
