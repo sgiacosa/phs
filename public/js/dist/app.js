@@ -1361,13 +1361,12 @@ appModule.controller('monitorController', ['$scope', '$firebaseObject', '$fireba
             moviles: [],
             puntos: [],
             puntos2: [],
-            map: { control: {}, center: { latitude: -38.94, longitude: -67.91 }, zoom: 14 },
+            map: { control: {}, center: { latitude: -38.9502426, longitude: -68.0560002 }, zoom: 14 },
             marker: {
                 id: 0,
                 options: {
-                    opacity: 1,
-                    //icon: 'images/ambulance.png',
-                    labelContent: 'Móvil 1',
+                    opacity: 1,                    
+                    labelContent: '',
                     labelAnchor: "10 60",
                     labelClass: "marker-labels"
                 },
@@ -1378,7 +1377,7 @@ appModule.controller('monitorController', ['$scope', '$firebaseObject', '$fireba
             },
             ImprimirHistorialEnPantalla: function (id, nombre) {
                 var ref = firebase.database().ref("Historial/" + id + "/device")
-                    //.limitToLast(20)
+                    .limitToLast(20)
                     ;
 
                 var onvaluechange = ref
@@ -1394,6 +1393,12 @@ appModule.controller('monitorController', ['$scope', '$firebaseObject', '$fireba
                                         texto += fecha + "Batería baja. <br/>";
                                     else
                                         texto += fecha + "Batería normal.<br/>";
+                                    break;
+                                case "mobile_data":
+                                    if (eventos[i].value)
+                                        texto += fecha + "Datos móviles activados. <br/>";
+                                    else
+                                        texto += fecha + "Datos móviles desactivados.<br/>";
                                     break;
                                 case "isGpsOn":
                                     if (eventos[i].value)
@@ -1421,11 +1426,7 @@ appModule.controller('monitorController', ['$scope', '$firebaseObject', '$fireba
                         ref.off('value', onvaluechange);
                         SweetAlert.swal({ html: true, title: "<i>Historial " + nombre + "</i>", text: texto, type: "info" });
                     });
-                /*var eventos = $firebaseArray(ref);
-                var texto = "";
-                for (i = 0; i < eventos.length; i++) {
-                    texto += eventos[i].fecha; +"<br/>"
-                }*/
+                
             },
 
             Dibujar100Puntos: function () {

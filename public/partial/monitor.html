@@ -11,6 +11,7 @@
         <div ng-show="!loading" class="cssFade">
             <!--<button ng-click="Dibujar100Puntos()">Dibujar</button>
             <input type="text" class="form-control" placeholder="Buscar" ng-model="searchText" />-->
+            
             <table class="table margin-top-10">
                 <tr>
                     <th>Móviles</th>
@@ -23,15 +24,16 @@
                     <i class="fa fa-map-marker red" ng-show="!value.isGpsOn" title="El gps se encuentra desactivado."></i> 
                     <i class="fa fa-battery-quarter" ng-show="value.battery_low" title="Batería baja"></i>
                     <i class="fa fa-exclamation-triangle" ng-show="value.posicion.provider == 'network'" title="Gps sin señal - Se utiliza la red de telefonía celular."></i>
+                    <i class="fa fa-retweet red" ng-show="!value.isMobileDataOn" title="Datos móviles desactivados."></i>
                     <b>{{value.nombre}}</b> {{value.posicion.speed > 15 ?  value.posicion.speed + " Km/h": ""}}</td>
 
                     <td>
                         <button ng-click="CentrarMapa(value.posicion)" title="Centra el mapa en la posición del móvil." class="btn pull-right"><i class="fa fa-map-marker"></i></button></td>
                     <td>
-                        <button ng-click="ImprimirHistorialEnPantalla(value.$id, value.nombre)" title="Mostrar los últimos 20 eventos." class="btn pull-right"><i class="fa fa-history"></i></button>
-                    </td>
+                        <button ng-click="ImprimirHistorialEnPantalla(value.$id, value.nombre)" title="Mostrar los últimos 20 eventos." class="btn pull-right"><i class="fa fa-history"></i></button></td>                        
                 </tr>
             </table>
+            <div class="alert alert-warning"><i class="fa fa-wrench fa-2x" aria-hidden="true"></i>Atención: recuerde que es un módulo experimental por lo cual puede sufrir interrupciones, fallas o proporcionar información erronea.<br/> Si un movil permanece desconectado por largos períodos (+ 2 horas) se recomienda solicitar que reinicien el teléfono del movil.</div>
         </div>
     </div>
 
