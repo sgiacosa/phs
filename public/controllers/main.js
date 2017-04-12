@@ -8,6 +8,7 @@ appModule.controller('MainController', ['$rootScope', '$scope', '$window', 'Logi
     unreadChatCount: 0,
     txtSms: '',
     chatTimer: null,
+    
 
     toggleChat: function () {
       if (!$scope.openchat)

@@ -1,8 +1,9 @@
-appModule.controller('EventoController', ['$scope', '$location', '$routeParams', 'RegistrosService', '$filter', 'SalidasService', 'MensajesService', 'SearchService', 'UtilService', '$http', 'SweetAlert', '$timeout', 'uiGmapPropMap', 'mySocket', function ($scope, $location, $routeParams, RegistrosService, $filter, SalidasService, MensajesService, SearchService, UtilService, $http, SweetAlert, $timeout, uiGmapPropMap, mySocket) {
+appModule.controller('EventoController', ['$scope', '$location', '$routeParams', 'RegistrosService', '$filter', 'SalidasService', 'MensajesService', 'SearchService', 'UtilService', '$http', 'SweetAlert', '$timeout', 'mySocket', function ($scope, $location, $routeParams, RegistrosService, $filter, SalidasService, MensajesService, SearchService, UtilService, $http, SweetAlert, $timeout, mySocket) {
   angular.extend($scope, {
     evento: {},
     loading: false,
     loadingPrincipal: true,
+    savingEvent: false,
     nuevaSalida: false,
     mostrarBotonGuardar: false,
     googleMapLoading: false,
@@ -17,16 +18,18 @@ appModule.controller('EventoController', ['$scope', '$location', '$routeParams',
     descripcionFlujo: '',
     registros: [],
     registroSeleccionado: null,
+    avoidGeoCode: false,
     finalizaciones: [],
     destinos: [],
     moviles: [],
     showmap: false,
+    cityCoords: { latitude: -38.9513715362757, longitude: -68.0589395877441 },
     map_alta: { center: { latitude: -38.9513715362757, longitude: -68.0589395877441 }, zoom: 14, control: {} },
     marker_alta: {
       id: 0,
       coords: {
-        latitude: 40.1451,
-        longitude: -99.6680
+        latitude: null,
+        longitude: null
       },
       options: { draggable: true }
     },
@@ -36,15 +39,22 @@ appModule.controller('EventoController', ['$scope', '$location', '$routeParams',
       title: "Cuadrículas",
       icon: 'fa fa-car'
     },
-      {
-        url: 'http://www.google.com/maps/d/u/0/kml?mid=1WUYfyxf3toKH8LvIqU3IR-mphPo&lid=zV713s5UBi9s.kkXrY9io13H0',
-        visible: false,
-        title: "Comisarias",
-        icon: 'fa fa-home'
-      },
+    {
+      url: 'http://www.google.com/maps/d/u/0/kml?mid=1WUYfyxf3toKH8LvIqU3IR-mphPo&lid=zV713s5UBi9s.kkXrY9io13H0',
+      visible: false,
+      title: "Comisarias",
+      icon: 'fa fa-home'
+    },
+    {
+      url: 'https://sien.neuquen.gov.ar/kml4.kml',
+      visible: false,
+      title: "Z1",
+      icon: 'fa fa-map'
+    }
     ],
 
     initSocket: function () {
+      console.log('init socket');
       mySocket.on('dbChange', function (data) {
         //Verifico si el registro que cambió es sobre el que estoy trabajando
         if (data._id == $scope.registroSeleccionado._id) {
@@ -176,6 +186,7 @@ appModule.controller('EventoController', ['$scope', '$location', '$routeParams',
       $scope.nuevaSalida = true;
       //Verifico disponibilidad y posicion de los moviles
       $scope.moviles = [];
+      $scope.loadingDistances = true;
       SalidasService.getMovilesDisponibles($scope.registroSeleccionado.coordenadas).then(function (data) {
         for (var i = 0; i < data.data.length; i++) {
           if (!$scope.registroSeleccionado.coordenadas) {
@@ -187,10 +198,12 @@ appModule.controller('EventoController', ['$scope', '$location', '$routeParams',
           else {
             //solo moviles disponibles
             if (data.data[i].obj.estado == "1") {
-              $scope.moviles.push({ _id: data.data[i].obj._id, nombre: data.data[i].obj.nombre, distancia: data.data[i].dis });
+              //$scope.moviles.push({ _id: data.data[i].obj._id, nombre: data.data[i].obj.nombre, distancia: data.data[i].distance.text +" | " + data.data[i].duration.text});
+              $scope.moviles.push(data.data[i]);
             }
           }
         }
+        $scope.loadingDistances = false;
       });
     },
 
@@ -202,7 +215,7 @@ appModule.controller('EventoController', ['$scope', '$location', '$routeParams',
         $scope.timeLine.push({ fecha: s.fechaDespacho, titulo: 'Despacho ', descripcion: s.nombreMovil, usuario: '', tipo: 2 })
         if (s.fechaArribo)
           $scope.timeLine.push({ fecha: s.fechaArribo, titulo: 'Arriba ', descripcion: s.nombreMovil, usuario: '', tipo: 2 })
-        if (s.fechaDestino) {          
+        if (s.fechaDestino) {
           $scope.timeLine.push({ fecha: s.fechaDestino, titulo: 'Destino', usuario: '', tipo: 2, descripcion: s.nombreMovil + ': ' + s.tipoSalida.nombre + ' ' + s.tipoSalida.destino });
         }
         if (s.fechaQRU)
@@ -276,6 +289,7 @@ appModule.controller('EventoController', ['$scope', '$location', '$routeParams',
 
     guardarCambios: function () {
       $scope.loading = true;
+      $scope.savingEvent = true;
       RegistrosService.guardarCambios($scope.registroSeleccionado).then(function (data) {
 
         if (data.status == 200) {
@@ -287,43 +301,20 @@ appModule.controller('EventoController', ['$scope', '$location', '$routeParams',
         else
           SweetAlert.swal("Atención", "Error al intentar guardar los datos.", "error");
         $scope.loading = false;
+        $scope.savingEvent = false;
       });
     },
 
     cancelarCambios: function () {
       //Elimino el watch
       $scope.StopWatch();
+      $location.path('/');
 
-      if ($scope.registroSeleccionado._id == 0) {
-        $scope.registroSeleccionado = null;
-        $scope.mostrarBotonGuardar = false;
-        return;
-      }
-      $scope.registroSeleccionado = JSON.parse(JSON.stringify($filter('filter')($scope.registros, { id: $scope.registroSeleccionado._id })[0]));
-      $scope.mostrarBotonGuardar = false;
-
-      //Vuelvo a crear el watch
-      $scope.InitWatch();
     },
 
     initData: function (_id) {
-      //Controlo que guarde los cambios
-      /*if ($scope.mostrarBotonGuardar && $scope.registroSeleccionado.fechaCierre == null) {
-        SweetAlert.swal("Atención", "Por favor guarde los cambios para poder continuar. Gracias", "info");
-        return;
-      }*/
-
       //Elimino el watch
       $scope.StopWatch();
-
-      /*if (_id)
-      $scope.registroSeleccionado = JSON.parse(JSON.stringify($filter('filter')($scope.registros, { _id: _id })[0]));
-      else {
-      //var nuevoRegistro = { nombreContacto: '', telefonoContacto: '', direccion: '', clasificacion: 0, observaciones: '', observacionesClasificacion: '', coords: { latitude: null, longitude: null }, fechaRegistro: null, fechaCierre: null, idUsuario: '', pacientes: [], salidas: [] }
-      var nuevoRegistro = { nombreContacto: '', telefonoContacto: '', direccion: '', clasificacion: 0, observaciones: '', observacionesClasificacion: '', coordenadas: [], fechaRegistro: null, fechaCierre: null, idUsuario: '', pacientes: [], salidas: [] }
-      $scope.registroSeleccionado = JSON.parse(JSON.stringify(nuevoRegistro));
-    }*/
-
       //si tiene coords el array centro el mapa //IMPORTANTE [LON, LAT]
       if ($scope.registroSeleccionado.coordenadas && $scope.registroSeleccionado.coordenadas.length == 2) {
         //Asocio el marker_alta.coords a coordenadas
@@ -350,16 +341,31 @@ appModule.controller('EventoController', ['$scope', '$location', '$routeParams',
       //Genero el timeline
       $scope.generarObjetoTimeLine();
 
+      //
+      $scope.$on('$destroy', function () {
+        mySocket.removeAllListeners();
+      });
+
     },
 
     BuscarDomicilio: function () {
       if (!$scope.registroSeleccionado.direccion || $scope.registroSeleccionado.direccion.length < 3)
         return;
-      SearchService.searchAddress($scope.registroSeleccionado.direccion, 'neuquen').then(function (response) {
+      var term = $scope.registroSeleccionado.direccion;
+      if ($scope.registroSeleccionado.direccion.indexOf(' y ') != -1) {
+        term = $scope.registroSeleccionado.direccion.substr($scope.registroSeleccionado.direccion.indexOf(' y ') + 3);
+      }
+
+      SearchService.searchAddress(term, 'neuquen').then(function (response) {
         if (response.status == 200) {
           var calles = [];
+          var premisa = "";
+          //Verifico si estaba haciendo una busqueda de interseccion de una direccion
+          if ($scope.registroSeleccionado.direccion.indexOf(' y ') != -1) {
+            premisa = $scope.registroSeleccionado.direccion.substr(0, $scope.registroSeleccionado.direccion.indexOf(' y ') + 3);
+          }
           for (var i = 0, len = response.data.length; i < len; i++) {
-            calles.push(response.data[i].nombre);
+            calles.push({ text: premisa + '' + response.data[i]._source.nombre, obj: response.data[i] });
           }
           $scope.streetSearchResult = calles;
         }
@@ -368,16 +374,41 @@ appModule.controller('EventoController', ['$scope', '$location', '$routeParams',
       });
     },
 
+    DomicilioSelected: function (s) {
+      if (s != undefined) {
+        switch (s.obj._index) {
+          case 'escuelas':
+            $scope.avoidGeoCode = true;
+            $scope.marker_alta.coords.latitude = s.obj._source.latitude;
+            $scope.marker_alta.coords.longitude = s.obj._source.longitude;
+            //Centro el mapa
+            $scope.map_alta.control.refresh({ latitude: s.obj._source.latitude, longitude: s.obj._source.longitude });
+            break;
+          default:
+            $scope.avoidGeoCode = false;
+            break;
+        }
+      }
+    },
+
+    UbicarPuntoFormaManual: function () {
+      $scope.marker_alta.coords = $scope.cityCoords;
+    },
+
     GeoCode: function () {
-      if (!$scope.registroSeleccionado.direccion || $scope.registroSeleccionado.direccion.length < 3)
+      if ($scope.avoidGeoCode || !$scope.registroSeleccionado.direccion || $scope.registroSeleccionado.direccion.length < 3)
         return;
       $scope.googleMapLoading = true;
-      SearchService.geoCode($scope.registroSeleccionado.direccion).then(function (resp) {
+      SearchService.geoCode($filter('lowercase')($scope.registroSeleccionado.direccion)).then(function (resp) {
         if (resp.length > 0) {
           $scope.marker_alta.coords.latitude = resp[0].lat;
           $scope.marker_alta.coords.longitude = resp[0].lon;
           //Centro el mapa
           $scope.map_alta.control.refresh({ latitude: resp[0].lat, longitude: resp[0].lon });
+        }
+        else {
+          $scope.marker_alta.coords.latitude = null;
+          $scope.marker_alta.coords.longitude = null;
         }
         $scope.googleMapLoading = false;
       });
@@ -421,7 +452,10 @@ appModule.controller('EventoController', ['$scope', '$location', '$routeParams',
           return; // simply skip that
         }
         else {
-          $scope.registroSeleccionado.coordenadas = [newVal.longitude, newVal.latitude];
+          if (newVal.latitude == null && newVal.longitude == null)
+            $scope.registroSeleccionado.coordenadas = null;
+          else
+            $scope.registroSeleccionado.coordenadas = [newVal.longitude, newVal.latitude];
         }
         $scope.mostrarBotonGuardar = true;
       }, true);
@@ -437,6 +471,7 @@ appModule.controller('EventoController', ['$scope', '$location', '$routeParams',
     },
 
     init: function () {
+
       $scope.loadingPrincipal = true;
       if ($routeParams.id != "0") {
         RegistrosService.getById($routeParams.id).then(function (data) {
@@ -452,7 +487,7 @@ appModule.controller('EventoController', ['$scope', '$location', '$routeParams',
       }
       else {
         console.log("Nuevo Registro");
-        var nuevoRegistro = { nombreContacto: '', telefonoContacto: '', direccion: '', clasificacion: 0, observaciones: '', observacionesClasificacion: '', coordenadas: [], fechaRegistro: null, fechaCierre: null, idUsuario: '', pacientes: [], salidas: [], mensajes: [] }
+        var nuevoRegistro = { nombreContacto: '', telefonoContacto: '', direccion: '', referenciaDireccion: '', clasificacion: 0, observaciones: '', observacionesClasificacion: '', coordenadas: [], fechaRegistro: null, fechaCierre: null, idUsuario: '', pacientes: [], salidas: [], mensajes: [] }
         $scope.registroSeleccionado = JSON.parse(JSON.stringify(nuevoRegistro));
         $scope.initData();
         UtilService.getConstantes().then(function (data) {

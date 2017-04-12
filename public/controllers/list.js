@@ -12,14 +12,17 @@ appModule.controller('ListController', ['$rootScope', '$scope', '$location', '$w
       mostrarEventosFinalizados: false
     },
 
-    initSocket: function () {
+
+
+    initSocket: function () {            
       mySocket.on('connected', function (data) {
         console.log("connected " + data);
       });
-      mySocket.on('dbChange', function (data) {
-        $scope.actualizarRegistros();
+      mySocket.on('dbChange', function (data) {        
+          $scope.actualizarRegistros();
       });
     },
+    
 
     mostrarEvento: function (_id) {
       // Cambia la vista usando el servicio $location
@@ -46,7 +49,7 @@ appModule.controller('ListController', ['$rootScope', '$scope', '$location', '$w
       var mensaje = "";
 
       if (registroSeleccionado.clasificacion)
-        mensaje = "Código "+ (registroSeleccionado.clasificacion == 1 ? " Verde 📗." : (registroSeleccionado.clasificacion == 2 ? " Amarillo 📒." : (registroSeleccionado.clasificacion == 3 ? " Rojo 📕.": " No clasificado. ")));
+        mensaje = "Código " + (registroSeleccionado.clasificacion == 1 ? " Verde 📗." : (registroSeleccionado.clasificacion == 2 ? " Amarillo 📒." : (registroSeleccionado.clasificacion == 3 ? " Rojo 📕." : " No clasificado. ")));
       mensaje += " Recibe pedido: " + $filter('date')(registroSeleccionado.fechaRegistro, 'HH:mm');
       if (registroSeleccionado.direccion)
         mensaje += " Direccion: " + registroSeleccionado.direccion;
@@ -56,13 +59,13 @@ appModule.controller('ListController', ['$rootScope', '$scope', '$location', '$w
         mensaje += "Reporte: " + registroSeleccionado.reporte;
       for (var i = 0; i < registroSeleccionado.mensajes.length; i++)
         mensaje += " Mensaje: " + registroSeleccionado.mensajes[i].mensaje;
-      for (var i = 0; i < registroSeleccionado.salidas.length; i++){
+      for (var i = 0; i < registroSeleccionado.salidas.length; i++) {
         mensaje += " 🚑 Asiste: " + registroSeleccionado.salidas[i].nombreMovil;
         mensaje += " Se despacha: " + $filter('date')(registroSeleccionado.salidas[i].fechaDespacho, 'HH:mm');
-        
+
         if (registroSeleccionado.salidas[i].fechaEnMovimiento) mensaje += " -> Desplazamiento: " + $filter('date')(registroSeleccionado.salidas[i].fechaEnMovimiento, 'HH:mm');
         if (registroSeleccionado.salidas[i].fechaArribo) mensaje += " -> Arriba: " + $filter('date')(registroSeleccionado.salidas[i].fechaArribo, 'HH:mm');
-        if (registroSeleccionado.salidas[i].fechaDestino) mensaje += " -> "+registroSeleccionado.salidas[i].tipoSalida.nombre +" "+ registroSeleccionado.salidas[i].tipoSalida.destino +" : " + $filter('date')(registroSeleccionado.salidas[i].fechaDestino, 'HH:mm');
+        if (registroSeleccionado.salidas[i].fechaDestino) mensaje += " -> " + registroSeleccionado.salidas[i].tipoSalida.nombre + " " + registroSeleccionado.salidas[i].tipoSalida.destino + " : " + $filter('date')(registroSeleccionado.salidas[i].fechaDestino, 'HH:mm');
         if (registroSeleccionado.salidas[i].fechaQRU) mensaje += " -> QRU: " + $filter('date')(registroSeleccionado.salidas[i].fechaQRU, 'HH:mm');
         if (registroSeleccionado.salidas[i].fechaCancelacion) mensaje += " -> Cancelado: " + $filter('date')(registroSeleccionado.salidas[i].fechaCancelacion, 'HH:mm');
       }
@@ -78,7 +81,7 @@ appModule.controller('ListController', ['$rootScope', '$scope', '$location', '$w
     indicarMovimiento: function (_idRegistro, _idSalida) {
       $scope.loading = true;
       SalidasService.indicarMovimiento(_idRegistro, _idSalida).then(function (data) {
-        if (data.status == 200) {          
+        if (data.status == 200) {
         }
         else {
           SweetAlert.swal("Atención", data.data, "error");
@@ -90,7 +93,7 @@ appModule.controller('ListController', ['$rootScope', '$scope', '$location', '$w
     indicarArribo: function (_idRegistro, _idSalida) {
       $scope.loading = true;
       SalidasService.indicarArribo(_idRegistro, _idSalida).then(function (data) {
-        if (data.status == 200) {         
+        if (data.status == 200) {
         }
         else {
           SweetAlert.swal("Atención", data.data, "error");
@@ -102,7 +105,7 @@ appModule.controller('ListController', ['$rootScope', '$scope', '$location', '$w
     indicarQRU: function (_idRegistro, _idSalida) {
       $scope.loading = true;
       SalidasService.indicarQRU(_idRegistro, _idSalida).then(function (data) {
-        if (data.status == 200) {          
+        if (data.status == 200) {
         }
         else {
           SweetAlert.swal("Atención", data.data, "error");
@@ -125,6 +128,10 @@ appModule.controller('ListController', ['$rootScope', '$scope', '$location', '$w
         });
         $scope.userData = LoginService.getUserData();
         $scope.initSocket();
+      });
+      //
+      $scope.$on('$destroy', function () {        
+        mySocket.removeAllListeners();
       });
     }
   });

@@ -5,6 +5,7 @@ var RegistrosSchema = new mongoose.Schema({
   nombreContacto: String,
   telefonoContacto: String,
   direccion: String,
+  referenciaDireccion:String,
   clasificacion: Number,
   observaciones: String,
   observacionesClasificacion: String,

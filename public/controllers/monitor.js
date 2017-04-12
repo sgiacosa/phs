@@ -1,7 +1,12 @@
-appModule.controller('monitorController', ['$scope', '$firebaseObject', '$firebaseAuth', '$firebaseArray', '$http', 'LoginService', 'SweetAlert', '$filter',
-    function ($scope, $firebaseObject, $firebaseAuth, $firebaseArray, $http, LoginService, SweetAlert, $filter) {
+//'$firebaseObject', '$firebaseAuth', '$firebaseArray', 
+
+appModule.controller('monitorController', ['$scope', '$http', 'LoginService', 'SweetAlert', '$filter', 'RegistrosService', 'SalidasService', 'mySocket',
+
+    function ($scope, $http, LoginService, SweetAlert, $filter, RegistrosService, SalidasService, mySocket) {
+
         angular.extend($scope, {
-            loading: true,
+            loading: false,
+            registros: [],
             connectedRef: null,
             txtNombre: '',
             moviles: [],
@@ -11,7 +16,7 @@ appModule.controller('monitorController', ['$scope', '$firebaseObject', '$fireba
             marker: {
                 id: 0,
                 options: {
-                    opacity: 1,                    
+                    opacity: 1,
                     labelContent: '',
                     labelAnchor: "10 60",
                     labelClass: "marker-labels"
@@ -21,6 +26,100 @@ appModule.controller('monitorController', ['$scope', '$firebaseObject', '$fireba
                     longitude: -99.6680
                 }
             },
+
+
+
+            initSocket: function () {
+                mySocket.on('connect', function (data) {
+                    console.log('conecto');
+                    $scope.loading = false;
+                });
+                mySocket.on('connect_error', function (data) {
+                    console.log('Desconecto');
+                    $scope.loading = true;
+                });
+                mySocket.on('dbChange', function (data) {
+                    $scope.actualizarRegistros();
+                });
+                mySocket.on('MovilPositionChange', function (data) {
+                    $scope.actualizarMoviles(data);
+                });
+            },
+
+            actualizarRegistros: function () {
+                //Actualizo los eventos para mostrar en el mapa
+                RegistrosService.listar().then(function (data) {
+                    $scope.registros = data;
+
+                    for (var i = 0; i < $scope.registros.length; i++) {
+                        var clasificacion = '';
+                        var icon = '';
+                        switch ($scope.registros[i].clasificacion) {
+                            case 1:
+                                icon = 'https://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|50a843';
+                                break;
+                            case 2:
+                                icon = 'https://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|eff464';
+                                break;
+                            case 3:
+                                icon = 'https://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|FE7569';
+                                break;
+                            default:
+                                icon = 'https://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|899393';
+                                break;
+                        }
+                        var options = {
+                            labelContent: $scope.registros[i].observacionesClasificacion,
+                            labelClass: "marker-labels",
+                            icon: {
+                                url: icon
+                            }
+                        }
+                        $scope.registros[i].options = options;
+                    }
+                });
+            },
+
+            actualizarMoviles: function (movil) {
+                if ($scope.moviles.length == 0) return;
+                for (var i = 0; i < $scope.moviles.length; i++) {
+                    if ($scope.moviles[i]._id == movil._id) {
+                        $scope.moviles[i].movimiento = movil.movimiento;
+                        $scope.moviles[i].device = movil.device;
+                        $scope.moviles[i].estado = movil.estado;
+                        $scope.ActualizarMarkerMoviles(movil._id);
+                    }
+                }
+            },
+
+            ActualizarMarkerMoviles: function(idMovil){
+                for (var i = 0; i < $scope.moviles.length; i++) {
+                    if (!idMovil || $scope.moviles[i]._id == idMovil) {                        
+                        var options = {
+                            labelContent: $scope.moviles[i].nombre,
+                            labelAnchor: "20 50",
+                            labelClass: "marker-labels",
+                            icon: {
+                                path: 'M 0 0 L 5 20 L -5 20 z',
+                                fillColor: $scope.moviles[i].estado == 1 ? '#32db18' : '#e8593a',
+                                fillOpacity: 0.7,
+                                scale: 1,
+                                strokeColor: $scope.moviles[i].estado == 1 ? '#000' : '#000',
+                                rotation: $scope.moviles[i].movimiento.course,
+                                strokeWeight: 1
+                            }
+                        }
+                        $scope.moviles[i].options = options;
+                    }
+                }
+            },
+
+            IsMobileOnline: function(lastTime){
+                var last = new Date(lastTime);
+                var now = new Date();                
+                return last.getTime() > now.setMinutes(now.getMinutes() - 3) 
+            },
+
             ImprimirHistorialEnPantalla: function (id, nombre) {
                 var ref = firebase.database().ref("Historial/" + id + "/device")
                     .limitToLast(20)
@@ -30,9 +129,9 @@ appModule.controller('monitorController', ['$scope', '$firebaseObject', '$fireba
                     .on("value", function (snapshot) {
                         var eventos = Object.keys(snapshot.val()).map(function (x) { return snapshot.val()[x]; });
                         var texto = "";
-                        var fecha="";
+                        var fecha = "";
                         for (i = 0; i < eventos.length; i++) {
-                            fecha= "<small><i>" + $filter('date')(new Date(eventos[i].fecha), "dd/MM/yyyy HH:mm") + "</i></small> - ";
+                            fecha = "<small><i>" + $filter('date')(new Date(eventos[i].fecha), "dd/MM/yyyy HH:mm") + "</i></small> - ";
                             switch (eventos[i].tipo) {
                                 case "battery_low":
                                     if (eventos[i].value)
@@ -67,12 +166,12 @@ appModule.controller('monitorController', ['$scope', '$firebaseObject', '$fireba
                                     else
                                         texto += fecha + "Modo avión desactivado.<br/>";
                                     break;
-                            }                            
+                            }
                         }
                         ref.off('value', onvaluechange);
                         SweetAlert.swal({ html: true, title: "<i>Historial " + nombre + "</i>", text: texto, type: "info" });
                     });
-                
+
             },
 
             Dibujar100Puntos: function () {
@@ -121,53 +220,69 @@ appModule.controller('monitorController', ['$scope', '$firebaseObject', '$fireba
             },
 
             Init: function () {
-                var auth = $firebaseAuth();
+                /* var auth = $firebaseAuth();
+ 
+                 var user = LoginService.getUserData();
+ 
+                 auth.$signInWithCustomToken(user.firebase).then(function (firebaseUser) {
+                     console.log("Signed in as:", firebaseUser.uid);
+                 }).catch(function (error) {
+                     console.log("Authentication failed:", error);
+                 });
+ 
+                 //Creo una referencia para determinar cuando el usuario se encuentra conectado
+                 $scope.connectedRef = firebase.database().ref(".info/connected");
+                 $scope.connectedRef.on("value", function (snap) {
+                     if (snap.val() === true) {
+                         $scope.loading = false;
+                     } else {
+                         $scope.loading = true;
+                     }
+                 });
+ 
+ 
+                 //Descargo los moviles "activos" TODO            
+                 var ref = firebase.database().ref().child("Moviles");
+                 $scope.moviles = $firebaseArray(ref);
+ 
+                 $scope.$watch('moviles', function (newVal, oldVal) {
+                     //$scope.loading = false;
+                     for (var i = 0; i < $scope.moviles.length; i++) {
+                         var options = {
+                             labelContent: $scope.moviles[i].nombre,
+                             labelAnchor: "20 50",
+                             labelClass: $scope.moviles[i].online ? "marker-labels" : "blink_me marker-labels",
+                             icon: {
+                                 path: 'M 0 0 L 5 20 L -5 20 z',
+                                 fillColor: $scope.moviles[i].estado == 1 ? '#32db18' : '#e8593a',
+                                 fillOpacity: 0.7,
+                                 scale: 1,
+                                 strokeColor: $scope.moviles[i].estado == 1 ? '#000' : '#000',
+                                 rotation: $scope.moviles[i].posicion.course,
+                                 strokeWeight: 1
+                             }
+                         }
+                         $scope.moviles[i].options = options;
+                         //$scope.$apply()
+                     }
+ 
+                 }, true);*/
 
-                var user = LoginService.getUserData();
-
-                auth.$signInWithCustomToken(user.firebase).then(function (firebaseUser) {
-                    console.log("Signed in as:", firebaseUser.uid);
-                }).catch(function (error) {
-                    console.log("Authentication failed:", error);
+                //Inicio socket
+                $scope.initSocket();
+                //Descargo eventos actuales
+                $scope.actualizarRegistros();
+                //Descargo los moviles
+                SalidasService.getMovilesDisponibles().then(function (resp) {                    
+                    $scope.moviles = $filter('filter')(resp.data, function(value, index, array){
+                        return value.movimiento != undefined;
+                    });
+                    $scope.ActualizarMarkerMoviles();
                 });
 
-                //Creo una referencia para determinar cuando el usuario se encuentra conectado
-                $scope.connectedRef = firebase.database().ref(".info/connected");
-                $scope.connectedRef.on("value", function (snap) {
-                    if (snap.val() === true) {
-                        $scope.loading = false;
-                    } else {
-                        $scope.loading = true;
-                    }
+                $scope.$on('$destroy', function () {
+                    mySocket.removeAllListeners();
                 });
-
-
-                //Descargo los moviles "activos" TODO            
-                var ref = firebase.database().ref().child("Moviles");
-                $scope.moviles = $firebaseArray(ref);
-
-                $scope.$watch('moviles', function (newVal, oldVal) {
-                    //$scope.loading = false;
-                    for (var i = 0; i < $scope.moviles.length; i++) {
-                        var options = {
-                            labelContent: $scope.moviles[i].nombre,
-                            labelAnchor: "20 50",
-                            labelClass: $scope.moviles[i].online ? "marker-labels" : "blink_me marker-labels",
-                            icon: {
-                                path: 'M 0 0 L 5 20 L -5 20 z',
-                                fillColor: '#3884ff',
-                                fillOpacity: 0.7,
-                                scale: 1,
-                                strokeColor: '#356cde',
-                                rotation: $scope.moviles[i].posicion.course,
-                                strokeWeight: 1
-                            }
-                        }
-                        $scope.moviles[i].options = options;
-                        //$scope.$apply()
-                    }
-
-                }, true);
             }
 
         });

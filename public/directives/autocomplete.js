@@ -81,8 +81,8 @@ appModule.directive('autocomplete', function () {
             // selecting a suggestion with RIGHT ARROW or ENTER
             $scope.select = function (suggestion) {
                 if (suggestion) {
-                    $scope.searchParam = suggestion;
-                    $scope.searchFilter = suggestion;
+                    $scope.searchParam = suggestion.text;
+                    $scope.searchFilter = suggestion.text;
                     if ($scope.onSelect)
                         $scope.onSelect(suggestion);
                 }
@@ -214,8 +214,9 @@ appModule.directive('autocomplete', function () {
 
                         index = scope.getIndex();
                         // scope.preSelectOff();
-                        if (index !== -1) {
-                            scope.select(angular.element(angular.element(this).find('li')[index]).text());
+                        if (index !== -1) {  
+                            //scope.select(angular.element(angular.element(this).find('li')[index]).text());
+                            scope.select(scope.suggestions[angular.element(angular.element(this).find('li')[index]).attr('index')]);
                             if (keycode == key.enter) {
                                 e.preventDefault();
                             }
@@ -258,10 +259,10 @@ appModule.directive('autocomplete', function () {
               suggestion\
               ng-repeat="suggestion in suggestions | orderBy:\'toString()\' track by $index"\
               index="{{ $index }}"\
-              val="{{ suggestion }}"\
+              val="lala{{ suggestion.text }}"\
               ng-class="{ active: ($index === selectedIndex) }"\
               ng-click="select(suggestion)"\
-              ng-bind-html="suggestion | highlight:searchParam"></li>\
+              ng-bind-html="suggestion.text  | highlight:searchParam"></li>\
           </ul>\
         </div>'
     };

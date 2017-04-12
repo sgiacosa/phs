@@ -43,8 +43,8 @@ router.post("/search/streets", function(req, res){
   var ciudad ="neuquen";
 
   client.search({
-    index: 'sien',
-    type: 'calles',
+    index: 'sien,escuelas',
+    //type: 'calles',
     body: {
       query: {
           bool: {
@@ -67,12 +67,8 @@ router.post("/search/streets", function(req, res){
           }
       }
     }
-  }).then(function (resp) {
-      var hits = [];
-      for (var h in resp.hits.hits){
-        hits.push(resp.hits.hits[h]._source);
-      }
-      res.json(hits);
+  }).then(function (resp) {      
+      res.json(resp.hits.hits)
   }, function (err) {
       res.status(500);
   });

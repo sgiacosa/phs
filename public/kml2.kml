@@ -1,0 +1,923 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<kml xmlns='http://www.opengis.net/kml/2.2'>
+	<Document>
+		<name>Cuadriculas Neuquén</name>
+		<Placemark>
+			<name>AREA CENTRO ESTE-1</name>
+			<description><![CDATA[comisaria: 1º<br>descripción: (299)155-766068]]></description>
+			<styleUrl>#poly-F4B400-1-40</styleUrl>
+			<ExtendedData>
+				<Data name='comisaria'>
+					<value>1º</value>
+				</Data>
+				<Data name='descripción'>
+					<value>(299)155-766068</value>
+				</Data>
+			</ExtendedData>
+			<Polygon>
+				<outerBoundaryIs>
+					<LinearRing>
+						<tessellate>1</tessellate>
+						<coordinates>-68.0664855,-38.9328299,0.0 -68.0666135,-38.9328859,0.0 -68.0680125,-38.93340589999999,0.0 -68.0683355,-38.9335319,0.0 -68.0690905,-38.9333979,0.0 -68.0696295,-38.9332849,0.0 -68.0699515,-38.93332389999999,0.0 -68.0694435,-38.93382189999999,0.0 -68.0687755,-38.9344789,0.0 -68.0681585,-38.9351589,0.0 -68.0676445,-38.9360869,0.0 -68.06733850000002,-38.9370379,0.0 -68.0669865,-38.9387929,0.0 -68.0665875,-38.9406119,0.0 -68.0667305,-38.94097090000001,0.0 -68.0667265,-38.9412289,0.0 -68.0668385,-38.9413389,0.0 -68.0669125,-38.941382899999994,0.0 -68.0672375,-38.9414969,0.0 -68.0674045,-38.9415129,0.0 -68.0678055,-38.9414949,0.0 -68.06799350000001,-38.9415219,0.0 -68.0677325,-38.94165290000001,0.0 -68.0671925,-38.9417789,0.0 -68.0669415,-38.9419029,0.0 -68.0667255,-38.9420839,0.0 -68.0665375,-38.9422379,0.0 -68.0663405,-38.9423269,0.0 -68.0663335,-38.9424549,0.0 -68.0663265,-38.94257590000001,0.0 -68.0660955,-38.94364290000001,0.0 -68.06600150000001,-38.9442189,0.0 -68.0658315,-38.9446579,0.0 -68.0657195,-38.9449749,0.0 -68.0655115,-38.945314,0.0 -68.0653225,-38.945654,0.0 -68.0652825,-38.94573700000001,0.0 -68.0651815,-38.946009,0.0 -68.0652185,-38.946154,0.0 -68.0653235,-38.946284000000006,0.0 -68.0655355,-38.946372,0.0 -68.0657685,-38.946393,0.0 -68.0659575,-38.946398,0.0 -68.0661185,-38.94650200000001,0.0 -68.0662285,-38.946673,0.0 -68.0662435,-38.947365000000005,0.0 -68.0662365,-38.947447,0.0 -68.0662295,-38.94754400000001,0.0 -68.0662385,-38.94843500000001,0.0 -68.0662395,-38.94854200000001,0.0 -68.0662405,-38.948632,0.0 -68.0662495,-38.94953,0.0 -68.0662405,-38.949617,0.0 -68.0661295,-38.949618,0.0 -68.0649745,-38.949625,0.0 -68.0648465,-38.949627,0.0 -68.0647455,-38.94962600000001,0.0 -68.0635905,-38.949633,0.0 -68.0634725,-38.949634,0.0 -68.0633605,-38.949634999999994,0.0 -68.0621755,-38.94964,0.0 -68.0620895,-38.949639,0.0 -68.0619565,-38.949641,0.0 -68.0608265,-38.949649,0.0 -68.0606975,-38.949651,0.0 -68.0606005,-38.949652,0.0 -68.0594265,-38.94966,0.0 -68.0593475,-38.94966,0.0 -68.0591365,-38.94966,0.0 -68.0591265,-38.948586,0.0 -68.0591175,-38.947503000000005,0.0 -68.0591075,-38.946421,0.0 -68.0591025,-38.945815,0.0 -68.0590905,-38.9445219,0.0 -68.0590835,-38.9436869,0.0 -68.0590695,-38.94214590000001,0.0 -68.0590605,-38.9410539,0.0 -68.0590515,-38.9400469,0.0 -68.0590385,-38.9383789,0.0 -68.0590385,-38.9383779,0.0 -68.0590335,-38.93774090000001,0.0 -68.0590275,-38.9377339,0.0 -68.0587665,-38.9374479,0.0 -68.0587975,-38.9373089,0.0 -68.0589145,-38.9372259,0.0 -68.0591245,-38.9371679,0.0 -68.0594065,-38.93718189999999,0.0 -68.0596625,-38.9372509,0.0 -68.0599605,-38.9373179,0.0 -68.0621065,-38.9377789,0.0 -68.0624415,-38.9376919,0.0 -68.0638665,-38.9366269,0.0 -68.0642515,-38.936068899999995,0.0 -68.0648865,-38.9351089,0.0 -68.0655575,-38.93406389999999,0.0 -68.0664855,-38.9328299,0.0</coordinates>
+					</LinearRing>
+				</outerBoundaryIs>
+			</Polygon>
+		</Placemark>
+		<Style id='poly-009D57-1-40-normal'>
+			<LineStyle>
+				<color>ff579D00</color>
+				<width>1</width>
+			</LineStyle>
+			<PolyStyle>
+				<color>28579D00</color>
+				<fill>1</fill>
+				<outline>1</outline>
+			</PolyStyle>
+		</Style>
+		<Style id='poly-009D57-1-40-highlight'>
+			<LineStyle>
+				<color>ff579D00</color>
+				<width>2.0</width>
+			</LineStyle>
+			<PolyStyle>
+				<color>28579D00</color>
+				<fill>1</fill>
+				<outline>1</outline>
+			</PolyStyle>
+		</Style>
+		<StyleMap id='poly-009D57-1-40'>
+			<Pair>
+				<key>normal</key>
+				<styleUrl>#poly-009D57-1-40-normal</styleUrl>
+			</Pair>
+			<Pair>
+				<key>highlight</key>
+				<styleUrl>#poly-009D57-1-40-highlight</styleUrl>
+			</Pair>
+		</StyleMap>
+		<Style id='poly-009D57-1-43-normal'>
+			<LineStyle>
+				<color>ff579D00</color>
+				<width>1</width>
+			</LineStyle>
+			<PolyStyle>
+				<color>2B579D00</color>
+				<fill>1</fill>
+				<outline>1</outline>
+			</PolyStyle>
+		</Style>
+		<Style id='poly-009D57-1-43-highlight'>
+			<LineStyle>
+				<color>ff579D00</color>
+				<width>2.0</width>
+			</LineStyle>
+			<PolyStyle>
+				<color>2B579D00</color>
+				<fill>1</fill>
+				<outline>1</outline>
+			</PolyStyle>
+		</Style>
+		<StyleMap id='poly-009D57-1-43'>
+			<Pair>
+				<key>normal</key>
+				<styleUrl>#poly-009D57-1-43-normal</styleUrl>
+			</Pair>
+			<Pair>
+				<key>highlight</key>
+				<styleUrl>#poly-009D57-1-43-highlight</styleUrl>
+			</Pair>
+		</StyleMap>
+		<Style id='poly-4186F0-1-38-normal'>
+			<LineStyle>
+				<color>ffF08641</color>
+				<width>1</width>
+			</LineStyle>
+			<PolyStyle>
+				<color>26F08641</color>
+				<fill>1</fill>
+				<outline>1</outline>
+			</PolyStyle>
+		</Style>
+		<Style id='poly-4186F0-1-38-highlight'>
+			<LineStyle>
+				<color>ffF08641</color>
+				<width>2.0</width>
+			</LineStyle>
+			<PolyStyle>
+				<color>26F08641</color>
+				<fill>1</fill>
+				<outline>1</outline>
+			</PolyStyle>
+		</Style>
+		<StyleMap id='poly-4186F0-1-38'>
+			<Pair>
+				<key>normal</key>
+				<styleUrl>#poly-4186F0-1-38-normal</styleUrl>
+			</Pair>
+			<Pair>
+				<key>highlight</key>
+				<styleUrl>#poly-4186F0-1-38-highlight</styleUrl>
+			</Pair>
+		</StyleMap>
+		<Style id='poly-4186F0-1-40-normal'>
+			<LineStyle>
+				<color>ffF08641</color>
+				<width>1</width>
+			</LineStyle>
+			<PolyStyle>
+				<color>28F08641</color>
+				<fill>1</fill>
+				<outline>1</outline>
+			</PolyStyle>
+		</Style>
+		<Style id='poly-4186F0-1-40-highlight'>
+			<LineStyle>
+				<color>ffF08641</color>
+				<width>2.0</width>
+			</LineStyle>
+			<PolyStyle>
+				<color>28F08641</color>
+				<fill>1</fill>
+				<outline>1</outline>
+			</PolyStyle>
+		</Style>
+		<StyleMap id='poly-4186F0-1-40'>
+			<Pair>
+				<key>normal</key>
+				<styleUrl>#poly-4186F0-1-40-normal</styleUrl>
+			</Pair>
+			<Pair>
+				<key>highlight</key>
+				<styleUrl>#poly-4186F0-1-40-highlight</styleUrl>
+			</Pair>
+		</StyleMap>
+		<Style id='poly-795046-1-40-normal'>
+			<LineStyle>
+				<color>ff465079</color>
+				<width>1</width>
+			</LineStyle>
+			<PolyStyle>
+				<color>28465079</color>
+				<fill>1</fill>
+				<outline>1</outline>
+			</PolyStyle>
+		</Style>
+		<Style id='poly-795046-1-40-highlight'>
+			<LineStyle>
+				<color>ff465079</color>
+				<width>2.0</width>
+			</LineStyle>
+			<PolyStyle>
+				<color>28465079</color>
+				<fill>1</fill>
+				<outline>1</outline>
+			</PolyStyle>
+		</Style>
+		<StyleMap id='poly-795046-1-40'>
+			<Pair>
+				<key>normal</key>
+				<styleUrl>#poly-795046-1-40-normal</styleUrl>
+			</Pair>
+			<Pair>
+				<key>highlight</key>
+				<styleUrl>#poly-795046-1-40-highlight</styleUrl>
+			</Pair>
+		</StyleMap>
+		<Style id='poly-795046-1-43-normal'>
+			<LineStyle>
+				<color>ff465079</color>
+				<width>1</width>
+			</LineStyle>
+			<PolyStyle>
+				<color>2B465079</color>
+				<fill>1</fill>
+				<outline>1</outline>
+			</PolyStyle>
+		</Style>
+		<Style id='poly-795046-1-43-highlight'>
+			<LineStyle>
+				<color>ff465079</color>
+				<width>2.0</width>
+			</LineStyle>
+			<PolyStyle>
+				<color>2B465079</color>
+				<fill>1</fill>
+				<outline>1</outline>
+			</PolyStyle>
+		</Style>
+		<StyleMap id='poly-795046-1-43'>
+			<Pair>
+				<key>normal</key>
+				<styleUrl>#poly-795046-1-43-normal</styleUrl>
+			</Pair>
+			<Pair>
+				<key>highlight</key>
+				<styleUrl>#poly-795046-1-43-highlight</styleUrl>
+			</Pair>
+		</StyleMap>
+		<Style id='poly-7C3592-1-40-normal'>
+			<LineStyle>
+				<color>ff92357C</color>
+				<width>1</width>
+			</LineStyle>
+			<PolyStyle>
+				<color>2892357C</color>
+				<fill>1</fill>
+				<outline>1</outline>
+			</PolyStyle>
+		</Style>
+		<Style id='poly-7C3592-1-40-highlight'>
+			<LineStyle>
+				<color>ff92357C</color>
+				<width>2.0</width>
+			</LineStyle>
+			<PolyStyle>
+				<color>2892357C</color>
+				<fill>1</fill>
+				<outline>1</outline>
+			</PolyStyle>
+		</Style>
+		<StyleMap id='poly-7C3592-1-40'>
+			<Pair>
+				<key>normal</key>
+				<styleUrl>#poly-7C3592-1-40-normal</styleUrl>
+			</Pair>
+			<Pair>
+				<key>highlight</key>
+				<styleUrl>#poly-7C3592-1-40-highlight</styleUrl>
+			</Pair>
+		</StyleMap>
+		<Style id='poly-7C3592-1-43-normal'>
+			<LineStyle>
+				<color>ff92357C</color>
+				<width>1</width>
+			</LineStyle>
+			<PolyStyle>
+				<color>2B92357C</color>
+				<fill>1</fill>
+				<outline>1</outline>
+			</PolyStyle>
+		</Style>
+		<Style id='poly-7C3592-1-43-highlight'>
+			<LineStyle>
+				<color>ff92357C</color>
+				<width>2.0</width>
+			</LineStyle>
+			<PolyStyle>
+				<color>2B92357C</color>
+				<fill>1</fill>
+				<outline>1</outline>
+			</PolyStyle>
+		</Style>
+		<StyleMap id='poly-7C3592-1-43'>
+			<Pair>
+				<key>normal</key>
+				<styleUrl>#poly-7C3592-1-43-normal</styleUrl>
+			</Pair>
+			<Pair>
+				<key>highlight</key>
+				<styleUrl>#poly-7C3592-1-43-highlight</styleUrl>
+			</Pair>
+		</StyleMap>
+		<Style id='poly-7CCFA9-1-38-normal'>
+			<LineStyle>
+				<color>ffA9CF7C</color>
+				<width>1</width>
+			</LineStyle>
+			<PolyStyle>
+				<color>26A9CF7C</color>
+				<fill>1</fill>
+				<outline>1</outline>
+			</PolyStyle>
+		</Style>
+		<Style id='poly-7CCFA9-1-38-highlight'>
+			<LineStyle>
+				<color>ffA9CF7C</color>
+				<width>2.0</width>
+			</LineStyle>
+			<PolyStyle>
+				<color>26A9CF7C</color>
+				<fill>1</fill>
+				<outline>1</outline>
+			</PolyStyle>
+		</Style>
+		<StyleMap id='poly-7CCFA9-1-38'>
+			<Pair>
+				<key>normal</key>
+				<styleUrl>#poly-7CCFA9-1-38-normal</styleUrl>
+			</Pair>
+			<Pair>
+				<key>highlight</key>
+				<styleUrl>#poly-7CCFA9-1-38-highlight</styleUrl>
+			</Pair>
+		</StyleMap>
+		<Style id='poly-7CCFA9-1-40-normal'>
+			<LineStyle>
+				<color>ffA9CF7C</color>
+				<width>1</width>
+			</LineStyle>
+			<PolyStyle>
+				<color>28A9CF7C</color>
+				<fill>1</fill>
+				<outline>1</outline>
+			</PolyStyle>
+		</Style>
+		<Style id='poly-7CCFA9-1-40-highlight'>
+			<LineStyle>
+				<color>ffA9CF7C</color>
+				<width>2.0</width>
+			</LineStyle>
+			<PolyStyle>
+				<color>28A9CF7C</color>
+				<fill>1</fill>
+				<outline>1</outline>
+			</PolyStyle>
+		</Style>
+		<StyleMap id='poly-7CCFA9-1-40'>
+			<Pair>
+				<key>normal</key>
+				<styleUrl>#poly-7CCFA9-1-40-normal</styleUrl>
+			</Pair>
+			<Pair>
+				<key>highlight</key>
+				<styleUrl>#poly-7CCFA9-1-40-highlight</styleUrl>
+			</Pair>
+		</StyleMap>
+		<Style id='poly-7CCFA9-1-43-normal'>
+			<LineStyle>
+				<color>ffA9CF7C</color>
+				<width>1</width>
+			</LineStyle>
+			<PolyStyle>
+				<color>2BA9CF7C</color>
+				<fill>1</fill>
+				<outline>1</outline>
+			</PolyStyle>
+		</Style>
+		<Style id='poly-7CCFA9-1-43-highlight'>
+			<LineStyle>
+				<color>ffA9CF7C</color>
+				<width>2.0</width>
+			</LineStyle>
+			<PolyStyle>
+				<color>2BA9CF7C</color>
+				<fill>1</fill>
+				<outline>1</outline>
+			</PolyStyle>
+		</Style>
+		<StyleMap id='poly-7CCFA9-1-43'>
+			<Pair>
+				<key>normal</key>
+				<styleUrl>#poly-7CCFA9-1-43-normal</styleUrl>
+			</Pair>
+			<Pair>
+				<key>highlight</key>
+				<styleUrl>#poly-7CCFA9-1-43-highlight</styleUrl>
+			</Pair>
+		</StyleMap>
+		<Style id='poly-9FC3FF-1-40-normal'>
+			<LineStyle>
+				<color>ffFFC39F</color>
+				<width>1</width>
+			</LineStyle>
+			<PolyStyle>
+				<color>28FFC39F</color>
+				<fill>1</fill>
+				<outline>1</outline>
+			</PolyStyle>
+		</Style>
+		<Style id='poly-9FC3FF-1-40-highlight'>
+			<LineStyle>
+				<color>ffFFC39F</color>
+				<width>2.0</width>
+			</LineStyle>
+			<PolyStyle>
+				<color>28FFC39F</color>
+				<fill>1</fill>
+				<outline>1</outline>
+			</PolyStyle>
+		</Style>
+		<StyleMap id='poly-9FC3FF-1-40'>
+			<Pair>
+				<key>normal</key>
+				<styleUrl>#poly-9FC3FF-1-40-normal</styleUrl>
+			</Pair>
+			<Pair>
+				<key>highlight</key>
+				<styleUrl>#poly-9FC3FF-1-40-highlight</styleUrl>
+			</Pair>
+		</StyleMap>
+		<Style id='poly-9FC3FF-1-43-normal'>
+			<LineStyle>
+				<color>ffFFC39F</color>
+				<width>1</width>
+			</LineStyle>
+			<PolyStyle>
+				<color>2BFFC39F</color>
+				<fill>1</fill>
+				<outline>1</outline>
+			</PolyStyle>
+		</Style>
+		<Style id='poly-9FC3FF-1-43-highlight'>
+			<LineStyle>
+				<color>ffFFC39F</color>
+				<width>2.0</width>
+			</LineStyle>
+			<PolyStyle>
+				<color>2BFFC39F</color>
+				<fill>1</fill>
+				<outline>1</outline>
+			</PolyStyle>
+		</Style>
+		<StyleMap id='poly-9FC3FF-1-43'>
+			<Pair>
+				<key>normal</key>
+				<styleUrl>#poly-9FC3FF-1-43-normal</styleUrl>
+			</Pair>
+			<Pair>
+				<key>highlight</key>
+				<styleUrl>#poly-9FC3FF-1-43-highlight</styleUrl>
+			</Pair>
+		</StyleMap>
+		<Style id='poly-A61B4A-1-40-normal'>
+			<LineStyle>
+				<color>ff4A1BA6</color>
+				<width>1</width>
+			</LineStyle>
+			<PolyStyle>
+				<color>284A1BA6</color>
+				<fill>1</fill>
+				<outline>1</outline>
+			</PolyStyle>
+		</Style>
+		<Style id='poly-A61B4A-1-40-highlight'>
+			<LineStyle>
+				<color>ff4A1BA6</color>
+				<width>2.0</width>
+			</LineStyle>
+			<PolyStyle>
+				<color>284A1BA6</color>
+				<fill>1</fill>
+				<outline>1</outline>
+			</PolyStyle>
+		</Style>
+		<StyleMap id='poly-A61B4A-1-40'>
+			<Pair>
+				<key>normal</key>
+				<styleUrl>#poly-A61B4A-1-40-normal</styleUrl>
+			</Pair>
+			<Pair>
+				<key>highlight</key>
+				<styleUrl>#poly-A61B4A-1-40-highlight</styleUrl>
+			</Pair>
+		</StyleMap>
+		<Style id='poly-A61B4A-1-43-normal'>
+			<LineStyle>
+				<color>ff4A1BA6</color>
+				<width>1</width>
+			</LineStyle>
+			<PolyStyle>
+				<color>2B4A1BA6</color>
+				<fill>1</fill>
+				<outline>1</outline>
+			</PolyStyle>
+		</Style>
+		<Style id='poly-A61B4A-1-43-highlight'>
+			<LineStyle>
+				<color>ff4A1BA6</color>
+				<width>2.0</width>
+			</LineStyle>
+			<PolyStyle>
+				<color>2B4A1BA6</color>
+				<fill>1</fill>
+				<outline>1</outline>
+			</PolyStyle>
+		</Style>
+		<StyleMap id='poly-A61B4A-1-43'>
+			<Pair>
+				<key>normal</key>
+				<styleUrl>#poly-A61B4A-1-43-normal</styleUrl>
+			</Pair>
+			<Pair>
+				<key>highlight</key>
+				<styleUrl>#poly-A61B4A-1-43-highlight</styleUrl>
+			</Pair>
+		</StyleMap>
+		<Style id='poly-B29189-1-40-normal'>
+			<LineStyle>
+				<color>ff8991B2</color>
+				<width>1</width>
+			</LineStyle>
+			<PolyStyle>
+				<color>288991B2</color>
+				<fill>1</fill>
+				<outline>1</outline>
+			</PolyStyle>
+		</Style>
+		<Style id='poly-B29189-1-40-highlight'>
+			<LineStyle>
+				<color>ff8991B2</color>
+				<width>2.0</width>
+			</LineStyle>
+			<PolyStyle>
+				<color>288991B2</color>
+				<fill>1</fill>
+				<outline>1</outline>
+			</PolyStyle>
+		</Style>
+		<StyleMap id='poly-B29189-1-40'>
+			<Pair>
+				<key>normal</key>
+				<styleUrl>#poly-B29189-1-40-normal</styleUrl>
+			</Pair>
+			<Pair>
+				<key>highlight</key>
+				<styleUrl>#poly-B29189-1-40-highlight</styleUrl>
+			</Pair>
+		</StyleMap>
+		<Style id='poly-B29189-1-43-normal'>
+			<LineStyle>
+				<color>ff8991B2</color>
+				<width>1</width>
+			</LineStyle>
+			<PolyStyle>
+				<color>2B8991B2</color>
+				<fill>1</fill>
+				<outline>1</outline>
+			</PolyStyle>
+		</Style>
+		<Style id='poly-B29189-1-43-highlight'>
+			<LineStyle>
+				<color>ff8991B2</color>
+				<width>2.0</width>
+			</LineStyle>
+			<PolyStyle>
+				<color>2B8991B2</color>
+				<fill>1</fill>
+				<outline>1</outline>
+			</PolyStyle>
+		</Style>
+		<StyleMap id='poly-B29189-1-43'>
+			<Pair>
+				<key>normal</key>
+				<styleUrl>#poly-B29189-1-43-normal</styleUrl>
+			</Pair>
+			<Pair>
+				<key>highlight</key>
+				<styleUrl>#poly-B29189-1-43-highlight</styleUrl>
+			</Pair>
+		</StyleMap>
+		<Style id='poly-DB4436-1-40-normal'>
+			<LineStyle>
+				<color>ff3644DB</color>
+				<width>1</width>
+			</LineStyle>
+			<PolyStyle>
+				<color>283644DB</color>
+				<fill>1</fill>
+				<outline>1</outline>
+			</PolyStyle>
+		</Style>
+		<Style id='poly-DB4436-1-40-highlight'>
+			<LineStyle>
+				<color>ff3644DB</color>
+				<width>2.0</width>
+			</LineStyle>
+			<PolyStyle>
+				<color>283644DB</color>
+				<fill>1</fill>
+				<outline>1</outline>
+			</PolyStyle>
+		</Style>
+		<StyleMap id='poly-DB4436-1-40'>
+			<Pair>
+				<key>normal</key>
+				<styleUrl>#poly-DB4436-1-40-normal</styleUrl>
+			</Pair>
+			<Pair>
+				<key>highlight</key>
+				<styleUrl>#poly-DB4436-1-40-highlight</styleUrl>
+			</Pair>
+		</StyleMap>
+		<Style id='poly-DB4436-1-43-normal'>
+			<LineStyle>
+				<color>ff3644DB</color>
+				<width>1</width>
+			</LineStyle>
+			<PolyStyle>
+				<color>2B3644DB</color>
+				<fill>1</fill>
+				<outline>1</outline>
+			</PolyStyle>
+		</Style>
+		<Style id='poly-DB4436-1-43-highlight'>
+			<LineStyle>
+				<color>ff3644DB</color>
+				<width>2.0</width>
+			</LineStyle>
+			<PolyStyle>
+				<color>2B3644DB</color>
+				<fill>1</fill>
+				<outline>1</outline>
+			</PolyStyle>
+		</Style>
+		<StyleMap id='poly-DB4436-1-43'>
+			<Pair>
+				<key>normal</key>
+				<styleUrl>#poly-DB4436-1-43-normal</styleUrl>
+			</Pair>
+			<Pair>
+				<key>highlight</key>
+				<styleUrl>#poly-DB4436-1-43-highlight</styleUrl>
+			</Pair>
+		</StyleMap>
+		<Style id='poly-F4B400-1-35-normal'>
+			<LineStyle>
+				<color>ff00B4F4</color>
+				<width>1</width>
+			</LineStyle>
+			<PolyStyle>
+				<color>2300B4F4</color>
+				<fill>1</fill>
+				<outline>1</outline>
+			</PolyStyle>
+		</Style>
+		<Style id='poly-F4B400-1-35-highlight'>
+			<LineStyle>
+				<color>ff00B4F4</color>
+				<width>2.0</width>
+			</LineStyle>
+			<PolyStyle>
+				<color>2300B4F4</color>
+				<fill>1</fill>
+				<outline>1</outline>
+			</PolyStyle>
+		</Style>
+		<StyleMap id='poly-F4B400-1-35'>
+			<Pair>
+				<key>normal</key>
+				<styleUrl>#poly-F4B400-1-35-normal</styleUrl>
+			</Pair>
+			<Pair>
+				<key>highlight</key>
+				<styleUrl>#poly-F4B400-1-35-highlight</styleUrl>
+			</Pair>
+		</StyleMap>
+		<Style id='poly-F4B400-1-38-normal'>
+			<LineStyle>
+				<color>ff00B4F4</color>
+				<width>1</width>
+			</LineStyle>
+			<PolyStyle>
+				<color>2600B4F4</color>
+				<fill>1</fill>
+				<outline>1</outline>
+			</PolyStyle>
+		</Style>
+		<Style id='poly-F4B400-1-38-highlight'>
+			<LineStyle>
+				<color>ff00B4F4</color>
+				<width>2.0</width>
+			</LineStyle>
+			<PolyStyle>
+				<color>2600B4F4</color>
+				<fill>1</fill>
+				<outline>1</outline>
+			</PolyStyle>
+		</Style>
+		<StyleMap id='poly-F4B400-1-38'>
+			<Pair>
+				<key>normal</key>
+				<styleUrl>#poly-F4B400-1-38-normal</styleUrl>
+			</Pair>
+			<Pair>
+				<key>highlight</key>
+				<styleUrl>#poly-F4B400-1-38-highlight</styleUrl>
+			</Pair>
+		</StyleMap>
+		<Style id='poly-F4B400-1-40-normal'>
+			<LineStyle>
+				<color>ff00B4F4</color>
+				<width>1</width>
+			</LineStyle>
+			<PolyStyle>
+				<color>2800B4F4</color>
+				<fill>1</fill>
+				<outline>1</outline>
+			</PolyStyle>
+		</Style>
+		<Style id='poly-F4B400-1-40-highlight'>
+			<LineStyle>
+				<color>ff00B4F4</color>
+				<width>2.0</width>
+			</LineStyle>
+			<PolyStyle>
+				<color>2800B4F4</color>
+				<fill>1</fill>
+				<outline>1</outline>
+			</PolyStyle>
+		</Style>
+		<StyleMap id='poly-F4B400-1-40'>
+			<Pair>
+				<key>normal</key>
+				<styleUrl>#poly-F4B400-1-40-normal</styleUrl>
+			</Pair>
+			<Pair>
+				<key>highlight</key>
+				<styleUrl>#poly-F4B400-1-40-highlight</styleUrl>
+			</Pair>
+		</StyleMap>
+		<Style id='poly-F4B400-1-43-normal'>
+			<LineStyle>
+				<color>ff00B4F4</color>
+				<width>1</width>
+			</LineStyle>
+			<PolyStyle>
+				<color>2B00B4F4</color>
+				<fill>1</fill>
+				<outline>1</outline>
+			</PolyStyle>
+		</Style>
+		<Style id='poly-F4B400-1-43-highlight'>
+			<LineStyle>
+				<color>ff00B4F4</color>
+				<width>2.0</width>
+			</LineStyle>
+			<PolyStyle>
+				<color>2B00B4F4</color>
+				<fill>1</fill>
+				<outline>1</outline>
+			</PolyStyle>
+		</Style>
+		<StyleMap id='poly-F4B400-1-43'>
+			<Pair>
+				<key>normal</key>
+				<styleUrl>#poly-F4B400-1-43-normal</styleUrl>
+			</Pair>
+			<Pair>
+				<key>highlight</key>
+				<styleUrl>#poly-F4B400-1-43-highlight</styleUrl>
+			</Pair>
+		</StyleMap>
+		<Style id='poly-F4EB37-1-40-normal'>
+			<LineStyle>
+				<color>ff37EBF4</color>
+				<width>1</width>
+			</LineStyle>
+			<PolyStyle>
+				<color>2837EBF4</color>
+				<fill>1</fill>
+				<outline>1</outline>
+			</PolyStyle>
+		</Style>
+		<Style id='poly-F4EB37-1-40-highlight'>
+			<LineStyle>
+				<color>ff37EBF4</color>
+				<width>2.0</width>
+			</LineStyle>
+			<PolyStyle>
+				<color>2837EBF4</color>
+				<fill>1</fill>
+				<outline>1</outline>
+			</PolyStyle>
+		</Style>
+		<StyleMap id='poly-F4EB37-1-40'>
+			<Pair>
+				<key>normal</key>
+				<styleUrl>#poly-F4EB37-1-40-normal</styleUrl>
+			</Pair>
+			<Pair>
+				<key>highlight</key>
+				<styleUrl>#poly-F4EB37-1-40-highlight</styleUrl>
+			</Pair>
+		</StyleMap>
+		<Style id='poly-F4EB37-1-43-normal'>
+			<LineStyle>
+				<color>ff37EBF4</color>
+				<width>1</width>
+			</LineStyle>
+			<PolyStyle>
+				<color>2B37EBF4</color>
+				<fill>1</fill>
+				<outline>1</outline>
+			</PolyStyle>
+		</Style>
+		<Style id='poly-F4EB37-1-43-highlight'>
+			<LineStyle>
+				<color>ff37EBF4</color>
+				<width>2.0</width>
+			</LineStyle>
+			<PolyStyle>
+				<color>2B37EBF4</color>
+				<fill>1</fill>
+				<outline>1</outline>
+			</PolyStyle>
+		</Style>
+		<StyleMap id='poly-F4EB37-1-43'>
+			<Pair>
+				<key>normal</key>
+				<styleUrl>#poly-F4EB37-1-43-normal</styleUrl>
+			</Pair>
+			<Pair>
+				<key>highlight</key>
+				<styleUrl>#poly-F4EB37-1-43-highlight</styleUrl>
+			</Pair>
+		</StyleMap>
+		<Style id='poly-F8971B-1-38-normal'>
+			<LineStyle>
+				<color>ff1B97F8</color>
+				<width>1</width>
+			</LineStyle>
+			<PolyStyle>
+				<color>261B97F8</color>
+				<fill>1</fill>
+				<outline>1</outline>
+			</PolyStyle>
+		</Style>
+		<Style id='poly-F8971B-1-38-highlight'>
+			<LineStyle>
+				<color>ff1B97F8</color>
+				<width>2.0</width>
+			</LineStyle>
+			<PolyStyle>
+				<color>261B97F8</color>
+				<fill>1</fill>
+				<outline>1</outline>
+			</PolyStyle>
+		</Style>
+		<StyleMap id='poly-F8971B-1-38'>
+			<Pair>
+				<key>normal</key>
+				<styleUrl>#poly-F8971B-1-38-normal</styleUrl>
+			</Pair>
+			<Pair>
+				<key>highlight</key>
+				<styleUrl>#poly-F8971B-1-38-highlight</styleUrl>
+			</Pair>
+		</StyleMap>
+		<Style id='poly-F8971B-1-40-normal'>
+			<LineStyle>
+				<color>ff1B97F8</color>
+				<width>1</width>
+			</LineStyle>
+			<PolyStyle>
+				<color>281B97F8</color>
+				<fill>1</fill>
+				<outline>1</outline>
+			</PolyStyle>
+		</Style>
+		<Style id='poly-F8971B-1-40-highlight'>
+			<LineStyle>
+				<color>ff1B97F8</color>
+				<width>2.0</width>
+			</LineStyle>
+			<PolyStyle>
+				<color>281B97F8</color>
+				<fill>1</fill>
+				<outline>1</outline>
+			</PolyStyle>
+		</Style>
+		<StyleMap id='poly-F8971B-1-40'>
+			<Pair>
+				<key>normal</key>
+				<styleUrl>#poly-F8971B-1-40-normal</styleUrl>
+			</Pair>
+			<Pair>
+				<key>highlight</key>
+				<styleUrl>#poly-F8971B-1-40-highlight</styleUrl>
+			</Pair>
+		</StyleMap>
+		<Style id='poly-F8971B-1-43-normal'>
+			<LineStyle>
+				<color>ff1B97F8</color>
+				<width>1</width>
+			</LineStyle>
+			<PolyStyle>
+				<color>2B1B97F8</color>
+				<fill>1</fill>
+				<outline>1</outline>
+			</PolyStyle>
+		</Style>
+		<Style id='poly-F8971B-1-43-highlight'>
+			<LineStyle>
+				<color>ff1B97F8</color>
+				<width>2.0</width>
+			</LineStyle>
+			<PolyStyle>
+				<color>2B1B97F8</color>
+				<fill>1</fill>
+				<outline>1</outline>
+			</PolyStyle>
+		</Style>
+		<StyleMap id='poly-F8971B-1-43'>
+			<Pair>
+				<key>normal</key>
+				<styleUrl>#poly-F8971B-1-43-normal</styleUrl>
+			</Pair>
+			<Pair>
+				<key>highlight</key>
+				<styleUrl>#poly-F8971B-1-43-highlight</styleUrl>
+			</Pair>
+		</StyleMap>
+	</Document>
+</kml>

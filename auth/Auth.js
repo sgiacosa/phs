@@ -17,7 +17,7 @@ router.post('/loginMobileApp', function (req, res) {
   moviles.findOne(filtro, function (err, data) {
     if (err) throw (err);
 
-    var auth = fb.auth();
+    var auth = fb.instance.auth();
     //Utilizo el id del movil 1
     var token = auth.createCustomToken(data._id.toString(), { "premium_account": true });
     res.json({ token: token });
@@ -43,21 +43,21 @@ router.post('/login', function (req, res) {
           return true;
         }
         else {
-          var fbToken = null;
+          /*var fbToken = null;
           try {
             //obtengo el token de firebase
-            var auth = fb.auth();
+            var auth = fb.instance.auth();
             fbToken = auth.createCustomToken(user.username, { "premium_account": true });
           }
           catch (e) {
-            debugger;
             console.log(e);
-          }
+          }*/
           var profile = {
             username: user.username,
             nombre: user.nombre,
             apellido: user.apellido,
-            firebase: fbToken
+            firebase: null,
+            aplicaciones: user.aplicaciones
           }
           var token = jwt.sign(profile, secret, { expiresIn: 3600 * 12 });
           res.json({ token: token });

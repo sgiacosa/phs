@@ -65,7 +65,7 @@ module.exports = function (io) {
             res.send(err);
           res.json(registroModificado);
           io.sockets.emit('dbChange', registroModificado);
-
+          
           //Registro el llamado telefónico
           var nuevoLlamado = new llamado();
           nuevoLlamado.fecha = new Date();
@@ -91,6 +91,7 @@ module.exports = function (io) {
         data.nombreContacto = newRegistro.nombreContacto;
         data.telefonoContacto = newRegistro.telefonoContacto;
         data.direccion = newRegistro.direccion;
+        data.referenciaDireccion = newRegistro.referenciaDireccion;
         data.clasificacion = newRegistro.clasificacion;
         data.observaciones = newRegistro.observaciones;
         data.observacionesClasificacion = newRegistro.observacionesClasificacion;
@@ -119,7 +120,8 @@ module.exports = function (io) {
           if (err)
             res.send(err);
           res.json(registroModificado);
-          io.sockets.emit('dbChange', registroModificado);
+          io.sockets.emit('dbChange', registroModificado);          
+          fb.actualizarMoviles(registroModificado);
         });
 
       }
@@ -144,6 +146,7 @@ module.exports = function (io) {
       data.save(function (err, dataModificado) {
         res.json(dataModificado);
         io.sockets.emit('dbChange', dataModificado);
+        fb.actualizarMoviles(dataModificado);
       });
     });
   });
@@ -187,23 +190,17 @@ module.exports = function (io) {
           if (err) throw (err);
           res.json(dataModificado);
           //Actualizo en socket.io
-          io.sockets.emit('dbChange', dataModificado);
+          io.sockets.emit('dbChange', dataModificado);          
+          //Actualizo el Firebase
+          if (movil.imei)
+            fb.actualizarMoviles(dataModificado);
         });
         //Actualizo el estado del movil
         movil.estado = 2;
         movil.save(function (err, movilModificado) {
-          if (err) throw (err);
-          //Actualizo el estado en firebase
-          /*var movilRef = fb.database().ref(config.FB_moviles+'/'+movil._id.toString());          
-          movilRef.update({
-            estado: 2,
-            direccion: data.direccion,
-            objetivo: data.coordenadas,
-            observaciones: data.observaciones,
-            clasificacion: data.clasificacion,
-            observacionesClasificacion: data.observacionesClasificacion
-          });*/
-
+          if (err) throw (err);     
+          io.sockets.emit('MovilPositionChange', movilModificado);  
+          console.log('movilModificado: '+ movilModificado.estado);   
         });
       });
     });
@@ -226,6 +223,7 @@ module.exports = function (io) {
         if (err) throw (err);
         res.json(data);
         io.sockets.emit('dbChange', data);
+        fb.actualizarMoviles(data);
       });
     });
   });
@@ -247,6 +245,7 @@ module.exports = function (io) {
         if (err) throw (err);
         res.json(data);
         io.sockets.emit('dbChange', data);
+        fb.actualizarMoviles(data);
       });
     });
   });
@@ -271,6 +270,7 @@ module.exports = function (io) {
         if (err) throw (err);
         res.json(data);
         io.sockets.emit('dbChange', data);
+        fb.actualizarMoviles(data);
       });
     });
   });
@@ -291,8 +291,9 @@ module.exports = function (io) {
       Moviles.findOne({ _id: idMovil }, function (err, movil) {
         if (err) throw (err);
         movil.estado = 1;
-        movil.save(function (err, data) {
+        movil.save(function (err, movilModificado) {
           if (err) throw (err);
+          io.sockets.emit('MovilPositionChange', movilModificado);
         });
       });
 
@@ -304,6 +305,7 @@ module.exports = function (io) {
         if (err) throw (err);
         res.json(data);
         io.sockets.emit('dbChange', data);
+        fb.actualizarMoviles(data);
       });
     });
   });
@@ -324,8 +326,9 @@ module.exports = function (io) {
       Moviles.findOne({ _id: idMovil }, function (err, movil) {
         if (err) throw (err);
         movil.estado = 1;
-        movil.save(function (err, data) {
+        movil.save(function (err, movilModificado) {
           if (err) throw (err);
+          io.sockets.emit('MovilPositionChange', movilModificado);
         });
       });
 
@@ -337,6 +340,7 @@ module.exports = function (io) {
         if (err) throw (err);
         res.json(data);
         io.sockets.emit('dbChange', data);
+        fb.actualizarMoviles(data);
       });
     });
   });

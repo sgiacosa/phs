@@ -47,7 +47,10 @@ appModule.factory('SearchService', ['$http', '$filter', '$window', '$q', functio
       geocoder.geocode({ address: direccion, componentRestrictions: { locality: 'neuquén' } }, function (results, status) {
         if (status === $window.google.maps.GeocoderStatus.OK) {
           if (results.length > 0) {
-            var datos = [{ lat: results[0].geometry.location.lat(), lon: results[0].geometry.location.lng() }];
+            //Verifico si no encontró ninguna dirección evito devolver el punto medio de neuquen
+            var datos = [];
+            if (results[0].formatted_address != 'Neuquén, Argentina')
+              var datos = [{ lat: results[0].geometry.location.lat(), lon: results[0].geometry.location.lng() }];
             defer.resolve(datos)
           }
           else
