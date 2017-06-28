@@ -41,6 +41,24 @@ module.exports = function (io) {
     });
   });
 
+
+  // Devolver los ultimos 10 registros en los que participa o participó un determinado movil
+  router.post("/registros/listByMovil", function (req, res) {
+    var idMovil = req.body.idMovil;
+
+    filtro = { "salidas.idMovil": idMovil };
+
+    Registro
+      .find(filtro)
+      .sort({ fechaRegistro: 'descending' })
+      .limit(10)
+      .exec(function (err, data) {
+        if (err) throw (err);
+        res.json(data);
+      })
+  });
+
+
   //Insertar nuevo registro
   router.post("/registros/nuevoRegistro", function (req, res) {
     Registro.findOne({ _id: req.body._id }, function (err, data) {
@@ -65,7 +83,7 @@ module.exports = function (io) {
             res.send(err);
           res.json(registroModificado);
           io.sockets.emit('dbChange', registroModificado);
-          
+
           //Registro el llamado telefónico
           var nuevoLlamado = new llamado();
           nuevoLlamado.fecha = new Date();
@@ -120,7 +138,7 @@ module.exports = function (io) {
           if (err)
             res.send(err);
           res.json(registroModificado);
-          io.sockets.emit('dbChange', registroModificado);          
+          io.sockets.emit('dbChange', registroModificado);
           fb.actualizarMoviles(registroModificado);
         });
 
@@ -190,7 +208,7 @@ module.exports = function (io) {
           if (err) throw (err);
           res.json(dataModificado);
           //Actualizo en socket.io
-          io.sockets.emit('dbChange', dataModificado);          
+          io.sockets.emit('dbChange', dataModificado);
           //Actualizo el Firebase
           if (movil.imei)
             fb.actualizarMoviles(dataModificado);
@@ -198,9 +216,9 @@ module.exports = function (io) {
         //Actualizo el estado del movil
         movil.estado = 2;
         movil.save(function (err, movilModificado) {
-          if (err) throw (err);     
-          io.sockets.emit('MovilPositionChange', movilModificado);  
-          console.log('movilModificado: '+ movilModificado.estado);   
+          if (err) throw (err);
+          io.sockets.emit('MovilPositionChange', movilModificado);
+          console.log('movilModificado: ' + movilModificado.estado);
         });
       });
     });

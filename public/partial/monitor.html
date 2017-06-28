@@ -20,11 +20,12 @@
                 </tr>
                 <tr ng-repeat="(key,value) in moviles  track by $index" class="{{personalSelected}}">
                     <td>                        
-                        <i class="fa fa-circle dot" ng-class="{greenDot: IsMobileOnline(value.movimiento.date)}" title="Ultima posición reportada {{value.movimiento.date | date : 'dd/MM HH:mm'}}"></i>
+                        <i class="fa fa-circle dot" ng-class="{greenDot: IsMobileOnline(value.movimiento.date)}" title="Ultima posición reportada {{value.movimiento.date | date : 'dd/MM HH:mm:ss'}}"></i>
                         <i class="fa fa-map-marker red" ng-show="!value.device.isGpsOn" title="El gps se encuentra desactivado."></i>
                         <i class="fa fa-battery-quarter" ng-show="value.device.battery_low" title="Batería baja"></i>
                         <i class="fa fa-exclamation-triangle" ng-show="value.movimiento.provider == 'network'" title="Gps sin señal - Se utiliza la red de telefonía celular."></i>
                         <i class="fa fa-retweet red" ng-show="!value.device.isMobileDataOn" title="Datos móviles desactivados."></i>
+                        <i class="fa fa-volume-up red 2x" ng-show="value.device.isSirenOn" title="Sirena Activada."></i>
                         <b>{{value.nombre}}</b> {{value.movimiento.speed > 15 ? value.movimiento.speed + " Km/h": ""}}</td>
 
                     <td>

@@ -5,6 +5,7 @@ var MovilesSchema = new mongoose.Schema({
     estado: Number,
     posicion: [Number],
     imei: String,
+    idGps: String,
     device: {
         isGpsOn: Boolean,
         battery_low: Boolean,

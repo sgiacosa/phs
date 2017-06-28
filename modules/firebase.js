@@ -14,18 +14,23 @@ module.exports = {
         function actualizarMovil(registro, indexSalida) {
             //Verifico si el movil tiene telefono asignado
             moviles.findOne({ _id: registro.salidas[indexSalida].idMovil }, function (err, movil) {
-                if (movil && movil.imei) {
+                if (movil && (movil.imei || movil.idGps)) {
                     var movilRef = fbInstance.database().ref(config.FB_moviles + '/' + registro.salidas[indexSalida].idMovil);
                     if (!registro.salidas[indexSalida].fechaQRU && !registro.salidas[indexSalida].fechaCancelacion) {
                         var o = {
                             estado: 2,
                             event: {
+                                id: registro._id,
                                 direccion: registro.direccion || "",
+                                referenciaDireccion: registro.referenciaDireccion || "",
                                 observaciones: registro.observaciones || "",
                                 latitude: registro.coordenadas ? registro.coordenadas[1] : "",
                                 longitude: registro.coordenadas ? registro.coordenadas[0] : "",
                                 clasificacion: registro.clasificacion || "",
-                                observacionesClasificacion: registro.observacionesClasificacion || ""
+                                observacionesClasificacion: registro.observacionesClasificacion || "",
+                                fechaRegistro: registro.fechaRegistro || "",
+                                fechaCierre: registro.fechaCierre || "",
+                                reporte: registro.reporte || "",
                             }
                         }
                         movilRef.update(o);

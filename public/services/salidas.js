@@ -117,7 +117,7 @@ appModule.factory('SalidasService', ['$http', '$q', function ($http, $q) {
           var destination = [{ lat: coords[1], lng: coords[0] }];
           var origins = [];
           for (var i = 0; i < moviles.data.length; i++) {
-            origins.push({ lat: moviles.data[i].obj.posicion[1], lng: moviles.data[i].obj.posicion[0] });
+            origins.push({ lat: moviles.data[i].posicion[1], lng: moviles.data[i].posicion[0] });
           }
 
           var matrix = getDistanceMatrix(origins, destination).then(function (distancias) {

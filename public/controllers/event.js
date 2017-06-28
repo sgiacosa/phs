@@ -189,19 +189,12 @@ appModule.controller('EventoController', ['$scope', '$location', '$routeParams',
       $scope.loadingDistances = true;
       SalidasService.getMovilesDisponibles($scope.registroSeleccionado.coordenadas).then(function (data) {
         for (var i = 0; i < data.data.length; i++) {
-          if (!$scope.registroSeleccionado.coordenadas) {
-            //solo moviles disponibles
-            if (data.data[i].estado == "1") {
-              $scope.moviles.push({ _id: data.data[i]._id, nombre: data.data[i].nombre, distancia: "-" });
-            }
+
+          //solo moviles disponibles
+          if (data.data[i].estado == "1") {
+            $scope.moviles.push(data.data[i]);
           }
-          else {
-            //solo moviles disponibles
-            if (data.data[i].obj.estado == "1") {
-              //$scope.moviles.push({ _id: data.data[i].obj._id, nombre: data.data[i].obj.nombre, distancia: data.data[i].distance.text +" | " + data.data[i].duration.text});
-              $scope.moviles.push(data.data[i]);
-            }
-          }
+
         }
         $scope.loadingDistances = false;
       });

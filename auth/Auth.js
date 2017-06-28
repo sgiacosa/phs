@@ -19,8 +19,23 @@ router.post('/loginMobileApp', function (req, res) {
 
     var auth = fb.instance.auth();
     //Utilizo el id del movil 1
-    var token = auth.createCustomToken(data._id.toString(), { "premium_account": true });
-    res.json({ token: token });
+    var fbToken = auth.createCustomToken(data._id.toString(), { "premium_account": true });
+    //Genero el token para poder consumir servicios desde el movil
+
+    var profile = {
+      id: data._id,
+      username: data.nombre,
+      nombre: data.nombre,
+      apellido: data.nombre,
+      firebase: null,
+      aplicaciones: null
+    }
+    var phsToken = jwt.sign(profile, secret, { expiresIn: 3600 * 12 });
+    
+    res.json({
+      token: fbToken,
+      phsToken: phsToken
+    });
   });
 
 

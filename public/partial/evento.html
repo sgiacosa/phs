@@ -236,23 +236,24 @@
         Nueva
       </button>
 
-              <div class="list-group" ng-show="nuevaSalida" ng-init="orderDespacho = 'duration.value'">
 
-                <div ng-show="loadingDistances" class="text-center cssFade">
-                  <i class="fa fa-cog fa-spin fa-4x"></i>
-                  <h4>Calculando distancias.</h4>
-                </div>
 
+              <div ng-show="loadingDistances" class="text-center cssFade">
+                <i class="fa fa-cog fa-spin fa-4x"></i>
+                <h4>Calculando distancias.</h4>
+              </div>
+              <div ng-show="nuevaSalida">
                 <button class="btn" ng-click="nuevaSalida=false"><i class="fa fa-times"></i> Cancelar</button>
-                <span ng-show="orderDespacho != 'duration.value'" ng-click="orderDespacho = 'duration.value'" style="cursor:pointer;" class="pull-right">Ordenar por tiempo estimado</span>
-                <span ng-show="orderDespacho != 'distance.value'" ng-click="orderDespacho = 'distance.value'" style="cursor:pointer;" class="pull-right">Ordenar por distancia estimada</span>
-
+                <!--<span ng-show="orderDespacho != 'duration.value'" ng-click="orderDespacho = 'duration.value'" style="cursor:pointer;" class="pull-right">Ordenar por tiempo estimado</span>
+                <span ng-show="orderDespacho != 'distance.value'" ng-click="orderDespacho = 'distance.value'" style="cursor:pointer;" class="pull-right">Ordenar por distancia estimada</span>-->
+              </div>
+              <div class="list-group" ng-show="nuevaSalida" ng-init="orderDespacho = 'duration.value'">
                 <div class="list-group-item" ng-repeat="m in moviles | orderBy:orderDespacho" ng-mouseenter="showDetails=true" ng-mouseleave="showDetails=false">
                   <div></div>
                   <span>
-                    <button ng-show="showDetails" class="btn btn-warning" title="Despachar" ng-click="enviarMovil(m.obj._id)"> <i class="fa fa-flag"></i></button>
+                    <button ng-show="showDetails" class="btn btn-warning" title="Despachar" ng-click="enviarMovil(m._id)"> <i class="fa fa-flag"></i></button>
                     <span class="label label-orange pull-right">{{m.distance.text}}</span>&nbsp;
-                  <span class="label label-blue pull-right">{{m.duration.text}}</span> {{m.obj.nombre}}
+                  <span class="label label-blue pull-right">{{m.duration.text}}</span> {{m.nombre}}
                   </span>
                 </div>
               </div>
